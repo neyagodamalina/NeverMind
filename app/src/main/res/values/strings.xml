@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">NeverMind</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="letter_year">y</string>
+    <string name="letter_month">m</string>
+    <string name="letter_day">d</string>
+    <string name="letter_hour">h</string>
+    <string name="letter_minute">m</string>
+    <string name="letter_second">s</string>
+</resources>
