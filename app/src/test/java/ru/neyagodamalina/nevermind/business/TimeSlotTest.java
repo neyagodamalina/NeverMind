@@ -16,6 +16,11 @@ import static org.junit.Assert.*;
  */
 public class TimeSlotTest {
     @Test
+    public void getPossibleFormat() throws Exception {
+
+    }
+
+    @Test
     public void toStringPeriodMoreOneDay() throws Exception {
         Calendar start = Calendar.getInstance();
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);

@@ -21,6 +21,7 @@ import java.util.Date;
 
 import ru.neyagodamalina.nevermind.business.TimeSlot;
 import ru.neyagodamalina.nevermind.business.exception.WrongTimeStopTimeStartException;
+import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -67,7 +68,7 @@ public class MainActivity extends AppCompatActivity
                     try {
                     if (timeSlot != null) {
                         timeSlot.stop();
-                        tv_log.append(timeSlot.toStringDuration(context.getResources()) + "\n" + timeSlot.toString() + "\n");
+                        tv_log.append(timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, context.getResources()) + "\n" + timeSlot.toString() + "\n");
                         timeSlot = null;
                     } else {
                         timeSlot = new TimeSlot();

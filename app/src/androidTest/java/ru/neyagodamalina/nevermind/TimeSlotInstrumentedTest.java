@@ -10,6 +10,7 @@ import org.junit.runner.RunWith;
 import java.util.Calendar;
 
 import ru.neyagodamalina.nevermind.business.TimeSlot;
+import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 
 import static org.junit.Assert.*;
 
@@ -21,7 +22,7 @@ import static org.junit.Assert.*;
 @RunWith(AndroidJUnit4.class)
 public class TimeSlotInstrumentedTest {
     @Test
-    public void toStringDuration1() throws Exception {
+    public void toStringDurationSmart1() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
         Calendar start = Calendar.getInstance();
@@ -30,22 +31,22 @@ public class TimeSlotInstrumentedTest {
         stop.set(2020, Calendar.APRIL, 2, 14, 21, 33);
         TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
 
-        assertEquals("3y 1m 1d 1h 1m 1s", timeSlot.toStringDuration(appContext.getResources()));
+        assertEquals("3y 1m 1d 1h 1m", timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
 
     @Test
-    public void toStringDuration2() throws Exception {
+    public void toStringDurationSmart2() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
         Calendar start = Calendar.getInstance();
-        start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
+        start.set(2017, Calendar.MARCH, 1, 13, 20, 32);
         Calendar stop = Calendar.getInstance();
-        stop.set(2017, Calendar.MARCH, 1, 13, 20, 32);
+        stop.set(2017, Calendar.MARCH, 1, 13, 21, 32);
         TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals("1s", timeSlot.toStringDuration(appContext.getResources()));
+        assertEquals("1m", timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
 
     @Test
-    public void toStringDuration3() throws Exception {
+    public void toStringDurationSmart3() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
         Calendar start = Calendar.getInstance();
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
@@ -53,17 +54,17 @@ public class TimeSlotInstrumentedTest {
         stop.set(2017, Calendar.MARCH, 1, 16, 59, 12);
         TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(timeSlot.toStringCalendarUTC());
-        assertEquals("3h 38m 41s", timeSlot.toStringDuration(appContext.getResources()));
+        assertEquals("3h 38m", timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
 
     @Test
-    public void toStringDurationZero() throws Exception {
+    public void toStringDurationSmartZero() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
         Calendar start = Calendar.getInstance();
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals("", timeSlot.toStringDuration(appContext.getResources()));
+        assertEquals("", timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
 }

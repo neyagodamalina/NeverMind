@@ -1,28 +1,35 @@
 package ru.neyagodamalina.nevermind.business;
 
+import android.content.Intent;
 import android.content.res.Resources;
+import android.support.annotation.IntDef;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.business.exception.WrongTimeStopTimeStartException;
 import ru.neyagodamalina.nevermind.business.exception.WrongMonthNumberException;
+import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 import ru.neyagodamalina.nevermind.business.util.Month;
 
+import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_DAYS;
+import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_HOURS;
+import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_MINUTES;
+import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_MONTHS;
+import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_SMART;
+import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_YEARS;
 
-/**
- * Created by developer on 25.07.2017.
- */
 
 public class TimeSlot {
     private long timeStart;
     private long timeStop;
+
 
     public TimeSlot(long timeStart, long timeStop) throws WrongTimeStopTimeStartException {
         this.setTimeStop(timeStop);
@@ -44,46 +51,46 @@ public class TimeSlot {
         return timeStop - timeStart;
     }
 
-    public int toSeconds(){
-        return (int) (this.toMillis() / 1E3);
+    public long toSeconds(){
+        return (long) (this.toMillis() / 1E3);
     }
 
-    public int toMinutes(){
+    public long toMinutes(){
         return this.toSeconds() / 60;
     }
 
-    public int toHours(){
+    public long toHours(){
         return this.toMinutes() / 60;
     }
 
-    public int toDays(){
-        return this.toHours() / 24;
+    public long toDays(){
+        return (int) this.toHours() / 24;
     }
 
-    public int toMonths(){
+    public long toMonths(){
         Calendar calendar = this.getCalendarUTC();
         return (calendar.get(Calendar.YEAR)-1970)*12 + calendar.get(Calendar.MONTH);
     }
 
-    public int toYears(){
+    public double toYears(){
         return this.toMonths() / 12;
     }
 
-    public int toSecondsPart(){
+    public long toSecondsPart(){
         return toSeconds() % 60;
     }
 
-    public int toMinutesPart(){
+    public long toMinutesPart(){
         return toMinutes() % 60;
     }
 
-    public int toHoursPart(){
+    public long toHoursPart(){
         return toHours() % 24;
     }
 
-    public int toDaysPart(){
-        int countMonth  = this.toMonths();
-        int countDays   = this.toDays();
+    public long toDaysPart(){
+        long countMonth  = this.toMonths();
+        long countDays   = this.toDays();
         int year = 1970;
         for (int numberMonth = 0; numberMonth < countMonth ; numberMonth++) {
             try {
@@ -98,12 +105,12 @@ public class TimeSlot {
         return countDays;
     }
 
-    public int toMonthPart(){
+    public long toMonthPart(){
         return toMonths() % 12;
     }
 
-    public int toYearsPart(){
-        return toYears();
+    public long toYearsPart(){
+        return (long) toYears();
     }
 
 
@@ -112,31 +119,51 @@ public class TimeSlot {
         return this.toStringCalendarUTC() + "\n" + this.toStringPeriod();
     }
 
-    public String toStringDuration(Resources resources){
+    public String toStringDuration(@FormatDuration int format, Resources resources){
 
-        StringBuffer result = new StringBuffer();
 
-        int value = toYearsPart();
+        String result = null;
 
-        result.append(value == 0 ? "" : value + resources.getString(R.string.letter_year));
+        switch (format) {
+            case FORMAT_SMART:
+                long value = toYearsPart();
+                StringBuffer sb = new StringBuffer();
 
-        value = toMonthPart();
-        result.append(value == 0 ? "" : value + resources.getString(R.string.letter_month));
+                sb.append(value == 0 ? "" : value + resources.getString(R.string.letter_year));
 
-        value = toDaysPart();
-        result.append(value == 0 ? "" : value + resources.getString(R.string.letter_day));
+                value = toMonthPart();
+                sb.append(value == 0 ? "" : value + resources.getString(R.string.letter_month));
 
-        value = toHoursPart();
-        result.append(value == 0 ? "" : value + resources.getString(R.string.letter_hour));
+                value = toDaysPart();
+                sb.append(value == 0 ? "" : value + resources.getString(R.string.letter_day));
 
-        value = toMinutesPart();
-        result.append(value == 0 ? "" : value + resources.getString(R.string.letter_minute));
+                value = toHoursPart();
+                sb.append(value == 0 ? "" : value + resources.getString(R.string.letter_hour));
 
-        value = toSecondsPart();
-        result.append(value == 0 ? "" : value + resources.getString(R.string.letter_second));
+                value = toMinutesPart();
+                sb.append(value == 0 ? "" : value + resources.getString(R.string.letter_minute));
 
-        // "3y1m1d1h1m1s" -> "3y 1m 1d 1h 1m 1s"
-        return result.toString().replaceAll("(\\D)", "$1 ").trim();
+                // "3y1m1d1h1m" -> "3y 1m 1d 1h 1m"
+                result = sb.toString().replaceAll("(\\D)", "$1 ").trim();
+
+                break;
+            case FORMAT_YEARS:
+                result = this.toYears() + resources.getString(R.string.letter_year);
+                break;
+            case FORMAT_MONTHS:
+                result = this.toMonths() + resources.getString(R.string.letter_month);
+                break;
+            case FORMAT_DAYS:
+                result = this.toDays() + resources.getString(R.string.letter_day);
+                break;
+            case FORMAT_HOURS:
+                result = this.toHours() + resources.getString(R.string.letter_hour);
+                break;
+            case FORMAT_MINUTES:
+                result = this.toMinutes() + resources.getString(R.string.letter_minute);
+                break;
+        }
+        return result;
     }
 
     public String toStringPeriod(){
@@ -216,6 +243,16 @@ public class TimeSlot {
         return dateFormat.format(new Date(msTime));
     }
 
+    public List<Integer> getPossibleFormat(){
+        List<Integer> formats = new ArrayList();
+        formats.add(FORMAT_SMART);
+        if (this.toYears()      != 0) formats.add(FORMAT_YEARS);
+        if (this.toMonths()     > 12) formats.add(FORMAT_MONTHS);
+        if (this.toDays()       > 24) formats.add(FORMAT_DAYS);
+        if (this.toHours()      > 60) formats.add(FORMAT_HOURS);
+        if (this.toMinutes()    != 0) formats.add(FORMAT_MINUTES);
+        return formats;
+    }
 
 
 
