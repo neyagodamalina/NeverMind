@@ -1,13 +1,12 @@
 package ru.neyagodamalina.nevermind.business;
 
-import android.content.Intent;
 import android.content.res.Resources;
-import android.support.annotation.IntDef;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -39,6 +38,15 @@ public class TimeSlot {
     public TimeSlot() {
     }
 
+    public static boolean isLeap(long year) {
+        return ((year & 3) == 0) && ((year % 100) != 0 || (year % 400) == 0);
+    }
+
+    public static String toStringNormalFormatDateTime(long msTime) {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
+        return dateFormat.format(new Date(msTime));
+    }
+
     public void start() throws WrongTimeStopTimeStartException {
         this.setTimeStart(Calendar.getInstance().getTimeInMillis());
     }
@@ -47,52 +55,52 @@ public class TimeSlot {
         this.setTimeStop(Calendar.getInstance().getTimeInMillis());
     }
 
-    public long toMillis(){
+    public long toMillis() {
         return timeStop - timeStart;
     }
 
-    public long toSeconds(){
+    public long toSeconds() {
         return (long) (this.toMillis() / 1E3);
     }
 
-    public long toMinutes(){
+    public long toMinutes() {
         return this.toSeconds() / 60;
     }
 
-    public long toHours(){
+    public long toHours() {
         return this.toMinutes() / 60;
     }
 
-    public long toDays(){
+    public long toDays() {
         return (int) this.toHours() / 24;
     }
 
-    public long toMonths(){
+    public long toMonths() {
         Calendar calendar = this.getCalendarUTC();
-        return (calendar.get(Calendar.YEAR)-1970)*12 + calendar.get(Calendar.MONTH);
+        return (calendar.get(Calendar.YEAR) - 1970) * 12 + calendar.get(Calendar.MONTH);
     }
 
-    public double toYears(){
+    public double toYears() {
         return this.toMonths() / 12;
     }
 
-    public long toSecondsPart(){
+    public long toSecondsPart() {
         return toSeconds() % 60;
     }
 
-    public long toMinutesPart(){
+    public long toMinutesPart() {
         return toMinutes() % 60;
     }
 
-    public long toHoursPart(){
+    public long toHoursPart() {
         return toHours() % 24;
     }
 
-    public long toDaysPart(){
-        long countMonth  = this.toMonths();
-        long countDays   = this.toDays();
+    public long toDaysPart() {
+        long countMonth = this.toMonths();
+        long countDays = this.toDays();
         int year = 1970;
-        for (int numberMonth = 0; numberMonth < countMonth ; numberMonth++) {
+        for (int numberMonth = 0; numberMonth < countMonth; numberMonth++) {
             try {
                 Month month = Month.of(numberMonth % 12 + 1);
                 countDays = countDays - month.length(isLeap(year));
@@ -105,21 +113,20 @@ public class TimeSlot {
         return countDays;
     }
 
-    public long toMonthPart(){
+    public long toMonthPart() {
         return toMonths() % 12;
     }
 
-    public long toYearsPart(){
+    public long toYearsPart() {
         return (long) toYears();
     }
 
-
     @Override
     public String toString() {
-        return this.toStringCalendarUTC() + "\n" + this.toStringPeriod();
+        return this.toStringDurationForTest() + "\n" + this.toStringCalendarUTC() + "\n" + this.toStringPeriod();
     }
 
-    public String toStringDuration(@FormatDuration int format, Resources resources){
+    public String toStringDuration(@FormatDuration int format, Resources resources) {
 
 
         String result = null;
@@ -166,27 +173,56 @@ public class TimeSlot {
         return result;
     }
 
-    public String toStringPeriod(){
+    public String toStringDurationForTest() {
+
+        String result = null;
+
+        long value = toYearsPart();
+        StringBuffer sb = new StringBuffer();
+
+        sb.append(value + "y");
+
+        value = toMonthPart();
+        sb.append(value + "m");
+
+        value = toDaysPart();
+        sb.append(value + "d");
+
+        value = toHoursPart();
+        sb.append(value + "h");
+
+        value = toMinutesPart();
+        sb.append(value + "m");
+
+        value = toSecondsPart();
+        sb.append(value + "s");
+
+        // "3y1m1d1h1m" -> "3y 1m 1d 1h 1m"
+        result = sb.toString().replaceAll("(\\D)", "$1 ").trim();
+
+        return result;
+    }
+
+    public String toStringPeriod() {
         StringBuffer result = new StringBuffer();
         DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-        if (this.toDays() >= 1){
+        if (this.toDays() >= 1) {
             result.append(dateTimeFormat.format(new Date(timeStart)))
-                    .append("-")
+                    .append(" - ")
                     .append(dateTimeFormat.format(new Date(timeStop)));
-        }
-        else {
+        } else {
             result.append(dateFormat.format(new Date(timeStart)))
                     .append(" ")
                     .append(timeFormat.format(new Date(timeStart)))
-                    .append("-")
+                    .append(" - ")
                     .append(timeFormat.format(new Date(timeStop)));
         }
         return result.toString();
     }
 
-    public String toStringCalendarUTC(){
+    public String toStringCalendarUTC() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
         dateFormat.setTimeZone(TimeZone.getTimeZone("UTC")); // Это длительность от 01.01.1970 00:00:00, а не дата. Установим временную зону UTC. Иначе длительность в 1 час будет видна как 1970-01-01 04:00:00 MSK (+3ч часового пояса)
         Calendar calendar = this.getCalendarUTC();
@@ -197,63 +233,57 @@ public class TimeSlot {
         return timeStart;
     }
 
-    public long getTimeStop() {
-        return timeStop;
-    }
-
     public void setTimeStart(long timeStart) throws WrongTimeStopTimeStartException {
         if (timeStart > this.getTimeStop()) {
             StringBuffer message = new StringBuffer();
             message.append("Time start: ")
-                    .append(toStringDateTime(timeStart))
+                    .append(toStringNormalFormatDateTime(timeStart))
                     .append(" > Time stop: ")
-                    .append(toStringDateTime(this.getTimeStop()));
+                    .append(toStringNormalFormatDateTime(this.getTimeStop()));
             throw new WrongTimeStopTimeStartException(message.toString());
         }
         this.timeStart = timeStart;
     }
 
-    public void setTimeStop(long timeStop) throws WrongTimeStopTimeStartException
-    {
+    public long getTimeStop() {
+        return timeStop;
+    }
+
+    public void setTimeStop(long timeStop) throws WrongTimeStopTimeStartException {
         if (timeStop < this.getTimeStart()) {
             StringBuffer message = new StringBuffer();
             message.append("Time stop: ")
-                    .append(toStringDateTime(timeStop))
+                    .append(toStringNormalFormatDateTime(timeStop))
                     .append(" < Time start: ")
-                    .append(toStringDateTime(this.getTimeStart()));
+                    .append(toStringNormalFormatDateTime(this.getTimeStart()));
             throw new WrongTimeStopTimeStartException(message.toString());
         }
         this.timeStop = timeStop;
     }
 
-    private Calendar getCalendarUTC(){
+    private Calendar getCalendarUTC() {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeZone(TimeZone.getTimeZone("UTC"));  // Это длительность от 01.01.1970 00:00:00, а не дата. Установим временную зону UTC.
         calendar.setTimeInMillis(this.toMillis());
         return calendar;
     }
 
-
-    public static boolean isLeap(long year) {
-        return ((year & 3) == 0) && ((year % 100) != 0 || (year % 400) == 0);
-    }
-
-    public static String toStringDateTime(long msTime){
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
-        return dateFormat.format(new Date(msTime));
-    }
-
-    public List<Integer> getPossibleFormat(){
+    public Integer[] getPossibleFormat() {
         List<Integer> formats = new ArrayList();
         formats.add(FORMAT_SMART);
-        if (this.toYears()      != 0) formats.add(FORMAT_YEARS);
-        if (this.toMonths()     > 12) formats.add(FORMAT_MONTHS);
-        if (this.toDays()       > 24) formats.add(FORMAT_DAYS);
-        if (this.toHours()      > 60) formats.add(FORMAT_HOURS);
-        if (this.toMinutes()    != 0) formats.add(FORMAT_MINUTES);
-        return formats;
-    }
+        if (this.toYears() > 10)
+            formats.add(FORMAT_YEARS);    //11y 11m 30d 23h 59m 59s->11y possible format; 1y 11m 30d 23h 59m 59s->1y not possible format;
+        if (this.toMonths() > 12)
+            formats.add(FORMAT_MONTHS);   //1y 11m 30d 23h 59m 59s ->23m possible format; 0y 11m 30d 23h 59m 59s->11m not possible format;
+        if (this.toDays() > 31)
+            formats.add(FORMAT_DAYS);     //1y 11m 30d 23h 59m 59s ->698d possible format; 0y 0m 30d 23h 59m 59s ->30d not possible format;
+        if (this.toHours() > 24)
+            formats.add(FORMAT_HOURS);    //1y 11m 30d 23h 59m 59s ->24767h possible format; 0y 0m 0d 23h 59m 59s ->23h not possible format;
+        if (this.toMinutes() > 60)
+            formats.add(FORMAT_MINUTES);  //1y 11m 30d 23h 59m 59s ->1965599m possible format; 0y 0m 0d 0h 59m 59s ->59m not possible format;
 
+        return (Integer[]) formats.toArray();
+    }
 
 
 }

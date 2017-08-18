@@ -4,10 +4,13 @@ import org.junit.Test;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.TimeZone;
 
 import ru.neyagodamalina.nevermind.business.exception.WrongTimeStopTimeStartException;
+import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 
 import static org.junit.Assert.*;
 
@@ -16,8 +19,28 @@ import static org.junit.Assert.*;
  */
 public class TimeSlotTest {
     @Test
-    public void getPossibleFormat() throws Exception {
+    public void getPossibleFormat1() throws Exception {
 
+    }
+
+    @Test
+    public void getPossibleFormat() throws Exception {
+        //11y 11m 30d 23h 59m 59s
+
+        Calendar start = Calendar.getInstance();
+        start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
+        Calendar stop = Calendar.getInstance();
+        stop.set(2028, Calendar.DECEMBER, 31, 23, 59, 59);
+        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(timeSlot.toString());
+        System.out.println(timeSlot.getPossibleFormat());
+        assertArrayEquals(new Integer[] {
+                FormatDuration.FORMAT_SMART,
+                FormatDuration.FORMAT_YEARS,
+                FormatDuration.FORMAT_MONTHS,
+                FormatDuration.FORMAT_DAYS,
+                FormatDuration.FORMAT_HOURS,
+                FormatDuration.FORMAT_MINUTES}, timeSlot.getPossibleFormat());
     }
 
     @Test
