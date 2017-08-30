@@ -1,5 +1,6 @@
 package ru.neyagodamalina.nevermind.business;
 
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.text.DateFormat;
@@ -34,13 +35,13 @@ public class TimeSlotTest {
         TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(timeSlot.toString());
         System.out.println(timeSlot.getPossibleFormat());
-        assertArrayEquals(new Integer[] {
+        assertThat(timeSlot.getPossibleFormat(), CoreMatchers.hasItems(
                 FormatDuration.FORMAT_SMART,
                 FormatDuration.FORMAT_YEARS,
                 FormatDuration.FORMAT_MONTHS,
                 FormatDuration.FORMAT_DAYS,
                 FormatDuration.FORMAT_HOURS,
-                FormatDuration.FORMAT_MINUTES}, timeSlot.getPossibleFormat());
+                FormatDuration.FORMAT_MINUTES));
     }
 
     @Test

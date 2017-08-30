@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -268,7 +269,7 @@ public class TimeSlot {
         return calendar;
     }
 
-    public Integer[] getPossibleFormat() {
+    public List<Integer> getPossibleFormat() {
         List<Integer> formats = new ArrayList();
         formats.add(FORMAT_SMART);
         if (this.toYears() > 10)
@@ -281,8 +282,7 @@ public class TimeSlot {
             formats.add(FORMAT_HOURS);    //1y 11m 30d 23h 59m 59s ->24767h possible format; 0y 0m 0d 23h 59m 59s ->23h not possible format;
         if (this.toMinutes() > 60)
             formats.add(FORMAT_MINUTES);  //1y 11m 30d 23h 59m 59s ->1965599m possible format; 0y 0m 0d 0h 59m 59s ->59m not possible format;
-
-        return (Integer[]) formats.toArray();
+        return formats;
     }
 
 
