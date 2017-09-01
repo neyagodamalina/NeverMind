@@ -58,6 +58,42 @@ public class TimeSlotInstrumentedTest {
     }
 
     @Test
+    public void toStringDurationSmart4() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        Calendar start = Calendar.getInstance();
+        start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
+        Calendar stop = Calendar.getInstance();
+        stop.set(2017, Calendar.MARCH, 1, 13, 21, 12);
+        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(timeSlot.toStringCalendarUTC());
+        assertEquals("41s", timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
+    }
+
+    @Test
+    public void toStringDurationSmart5() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        Calendar start = Calendar.getInstance();
+        start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
+        Calendar stop = Calendar.getInstance();
+        stop.set(2017, Calendar.MARCH, 1, 13, 22, 12);
+        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(timeSlot.toStringCalendarUTC());
+        assertEquals("1m 41s", timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
+    }
+
+    @Test
+    public void toStringDurationSmart6() throws Exception {
+        Context appContext = InstrumentationRegistry.getTargetContext();
+        Calendar start = Calendar.getInstance();
+        start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
+        Calendar stop = Calendar.getInstance();
+        stop.set(2017, Calendar.MARCH, 1, 13, 23, 12);
+        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(timeSlot.toStringCalendarUTC());
+        assertEquals("2m", timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
+    }
+
+    @Test
     public void toStringDurationSmartZero() throws Exception {
         Context appContext = InstrumentationRegistry.getTargetContext();
         Calendar start = Calendar.getInstance();

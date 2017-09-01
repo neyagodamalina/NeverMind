@@ -151,7 +151,13 @@ public class TimeSlot {
                 value = toMinutesPart();
                 sb.append(value == 0 ? "" : value + resources.getString(R.string.letter_minute));
 
-                // "3y1m1d1h1m" -> "3y 1m 1d 1h 1m"
+                if (toMinutes() < 2) {
+                    value = toSecondsPart();
+                    sb.append(value == 0 ? "" : value + resources.getString(R.string.letter_second));
+                }
+
+
+                // "3y1m1d1h1m1s" -> "3y 1m 1d 1h 1m 1s"
                 result = sb.toString().replaceAll("(\\D)", "$1 ").trim();
 
                 break;
@@ -269,7 +275,7 @@ public class TimeSlot {
         return calendar;
     }
 
-    public List<Integer> getPossibleFormat() {
+    public List<Integer> getPossibleFormats() {
         List<Integer> formats = new ArrayList();
         formats.add(FORMAT_SMART);
         if (this.toYears() > 10)
@@ -280,8 +286,8 @@ public class TimeSlot {
             formats.add(FORMAT_DAYS);     //1y 11m 30d 23h 59m 59s ->698d possible format; 0y 0m 30d 23h 59m 59s ->30d not possible format;
         if (this.toHours() > 24)
             formats.add(FORMAT_HOURS);    //1y 11m 30d 23h 59m 59s ->24767h possible format; 0y 0m 0d 23h 59m 59s ->23h not possible format;
-        if (this.toMinutes() > 60)
-            formats.add(FORMAT_MINUTES);  //1y 11m 30d 23h 59m 59s ->1965599m possible format; 0y 0m 0d 0h 59m 59s ->59m not possible format;
+        if (this.toMinutes() > 1)
+            formats.add(FORMAT_MINUTES);  //1y 11m 30d 23h 59m 59s ->1965599m possible format; 0y 0m 0d 0h 1m 59s ->1m not possible format;
         return formats;
     }
 
