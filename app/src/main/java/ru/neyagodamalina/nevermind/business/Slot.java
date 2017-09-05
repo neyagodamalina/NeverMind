@@ -26,17 +26,17 @@ import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_SM
 import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_YEARS;
 
 
-public class TimeSlot {
+public class Slot {
     private long timeStart;
     private long timeStop;
 
 
-    public TimeSlot(long timeStart, long timeStop) throws WrongTimeStopTimeStartException {
-        this.setTimeStop(timeStop);
+    public Slot(long timeStart, long timeStop){
         this.setTimeStart(timeStart);
+        this.setTimeStop(timeStop);
     }
 
-    public TimeSlot() {
+    public Slot() {
     }
 
     public static boolean isLeap(long year) {
@@ -48,11 +48,11 @@ public class TimeSlot {
         return dateFormat.format(new Date(msTime));
     }
 
-    public void start() throws WrongTimeStopTimeStartException {
+    public void start(){
         this.setTimeStart(Calendar.getInstance().getTimeInMillis());
     }
 
-    public void stop() throws WrongTimeStopTimeStartException {
+    public void stop(){
         this.setTimeStop(Calendar.getInstance().getTimeInMillis());
     }
 
@@ -180,7 +180,7 @@ public class TimeSlot {
         return result;
     }
 
-    public String toStringDurationForTest() {
+    private String toStringDurationForTest() {
 
         String result = null;
 
@@ -219,13 +219,23 @@ public class TimeSlot {
             result.append(dateTimeFormat.format(new Date(timeStart)))
                     .append(" - ")
                     .append(dateTimeFormat.format(new Date(timeStop)));
-        } else {
+        }
+        else if (this.toMinutes() > 1){
             result.append(dateFormat.format(new Date(timeStart)))
                     .append(" ")
                     .append(timeFormat.format(new Date(timeStart)))
                     .append(" - ")
                     .append(timeFormat.format(new Date(timeStop)));
         }
+        else{
+            timeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM);
+            result.append(dateFormat.format(new Date(timeStart)))
+                    .append(" ")
+                    .append(timeFormat.format(new Date(timeStart)))
+                    .append(" - ")
+                    .append(timeFormat.format(new Date(timeStop)));
+        }
+
         return result.toString();
     }
 
@@ -240,15 +250,7 @@ public class TimeSlot {
         return timeStart;
     }
 
-    public void setTimeStart(long timeStart) throws WrongTimeStopTimeStartException {
-        if (timeStart > this.getTimeStop()) {
-            StringBuffer message = new StringBuffer();
-            message.append("Time start: ")
-                    .append(toStringNormalFormatDateTime(timeStart))
-                    .append(" > Time stop: ")
-                    .append(toStringNormalFormatDateTime(this.getTimeStop()));
-            throw new WrongTimeStopTimeStartException(message.toString());
-        }
+    public void setTimeStart(long timeStart) {
         this.timeStart = timeStart;
     }
 
@@ -256,14 +258,18 @@ public class TimeSlot {
         return timeStop;
     }
 
-    public void setTimeStop(long timeStop) throws WrongTimeStopTimeStartException {
-        if (timeStop < this.getTimeStart()) {
-            StringBuffer message = new StringBuffer();
-            message.append("Time stop: ")
-                    .append(toStringNormalFormatDateTime(timeStop))
-                    .append(" < Time start: ")
-                    .append(toStringNormalFormatDateTime(this.getTimeStart()));
-            throw new WrongTimeStopTimeStartException(message.toString());
+    public void setTimeStop(long timeStop){
+        try {
+            if (timeStop < this.getTimeStart()) {
+                StringBuffer message = new StringBuffer();
+                message.append("Time stop: ")
+                        .append(toStringNormalFormatDateTime(timeStop))
+                        .append(" < Time start: ")
+                        .append(toStringNormalFormatDateTime(this.getTimeStart()));
+                throw new WrongTimeStopTimeStartException(message.toString());
+            }
+        }catch (WrongTimeStopTimeStartException e){
+            e.printStackTrace(System.err);
         }
         this.timeStop = timeStop;
     }

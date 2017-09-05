@@ -16,11 +16,9 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import ru.neyagodamalina.nevermind.business.TimeSlot;
-import ru.neyagodamalina.nevermind.business.exception.WrongTimeStopTimeStartException;
+import ru.neyagodamalina.nevermind.business.Slot;
 import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 
 public class MainActivity extends AppCompatActivity
@@ -28,7 +26,7 @@ public class MainActivity extends AppCompatActivity
 
     private FloatingActionButton bt_add;
     private TextView tv_log;
-    private TimeSlot timeSlot;
+    private Slot slot;
 
     private Context context = this;
 
@@ -65,16 +63,14 @@ public class MainActivity extends AppCompatActivity
             bt_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    try {
-                    if (timeSlot != null) {
-                        timeSlot.stop();
-                        tv_log.append(timeSlot.toStringDuration(FormatDuration.FORMAT_SMART, context.getResources()) + "\n" + timeSlot.toString() + "\n");
-                        timeSlot = null;
+                    if (slot != null) {
+                        slot.stop();
+                        tv_log.append(slot.toStringDuration(FormatDuration.FORMAT_SMART, context.getResources()) + "\n" + slot.toString() + "\n");
+                        slot = null;
                     } else {
-                        timeSlot = new TimeSlot();
-                        timeSlot.start();
+                        slot = new Slot();
+                        slot.start();
                     }
-                    }catch (WrongTimeStopTimeStartException ex){}
                 }
             });
 

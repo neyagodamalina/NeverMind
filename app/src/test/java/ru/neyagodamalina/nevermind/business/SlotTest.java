@@ -1,14 +1,11 @@
 package ru.neyagodamalina.nevermind.business;
 
-import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
-import java.util.regex.Matcher;
 
-import ru.neyagodamalina.nevermind.business.exception.WrongTimeStopTimeStartException;
 import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 
 import static org.junit.Assert.*;
@@ -16,7 +13,7 @@ import static org.junit.Assert.*;
 /**
  * Created by developer on 03.08.2017.
  */
-public class TimeSlotTest {
+public class SlotTest {
 
 
     @Test
@@ -27,9 +24,9 @@ public class TimeSlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.JANUARY, 1, 0, 1, 59);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        System.out.println(timeSlot.toString());
-        System.out.println(timeSlot.getPossibleFormats());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toString());
+        System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
                 FormatDuration.FORMAT_SMART
 //                FormatDuration.FORMAT_YEARS,
@@ -38,7 +35,7 @@ public class TimeSlotTest {
 //                FormatDuration.FORMAT_HOURS,
 //                FormatDuration.FORMAT_MINUTES
         );
-        assertEquals(expectedFormats, timeSlot.getPossibleFormats());
+        assertEquals(expectedFormats, slot.getPossibleFormats());
     }
 
 
@@ -50,9 +47,9 @@ public class TimeSlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.JANUARY, 1, 23, 59, 59);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        System.out.println(timeSlot.toString());
-        System.out.println(timeSlot.getPossibleFormats());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toString());
+        System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
                 FormatDuration.FORMAT_SMART,
 //                FormatDuration.FORMAT_YEARS,
@@ -60,7 +57,7 @@ public class TimeSlotTest {
 //                FormatDuration.FORMAT_DAYS,
 //                FormatDuration.FORMAT_HOURS,
                 FormatDuration.FORMAT_MINUTES);
-        assertEquals(expectedFormats, timeSlot.getPossibleFormats());
+        assertEquals(expectedFormats, slot.getPossibleFormats());
     }
 
     @Test
@@ -71,9 +68,9 @@ public class TimeSlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.JANUARY, 31, 23, 59, 59);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        System.out.println(timeSlot.toString());
-        System.out.println(timeSlot.getPossibleFormats());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toString());
+        System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
                 FormatDuration.FORMAT_SMART,
 //                FormatDuration.FORMAT_YEARS,
@@ -81,7 +78,7 @@ public class TimeSlotTest {
 //                FormatDuration.FORMAT_DAYS,
                 FormatDuration.FORMAT_HOURS,
                 FormatDuration.FORMAT_MINUTES);
-        assertEquals(expectedFormats, timeSlot.getPossibleFormats());
+        assertEquals(expectedFormats, slot.getPossibleFormats());
     }
 
     @Test
@@ -92,9 +89,9 @@ public class TimeSlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.DECEMBER, 31, 23, 59, 59);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        System.out.println(timeSlot.toString());
-        System.out.println(timeSlot.getPossibleFormats());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toString());
+        System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
                 FormatDuration.FORMAT_SMART,
 //                FormatDuration.FORMAT_YEARS,
@@ -102,7 +99,7 @@ public class TimeSlotTest {
                 FormatDuration.FORMAT_DAYS,
                 FormatDuration.FORMAT_HOURS,
                 FormatDuration.FORMAT_MINUTES);
-        assertEquals(expectedFormats, timeSlot.getPossibleFormats());
+        assertEquals(expectedFormats, slot.getPossibleFormats());
     }
 
     @Test
@@ -113,9 +110,9 @@ public class TimeSlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2018, Calendar.DECEMBER, 31, 23, 59, 59);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        System.out.println(timeSlot.toString());
-        System.out.println(timeSlot.getPossibleFormats());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toString());
+        System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
                 FormatDuration.FORMAT_SMART,
 //                FormatDuration.FORMAT_YEARS,
@@ -123,7 +120,7 @@ public class TimeSlotTest {
                 FormatDuration.FORMAT_DAYS,
                 FormatDuration.FORMAT_HOURS,
                 FormatDuration.FORMAT_MINUTES);
-        assertEquals(expectedFormats, timeSlot.getPossibleFormats());
+        assertEquals(expectedFormats, slot.getPossibleFormats());
     }
 
     @Test
@@ -134,9 +131,9 @@ public class TimeSlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2028, Calendar.DECEMBER, 31, 23, 59, 59);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        System.out.println(timeSlot.toString());
-        System.out.println(timeSlot.getPossibleFormats());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toString());
+        System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
                 FormatDuration.FORMAT_SMART,
                 FormatDuration.FORMAT_YEARS,
@@ -144,7 +141,7 @@ public class TimeSlotTest {
                 FormatDuration.FORMAT_DAYS,
                 FormatDuration.FORMAT_HOURS,
                 FormatDuration.FORMAT_MINUTES);
-        assertEquals(expectedFormats, timeSlot.getPossibleFormats());
+        assertEquals(expectedFormats, slot.getPossibleFormats());
     }
 
     @Test
@@ -153,8 +150,8 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 2, 1, 2, 1);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals("01.03.17 1:01 - 02.03.17 1:02", timeSlot.toStringPeriod());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        assertEquals("01.03.17 1:01 - 02.03.17 1:02", slot.toStringPeriod());
     }
 
     @Test
@@ -163,8 +160,8 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 3, 1, 1);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals("01.03.17 1:01 - 3:01", timeSlot.toStringPeriod());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        assertEquals("01.03.17 1:01 - 3:01", slot.toStringPeriod());
     }
 
     @Test
@@ -173,8 +170,8 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.APRIL, 2, 0, 0, 0);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals(1, timeSlot.toDaysPart());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        assertEquals(1, slot.toDaysPart());
     }
 
     @Test
@@ -183,9 +180,9 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 2, 1, 1);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        System.out.println(timeSlot.toStringCalendarUTC());
-        assertEquals(1, timeSlot.toHours());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toStringCalendarUTC());
+        assertEquals(1, slot.toHours());
     }
 
     @Test
@@ -194,8 +191,8 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.APRIL, 2, 1, 1, 1);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals(32, timeSlot.toDays());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        assertEquals(32, slot.toDays());
     }
 
     @Test
@@ -204,8 +201,8 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2018, Calendar.MARCH, 1, 1, 1, 1);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals(12, timeSlot.toMonths());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        assertEquals(12, slot.toMonths());
     }
 
 
@@ -215,14 +212,14 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 32);
         Calendar stop = Calendar.getInstance();
         stop.set(2020, Calendar.APRIL, 2, 14, 21, 33);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
         StringBuffer actual = new StringBuffer()
-                .append(timeSlot.toYearsPart())
-                .append(timeSlot.toMonthPart())
-                .append(timeSlot.toDaysPart())
-                .append(timeSlot.toHoursPart())
-                .append(timeSlot.toMinutesPart())
-                .append(timeSlot.toSecondsPart());
+                .append(slot.toYearsPart())
+                .append(slot.toMonthPart())
+                .append(slot.toDaysPart())
+                .append(slot.toHoursPart())
+                .append(slot.toMinutesPart())
+                .append(slot.toSecondsPart());
 
         assertEquals("311111", actual.toString()); // 3y1m1d1h1min1s
     }
@@ -233,14 +230,14 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 20, 32);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
         StringBuffer actual = new StringBuffer()
-                .append(timeSlot.toYearsPart())
-                .append(timeSlot.toMonthPart())
-                .append(timeSlot.toDaysPart())
-                .append(timeSlot.toHoursPart())
-                .append(timeSlot.toMinutesPart())
-                .append(timeSlot.toSecondsPart());
+                .append(slot.toYearsPart())
+                .append(slot.toMonthPart())
+                .append(slot.toDaysPart())
+                .append(slot.toHoursPart())
+                .append(slot.toMinutesPart())
+                .append(slot.toSecondsPart());
 
         assertEquals("000001", actual.toString());
     }
@@ -251,15 +248,15 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 16, 59, 12);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
-        System.out.println(timeSlot.toStringCalendarUTC());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toStringCalendarUTC());
         StringBuffer actual = new StringBuffer()
-                .append(timeSlot.toYearsPart())
-                .append(timeSlot.toMonthPart())
-                .append(timeSlot.toDaysPart())
-                .append(timeSlot.toHoursPart())
-                .append(timeSlot.toMinutesPart())
-                .append(timeSlot.toSecondsPart());
+                .append(slot.toYearsPart())
+                .append(slot.toMonthPart())
+                .append(slot.toDaysPart())
+                .append(slot.toHoursPart())
+                .append(slot.toMinutesPart())
+                .append(slot.toSecondsPart());
 
         assertEquals("00033841", actual.toString());
     }
@@ -269,31 +266,32 @@ public class TimeSlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 20, 31);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
         StringBuffer actual = new StringBuffer()
-                .append(timeSlot.toYearsPart())
-                .append(timeSlot.toMonthPart())
-                .append(timeSlot.toDaysPart())
-                .append(timeSlot.toHoursPart())
-                .append(timeSlot.toMinutesPart())
-                .append(timeSlot.toSecondsPart());
+                .append(slot.toYearsPart())
+                .append(slot.toMonthPart())
+                .append(slot.toDaysPart())
+                .append(slot.toHoursPart())
+                .append(slot.toMinutesPart())
+                .append(slot.toSecondsPart());
 
         assertEquals("000000", actual.toString());
     }
 
 
-    @Test(expected = WrongTimeStopTimeStartException.class)
+    @Test
     public void wrongTimeStopTimeStart() throws Exception{
         Calendar start = Calendar.getInstance();
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.FEBRUARY, 1, 13, 20, 31);
-        TimeSlot timeSlot = new TimeSlot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toString());
     }
 
     @Test
     public void nullTimeSlot() throws Exception{
-        TimeSlot timeSlot = new TimeSlot();
-        System.out.println(timeSlot.toString());
+        Slot slot = new Slot();
+        System.out.println(slot.toString());
     }
 }
