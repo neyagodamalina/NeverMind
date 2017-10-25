@@ -215,11 +215,24 @@ public class Slot {
         DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-        if (this.toDays() >= 1) {
+
+
+        Calendar start = Calendar.getInstance();
+        start.setTimeInMillis(timeStart);
+
+        Calendar stop = Calendar.getInstance();
+        stop.setTimeInMillis(timeStop);
+
+        // Если сменились сутки, вернем: дата1 время1 - дата2 время2 (01.03.17 1:01 - 02.03.17 1:02)
+        if        ((stop.get(Calendar.YEAR)            > start.get(Calendar.YEAR))
+                || (stop.get(Calendar.MONTH)           > start.get(Calendar.MONTH))
+                || (stop.get(Calendar.DAY_OF_MONTH)    > start.get(Calendar.DAY_OF_MONTH)))
+        {
             result.append(dateTimeFormat.format(new Date(timeStart)))
                     .append(" - ")
                     .append(dateTimeFormat.format(new Date(timeStop)));
         }
+        //Если длительность больше 1 минуты, вернем: дата время1 - время2 (01.03.17 1:01 - 3:01)
         else if (this.toMinutes() > 1){
             result.append(dateFormat.format(new Date(timeStart)))
                     .append(" ")
@@ -227,6 +240,7 @@ public class Slot {
                     .append(" - ")
                     .append(timeFormat.format(new Date(timeStop)));
         }
+        // В других случаях, вернем: вернем: дата время1+сек - время2+сек (01.03.17 1:01:01 - 1:01:50)
         else{
             timeFormat = DateFormat.getTimeInstance(DateFormat.MEDIUM);
             result.append(dateFormat.format(new Date(timeStart)))

@@ -145,23 +145,33 @@ public class SlotTest {
     }
 
     @Test
-    public void toStringPeriodMoreOneDay() throws Exception {
+    public void toStringPeriodLessOneMinute() throws Exception {
         Calendar start = Calendar.getInstance();
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
-        stop.set(2017, Calendar.MARCH, 2, 1, 2, 1);
+        stop.set(2017, Calendar.MARCH, 1, 1, 1, 50);
         Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals("01.03.17 1:01 - 02.03.17 1:02", slot.toStringPeriod());
+        assertEquals("01.03.17 1:01:01 - 1:01:50", slot.toStringPeriod());
     }
 
     @Test
-    public void toStringPeriodLessOneDay() throws Exception {
+    public void toStringPeriodMoreOneMinute() throws Exception {
         Calendar start = Calendar.getInstance();
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
-        stop.set(2017, Calendar.MARCH, 1, 3, 1, 1);
+        stop.set(2017, Calendar.MARCH, 1, 1, 3, 1);
         Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
-        assertEquals("01.03.17 1:01 - 3:01", slot.toStringPeriod());
+        assertEquals("01.03.17 1:01 - 1:03", slot.toStringPeriod());
+    }
+
+    @Test
+    public void toStringPeriodChangeDay() throws Exception {
+        Calendar start = Calendar.getInstance();
+        start.set(2017, Calendar.MARCH, 1, 23, 59, 59);
+        Calendar stop = Calendar.getInstance();
+        stop.set(2017, Calendar.MARCH, 2, 0, 0, 0);
+        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        assertEquals("01.03.17 23:59 - 02.03.17 0:00", slot.toStringPeriod());
     }
 
     @Test

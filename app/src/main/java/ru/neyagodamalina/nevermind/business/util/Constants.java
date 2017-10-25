@@ -5,5 +5,5 @@ package ru.neyagodamalina.nevermind.business.util;
  */
 
 public interface Constants {
-    public static String LOG_TAG = "niBniM";
+    public static String LOG_TAG = "NeverMind";
 }

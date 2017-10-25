@@ -2,8 +2,10 @@ package ru.neyagodamalina.nevermind;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +21,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import ru.neyagodamalina.nevermind.business.Slot;
+import ru.neyagodamalina.nevermind.business.util.Constants;
 import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 
 public class MainActivity extends AppCompatActivity
@@ -33,6 +36,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Log.i(Constants.LOG_TAG, "onCreate");
+
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -75,6 +81,50 @@ public class MainActivity extends AppCompatActivity
             });
 
     }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        Log.i(Constants.LOG_TAG, "onPause");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i(Constants.LOG_TAG, "onResume");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        Log.i(Constants.LOG_TAG, "onStop");
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Log.i(Constants.LOG_TAG, "onRestart");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Log.i(Constants.LOG_TAG, "onDestroy");
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
+        super.onRestoreInstanceState(savedInstanceState, persistentState);
+        Log.i(Constants.LOG_TAG, "onRestoreInstanceState");
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
+        super.onSaveInstanceState(outState, outPersistentState);
+        Log.i(Constants.LOG_TAG, "onSaveInstanceState");
+    }
+
+
 
     @Override
     public void onBackPressed() {
