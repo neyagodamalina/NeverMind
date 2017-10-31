@@ -39,11 +39,11 @@ public class Slot {
     public Slot() {
     }
 
-    public static boolean isLeap(long year) {
+    private static boolean isLeap(long year) {
         return ((year & 3) == 0) && ((year % 100) != 0 || (year % 400) == 0);
     }
 
-    public static String toStringNormalFormatDateTime(long msTime) {
+    private static String toStringNormalFormatDateTime(long msTime) {
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
         return dateFormat.format(new Date(msTime));
     }
@@ -56,48 +56,48 @@ public class Slot {
         this.setTimeStop(Calendar.getInstance().getTimeInMillis());
     }
 
-    public long toMillis() {
+    private long toMillis() {
         return timeStop - timeStart;
     }
 
-    public long toSeconds() {
+    private long toSeconds() {
         return (long) (this.toMillis() / 1E3);
     }
 
-    public long toMinutes() {
+    private long toMinutes() {
         return this.toSeconds() / 60;
     }
 
-    public long toHours() {
+    private long toHours() {
         return this.toMinutes() / 60;
     }
 
-    public long toDays() {
+    private long toDays() {
         return (int) this.toHours() / 24;
     }
 
-    public long toMonths() {
+    private long toMonths() {
         Calendar calendar = this.getCalendarUTC();
         return (calendar.get(Calendar.YEAR) - 1970) * 12 + calendar.get(Calendar.MONTH);
     }
 
-    public double toYears() {
+    private double toYears() {
         return this.toMonths() / 12;
     }
 
-    public long toSecondsPart() {
+    private long toSecondsPart() {
         return toSeconds() % 60;
     }
 
-    public long toMinutesPart() {
+    private long toMinutesPart() {
         return toMinutes() % 60;
     }
 
-    public long toHoursPart() {
+    private long toHoursPart() {
         return toHours() % 24;
     }
 
-    public long toDaysPart() {
+    private long toDaysPart() {
         long countMonth = this.toMonths();
         long countDays = this.toDays();
         int year = 1970;
@@ -114,11 +114,11 @@ public class Slot {
         return countDays;
     }
 
-    public long toMonthPart() {
+    private long toMonthPart() {
         return toMonths() % 12;
     }
 
-    public long toYearsPart() {
+    private long toYearsPart() {
         return (long) toYears();
     }
 
@@ -210,7 +210,7 @@ public class Slot {
         return result;
     }
 
-    public String toStringPeriod() {
+    private String toStringPeriod() {
         StringBuffer result = new StringBuffer();
         DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -260,19 +260,19 @@ public class Slot {
         return dateFormat.format(calendar.getTime());
     }
 
-    public long getTimeStart() {
+    protected long getTimeStart() {
         return timeStart;
     }
 
-    public void setTimeStart(long timeStart) {
+    protected void setTimeStart(long timeStart) {
         this.timeStart = timeStart;
     }
 
-    public long getTimeStop() {
+    protected long getTimeStop() {
         return timeStop;
     }
 
-    public void setTimeStop(long timeStop){
+    protected void setTimeStop(long timeStop){
         try {
             if (timeStop < this.getTimeStart()) {
                 StringBuffer message = new StringBuffer();
@@ -295,8 +295,8 @@ public class Slot {
         return calendar;
     }
 
-    public List<Integer> getPossibleFormats() {
-        List<Integer> formats = new ArrayList();
+    private List<Integer> getPossibleFormats() {
+        List<Integer> formats = new ArrayList<Integer>();
         formats.add(FORMAT_SMART);
         if (this.toYears() > 10)
             formats.add(FORMAT_YEARS);    //11y 11m 30d 23h 59m 59s->11y possible format; 1y 11m 30d 23h 59m 59s->1y not possible format;
