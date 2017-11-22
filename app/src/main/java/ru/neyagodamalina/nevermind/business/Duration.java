@@ -1,5 +1,7 @@
 package ru.neyagodamalina.nevermind.business;
 
+import android.arch.persistence.room.Ignore;
+import android.arch.persistence.room.Index;
 import android.content.res.Resources;
 
 import java.text.DateFormat;
@@ -25,19 +27,20 @@ import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_MO
 import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_SMART;
 import static ru.neyagodamalina.nevermind.business.util.FormatDuration.FORMAT_YEARS;
 
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
 
-public class Slot {
+public class Duration {
+
     private long timeStart;
     private long timeStop;
 
 
-    public Slot(long timeStart, long timeStop){
+    public Duration(long timeStart, long timeStop){
         this.setTimeStart(timeStart);
         this.setTimeStop(timeStop);
     }
 
-    public Slot() {
-    }
 
     private static boolean isLeap(long year) {
         return ((year & 3) == 0) && ((year % 100) != 0 || (year % 400) == 0);
@@ -48,13 +51,6 @@ public class Slot {
         return dateFormat.format(new Date(msTime));
     }
 
-    public void start(){
-        this.setTimeStart(Calendar.getInstance().getTimeInMillis());
-    }
-
-    public void stop(){
-        this.setTimeStop(Calendar.getInstance().getTimeInMillis());
-    }
 
     private long toMillis() {
         return timeStop - timeStart;
@@ -68,36 +64,36 @@ public class Slot {
         return this.toSeconds() / 60;
     }
 
-    private long toHours() {
+    public long toHours() {
         return this.toMinutes() / 60;
     }
 
-    private long toDays() {
+    public long toDays() {
         return (int) this.toHours() / 24;
     }
 
-    private long toMonths() {
+    public long toMonths() {
         Calendar calendar = this.getCalendarUTC();
         return (calendar.get(Calendar.YEAR) - 1970) * 12 + calendar.get(Calendar.MONTH);
     }
 
-    private double toYears() {
+    public double toYears() {
         return this.toMonths() / 12;
     }
 
-    private long toSecondsPart() {
+    public long toSecondsPart() {
         return toSeconds() % 60;
     }
 
-    private long toMinutesPart() {
+    public long toMinutesPart() {
         return toMinutes() % 60;
     }
 
-    private long toHoursPart() {
+    public long toHoursPart() {
         return toHours() % 24;
     }
 
-    private long toDaysPart() {
+    public long toDaysPart() {
         long countMonth = this.toMonths();
         long countDays = this.toDays();
         int year = 1970;
@@ -114,17 +110,17 @@ public class Slot {
         return countDays;
     }
 
-    private long toMonthPart() {
+    public long toMonthPart() {
         return toMonths() % 12;
     }
 
-    private long toYearsPart() {
+    public long toYearsPart() {
         return (long) toYears();
     }
 
     @Override
     public String toString() {
-        return this.toStringDurationForTest() + "\n" + this.toStringCalendarUTC() + "\n" + this.toStringPeriod();
+        return this.toStringDurationForTest() + " (" + this.toStringCalendarUTC() + " )" + this.toStringPeriod();
     }
 
     public String toStringDuration(@FormatDuration int format, Resources resources) {
@@ -180,7 +176,7 @@ public class Slot {
         return result;
     }
 
-    private String toStringDurationForTest() {
+    public String toStringDurationForTest() {
 
         String result = null;
 
@@ -210,7 +206,7 @@ public class Slot {
         return result;
     }
 
-    private String toStringPeriod() {
+    public String toStringPeriod() {
         StringBuffer result = new StringBuffer();
         DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -260,19 +256,19 @@ public class Slot {
         return dateFormat.format(calendar.getTime());
     }
 
-    protected long getTimeStart() {
+    public long getTimeStart() {
         return timeStart;
     }
 
-    protected void setTimeStart(long timeStart) {
+    public void setTimeStart(long timeStart) {
         this.timeStart = timeStart;
     }
 
-    protected long getTimeStop() {
+    public long getTimeStop() {
         return timeStop;
     }
 
-    protected void setTimeStop(long timeStop){
+    public void setTimeStop(long timeStop){
         try {
             if (timeStop < this.getTimeStart()) {
                 StringBuffer message = new StringBuffer();
@@ -295,7 +291,7 @@ public class Slot {
         return calendar;
     }
 
-    private List<Integer> getPossibleFormats() {
+    public List<Integer> getPossibleFormats() {
         List<Integer> formats = new ArrayList<Integer>();
         formats.add(FORMAT_SMART);
         if (this.toYears() > 10)

@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 
 import java.util.Calendar;
 
-import ru.neyagodamalina.nevermind.business.Slot;
+import ru.neyagodamalina.nevermind.business.Duration;
 import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 
 import static org.junit.Assert.*;
@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
-public class SlotInstrumentedTest {
+public class DurationInstrumentedTest {
     @Test
     public void toStringDurationSmart1() throws Exception {
         // Context of the app under test.
@@ -29,7 +29,7 @@ public class SlotInstrumentedTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 32);
         Calendar stop = Calendar.getInstance();
         stop.set(2020, Calendar.APRIL, 2, 14, 21, 33);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
 
         assertEquals("3y 1m 1d 1h 1m", slot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
@@ -41,7 +41,7 @@ public class SlotInstrumentedTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 32);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 21, 32);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals("1m", slot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
 
@@ -52,7 +52,7 @@ public class SlotInstrumentedTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 16, 59, 12);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toStringCalendarUTC());
         assertEquals("3h 38m", slot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
@@ -64,7 +64,7 @@ public class SlotInstrumentedTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 21, 12);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toStringCalendarUTC());
         assertEquals("41s", slot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
@@ -76,7 +76,7 @@ public class SlotInstrumentedTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 22, 12);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toStringCalendarUTC());
         assertEquals("1m 41s", slot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
@@ -88,7 +88,7 @@ public class SlotInstrumentedTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 23, 12);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toStringCalendarUTC());
         assertEquals("2m", slot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
@@ -100,7 +100,7 @@ public class SlotInstrumentedTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 20, 31);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals("", slot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
 }

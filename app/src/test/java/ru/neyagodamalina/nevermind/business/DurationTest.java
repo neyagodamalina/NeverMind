@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 /**
  * Created by developer on 03.08.2017.
  */
-public class SlotTest {
+public class DurationTest {
 
 
     @Test
@@ -24,7 +24,7 @@ public class SlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.JANUARY, 1, 0, 1, 59);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toString());
         System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
@@ -47,7 +47,7 @@ public class SlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.JANUARY, 1, 23, 59, 59);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toString());
         System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
@@ -68,7 +68,7 @@ public class SlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.JANUARY, 31, 23, 59, 59);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toString());
         System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
@@ -89,7 +89,7 @@ public class SlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.DECEMBER, 31, 23, 59, 59);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toString());
         System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
@@ -110,7 +110,7 @@ public class SlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2018, Calendar.DECEMBER, 31, 23, 59, 59);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toString());
         System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
@@ -131,7 +131,7 @@ public class SlotTest {
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2028, Calendar.DECEMBER, 31, 23, 59, 59);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toString());
         System.out.println(slot.getPossibleFormats());
         List<Integer> expectedFormats = Arrays.asList(
@@ -150,7 +150,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 1, 1, 50);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals("01.03.17 1:01:01 - 1:01:50", slot.toStringPeriod());
     }
 
@@ -160,7 +160,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 1, 3, 1);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals("01.03.17 1:01 - 1:03", slot.toStringPeriod());
     }
 
@@ -170,7 +170,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 23, 59, 59);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 2, 0, 0, 0);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals("01.03.17 23:59 - 02.03.17 0:00", slot.toStringPeriod());
     }
 
@@ -180,7 +180,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 0, 0, 0);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.APRIL, 2, 0, 0, 0);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals(1, slot.toDaysPart());
     }
 
@@ -190,7 +190,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 2, 1, 1);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toStringCalendarUTC());
         assertEquals(1, slot.toHours());
     }
@@ -201,7 +201,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.APRIL, 2, 1, 1, 1);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals(32, slot.toDays());
     }
 
@@ -211,7 +211,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 1, 1, 1);
         Calendar stop = Calendar.getInstance();
         stop.set(2018, Calendar.MARCH, 1, 1, 1, 1);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals(12, slot.toMonths());
     }
 
@@ -222,7 +222,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 32);
         Calendar stop = Calendar.getInstance();
         stop.set(2020, Calendar.APRIL, 2, 14, 21, 33);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         StringBuffer actual = new StringBuffer()
                 .append(slot.toYearsPart())
                 .append(slot.toMonthPart())
@@ -240,7 +240,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 20, 32);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         StringBuffer actual = new StringBuffer()
                 .append(slot.toYearsPart())
                 .append(slot.toMonthPart())
@@ -258,7 +258,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 16, 59, 12);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toStringCalendarUTC());
         StringBuffer actual = new StringBuffer()
                 .append(slot.toYearsPart())
@@ -276,7 +276,7 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.MARCH, 1, 13, 20, 31);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         StringBuffer actual = new StringBuffer()
                 .append(slot.toYearsPart())
                 .append(slot.toMonthPart())
@@ -295,13 +295,8 @@ public class SlotTest {
         start.set(2017, Calendar.MARCH, 1, 13, 20, 31);
         Calendar stop = Calendar.getInstance();
         stop.set(2017, Calendar.FEBRUARY, 1, 13, 20, 31);
-        Slot slot = new Slot(start.getTimeInMillis(), stop.getTimeInMillis());
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         System.out.println(slot.toString());
     }
 
-    @Test
-    public void nullTimeSlot() throws Exception{
-        Slot slot = new Slot();
-        System.out.println(slot.toString());
-    }
 }

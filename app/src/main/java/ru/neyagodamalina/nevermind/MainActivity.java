@@ -20,7 +20,7 @@ import android.widget.TextView;
 import java.text.DateFormat;
 import java.util.Date;
 
-import ru.neyagodamalina.nevermind.business.Slot;
+import ru.neyagodamalina.nevermind.business.Duration;
 import ru.neyagodamalina.nevermind.business.util.Constants;
 import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 
@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity
 
     private FloatingActionButton bt_add;
     private TextView tv_log;
-    private Slot slot;
+    private Duration slot;
 
     private Context context = this;
 
@@ -69,14 +69,14 @@ public class MainActivity extends AppCompatActivity
             bt_add.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if (slot != null) {
-                        slot.stop();
-                        tv_log.append(slot.toStringDuration(FormatDuration.FORMAT_SMART, context.getResources()) + "\n" + slot.toString() + "\n");
-                        slot = null;
-                    } else {
-                        slot = new Slot();
-                        slot.start();
-                    }
+//                    if (slot != null) {
+//                        slot.stop();
+//                        tv_log.append(slot.toStringDuration(FormatDuration.FORMAT_SMART, context.getResources()) + "\n" + slot.toString() + "\n");
+//                        slot = null;
+//                    } else {
+//                        slot = new Duration();
+//                        slot.start();
+//                    }
                 }
             });
 
