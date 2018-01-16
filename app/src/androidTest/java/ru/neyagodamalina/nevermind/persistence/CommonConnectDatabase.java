@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 
 import ru.neyagodamalina.nevermind.business.persistence.AppDatabase;
+import ru.neyagodamalina.nevermind.business.persistence.Project;
 import ru.neyagodamalina.nevermind.business.util.Constants;
 
 /**
@@ -25,11 +26,14 @@ public class CommonConnectDatabase {
                 //temp database
                 //Room.inMemoryDatabaseBuilder(InstrumentationRegistry.getTargetContext(), AppDatabase.class).build();
         Log.d(Constants.LOG_TAG, "Database init - " + this.getClass().getName());
+        database.getProjectDao().deleteAllProjects();
+        database.getProjectDao().insertProject(new Project(1,"My live", 0, 0));
     }
 
     @After
     public void close(){
-        database.close();
+        if (database != null)
+            database.close();
         Log.d(Constants.LOG_TAG, "Database close - " + this.getClass().getName());
     }
 }

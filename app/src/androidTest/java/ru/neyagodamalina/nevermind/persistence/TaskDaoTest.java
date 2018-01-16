@@ -20,7 +20,6 @@ public class TaskDaoTest extends CommonConnectDatabase {
     @Test
     public void insert3Tasks() throws Exception {
 
-        database.getTaskDao().deleteAllTasks();
         Task task1 = new Task("task 1");
         Task task2 = new Task("task 2");
         Task task3 = new Task("task 3");

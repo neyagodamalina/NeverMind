@@ -1,10 +1,12 @@
 package ru.neyagodamalina.nevermind;
 
+import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -16,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -23,13 +26,12 @@ import java.util.Date;
 import ru.neyagodamalina.nevermind.business.Duration;
 import ru.neyagodamalina.nevermind.business.util.Constants;
 import ru.neyagodamalina.nevermind.business.util.FormatDuration;
+import ru.neyagodamalina.nevermind.fragment.CreateTaskFragment;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private FloatingActionButton bt_add;
-    private TextView tv_log;
-    private Duration slot;
 
     private Context context = this;
 
@@ -61,24 +63,18 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        tv_log = (TextView) findViewById(R.id.tv_log);
-
-        TextView tv_data = (TextView) findViewById(R.id.tv_data);
-        tv_data.setText(DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT).format(new Date()));
-
-            bt_add.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-//                    if (slot != null) {
-//                        slot.stop();
-//                        tv_log.append(slot.toStringDuration(FormatDuration.FORMAT_SMART, context.getResources()) + "\n" + slot.toString() + "\n");
-//                        slot = null;
-//                    } else {
-//                        slot = new Duration();
-//                        slot.start();
-//                    }
-                }
-            });
+        bt_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                CreateTaskFragment createTaskFragment = new CreateTaskFragment();
+                fragmentTransaction.replace(R.id.fragment_container, createTaskFragment);
+                fragmentTransaction.commit();
+                Toast toast = Toast.makeText(getApplicationContext(), "Hiiiiiiiya!", Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
     }
 
@@ -123,7 +119,6 @@ public class MainActivity extends AppCompatActivity
         super.onSaveInstanceState(outState, outPersistentState);
         Log.i(Constants.LOG_TAG, "onSaveInstanceState");
     }
-
 
 
     @Override

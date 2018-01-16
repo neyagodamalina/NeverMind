@@ -26,4 +26,6 @@ public interface TaskDao {
     @Query("delete from task")
     public void deleteAllTasks();
 
+
+
 }

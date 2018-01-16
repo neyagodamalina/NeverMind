@@ -23,8 +23,6 @@ public class SlotDaoTest extends CommonConnectDatabase {
     @Test
     public void insert2SlotsFor1Task() throws Exception {
 
-        database.getTaskDao().deleteAllTasks();
-
         Task task = new Task("task insert2SlotsFor1Task");
         long taskId = database.getTaskDao().insertTask(task);
 
