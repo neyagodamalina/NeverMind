@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        Log.i(Constants.LOG_TAG, "onCreate");
+        Log.d(Constants.LOG_TAG, this.getClass().getSimpleName() + "\tonCreate");
 
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -68,6 +68,8 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.setCustomAnimations(android.R.anim.fade_in,
+                        android.R.anim.fade_out);
                 CreateTaskFragment createTaskFragment = new CreateTaskFragment();
                 fragmentTransaction.replace(R.id.fragment_container, createTaskFragment);
                 fragmentTransaction.commit();
@@ -81,43 +83,43 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i(Constants.LOG_TAG, "onPause");
+        Log.d(Constants.LOG_TAG, this.getClass().getSimpleName() + "\tonPause");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i(Constants.LOG_TAG, "onResume");
+        Log.d(Constants.LOG_TAG, this.getClass().getSimpleName() + "\tonResume");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i(Constants.LOG_TAG, "onStop");
+        Log.d(Constants.LOG_TAG, this.getClass().getSimpleName() + "\tonStop");
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.i(Constants.LOG_TAG, "onRestart");
+        Log.d(Constants.LOG_TAG, this.getClass().getSimpleName() + "\tonRestart");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i(Constants.LOG_TAG, "onDestroy");
+        Log.d(Constants.LOG_TAG, this.getClass().getSimpleName() + "\tonDestroy");
     }
 
     @Override
     public void onRestoreInstanceState(Bundle savedInstanceState, PersistableBundle persistentState) {
         super.onRestoreInstanceState(savedInstanceState, persistentState);
-        Log.i(Constants.LOG_TAG, "onRestoreInstanceState");
+        Log.d(Constants.LOG_TAG, this.getClass().getSimpleName() + "\tonRestoreInstanceState");
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
         super.onSaveInstanceState(outState, outPersistentState);
-        Log.i(Constants.LOG_TAG, "onSaveInstanceState");
+        Log.d(Constants.LOG_TAG, this.getClass().getSimpleName() + "\tonSaveInstanceState");
     }
 
 

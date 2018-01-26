@@ -35,9 +35,8 @@ public class CreateTaskFragment extends CommonFragment {
         mViewFragment =  inflater.inflate(R.layout.create_task_fragment, container, false);
 
         // Покажем время создания этого фрагмента
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss z");
         mEditTaskText = (EditText) mViewFragment.findViewById(R.id.etTask);
-        mEditTaskText.setText(dateFormat.format(this.createCalendar.getTime()));
+        mEditTaskText.setText("1111");
 
         mCleanTaskTextButton = (Button) mViewFragment.findViewById(R.id.btCleanTaskText);
         mCleanTaskTextButton.setOnClickListener(new View.OnClickListener() {
