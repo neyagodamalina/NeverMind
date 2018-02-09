@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import ru.neyagodamalina.nevermind.business.util.Constants;
 
@@ -24,7 +25,7 @@ public class CommonFragment extends Fragment {
     private static DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
     public String getName(){
-        return this.getName() + dateFormat.format(createCalendar);
+        return this.getClass().getSimpleName() + dateFormat.format(new Date(createCalendar.getTimeInMillis()));
     }
 
     @Override

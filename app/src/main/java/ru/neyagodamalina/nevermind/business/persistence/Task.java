@@ -49,6 +49,9 @@ public class Task extends Duration {
     public long getProjectId() {
         return projectId;
     }
+    public String getName() {
+        return name;
+    }
 
 
 //    @PrimaryKey(autoGenerate = true)

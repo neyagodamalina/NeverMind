@@ -34,43 +34,46 @@
             android:layout_height="match_parent"
             android:gravity="top|start"
             android:inputType="textMultiLine"
-
             android:padding="10dp"
-            android:text="fefwfwefwefwef"
-            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+            android:text="fefwfwefwefwef\n"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            />
 
-        <Button
-            android:id="@+id/btCleanTaskText"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@mipmap/ic_clean_text" />
 
         <Button
             android:id="@+id/btFoto"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:background="@mipmap/ic_create_photo" />
+            android:background="@drawable/ic_create_photo" />
 
         <Button
             android:id="@+id/btList"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentStart="true"
-            android:background="@mipmap/ic_create_list" />
+            android:background="@drawable/ic_create_list" />
+
+
+        <Button
+            android:id="@+id/btCleanTaskText"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/ic_clear_text"
+
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
+            android:layout_below="@+id/btCleanTaskText"
             android:orientation="horizontal"
-
-
+            android:layout_marginTop="30dp"
             >
 
             <TextView
@@ -79,31 +82,34 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:alpha="0.5"
-                android:padding="1dp"
                 android:rotation="-90"
                 android:text="@string/remind_question"
-                android:textAppearance="@android:style/TextAppearance.Material.Small" />
+                android:textAppearance="@android:style/TextAppearance.Material.Small"
+
+                />
 
             <LinearLayout
-                android:id="@+id/buttons_container"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <Button
-                    android:id="@+id/btYes"
+                    android:id="@+id/btAddAlarm"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_marginBottom="30dp"
-                    android:background="@mipmap/ic_add_alarm" />
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/tvRemindQuestion"
+                    android:background="@drawable/ic_add_alarm" />
 
                 <Button
-                    android:id="@+id/tbNo"
+                    android:id="@+id/btCancelAlarm"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:background="@mipmap/ic_cancel_alarm" />
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/btAddAlarm"
+                    android:background="@drawable/ic_cancel_alarm" />
+
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

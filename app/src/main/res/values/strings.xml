@@ -16,7 +16,7 @@
     <string name="new_task">New task</string>
     <string name="choose_project">Choose project</string>
     <string name="name_default_project">My Live</string>
-    <string name="remind_question">Save. Remind you?</string>
+    <string name="remind_question">Save. Remind?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
 </resources>

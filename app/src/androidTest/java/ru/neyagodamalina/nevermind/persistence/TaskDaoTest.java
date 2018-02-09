@@ -1,5 +1,6 @@
 package ru.neyagodamalina.nevermind.persistence;
 
+import android.arch.lifecycle.LiveData;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
@@ -24,13 +25,14 @@ public class TaskDaoTest extends CommonConnectDatabase {
         Task task2 = new Task("task 2");
         Task task3 = new Task("task 3");
 
+
         database.getTaskDao().insertTask(task1);
         database.getTaskDao().insertTask(task2);
         database.getTaskDao().insertTask(task3);
 
-        List<Task> tasks = database.getTaskDao().selectAllTasks();
+        LiveData<List<Task>> tasks = database.getTaskDao().selectAllTasks();
 
-        assertEquals(3, tasks.size());
+        assertEquals(3, tasks.getValue().size());
     }
 
 

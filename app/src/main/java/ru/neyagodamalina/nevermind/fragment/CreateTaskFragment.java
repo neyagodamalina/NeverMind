@@ -1,8 +1,6 @@
 package ru.neyagodamalina.nevermind.fragment;
 
-import android.support.v4.app.Fragment;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,11 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.business.util.Constants;
@@ -32,11 +25,13 @@ public class CreateTaskFragment extends CommonFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        mViewFragment =  inflater.inflate(R.layout.create_task_fragment, container, false);
+        super.onCreateView(inflater, container, savedInstanceState);
 
-        // Покажем время создания этого фрагмента
+        mViewFragment =  inflater.inflate(R.layout.fragment_create_task, container, false);
+
+        // Покажем имя-время создания этого фрагмента
         mEditTaskText = (EditText) mViewFragment.findViewById(R.id.etTask);
-        mEditTaskText.setText("1111");
+        mEditTaskText.setText(this.getName());
 
         mCleanTaskTextButton = (Button) mViewFragment.findViewById(R.id.btCleanTaskText);
         mCleanTaskTextButton.setOnClickListener(new View.OnClickListener() {
