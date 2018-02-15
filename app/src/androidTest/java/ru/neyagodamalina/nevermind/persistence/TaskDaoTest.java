@@ -30,9 +30,9 @@ public class TaskDaoTest extends CommonConnectDatabase {
         database.getTaskDao().insertTask(task2);
         database.getTaskDao().insertTask(task3);
 
-        LiveData<List<Task>> tasks = database.getTaskDao().selectAllTasks();
+        LiveData<List<Task>> liveDataTasks = database.getTaskDao().selectAllTasks();
 
-        assertEquals(3, tasks.getValue().size());
+        assertEquals(3, liveDataTasks.getValue().size());
     }
 
 

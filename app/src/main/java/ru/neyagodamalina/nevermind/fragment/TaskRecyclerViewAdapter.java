@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.business.persistence.Task;
-import ru.neyagodamalina.nevermind.fragment.TaskFragment.OnListFragmentInteractionListener;
+import ru.neyagodamalina.nevermind.fragment.ListTaskFragment.OnListFragmentInteractionListener;
 import ru.neyagodamalina.nevermind.fragment.dummy.DummyContent.DummyItem;
 
 import java.util.List;

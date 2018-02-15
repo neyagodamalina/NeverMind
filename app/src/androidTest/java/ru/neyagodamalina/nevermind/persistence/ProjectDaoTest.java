@@ -50,7 +50,7 @@ public class ProjectDaoTest extends CommonConnectDatabase{
 
         assertArrayEquals(new long[] {0,0,0}, new long[] {
                 database.getProjectDao().selectAllProjects().size(),
-                database.getTaskDao().selectAllTasks().size(),
+                database.getTaskDao().selectAllTasks().getValue().size(),
                 database.getSlotDao().selectAllSlot().size()});
     }
 

@@ -1,8 +1,10 @@
 package ru.neyagodamalina.nevermind.fragment;
 
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,8 +16,6 @@ import android.view.ViewGroup;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.business.persistence.AppDatabase;
 import ru.neyagodamalina.nevermind.business.persistence.Task;
-import ru.neyagodamalina.nevermind.fragment.dummy.DummyContent;
-import ru.neyagodamalina.nevermind.fragment.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
@@ -25,25 +25,26 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class TaskFragment extends Fragment {
+public class ListTaskFragment extends CommonFragment {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
      */
-    public TaskFragment() {
+    public ListTaskFragment() {
     }
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static TaskFragment newInstance(int columnCount) {
-        TaskFragment fragment = new TaskFragment();
+    public static ListTaskFragment newInstance(int columnCount) {
+        ListTaskFragment fragment = new ListTaskFragment();
         Bundle args = new Bundle();
         args.putInt(ARG_COLUMN_COUNT, columnCount);
         fragment.setArguments(args);
@@ -67,7 +68,7 @@ public class TaskFragment extends Fragment {
         // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             if (mColumnCount <= 1) {
                 recyclerView.setLayoutManager(new LinearLayoutManager(context));
             } else {
@@ -75,8 +76,17 @@ public class TaskFragment extends Fragment {
             }
 
             AppDatabase database = AppDatabase.getDatabase(context);
-            LiveData<List<Task>> tasks = database.getTaskDao().selectAllTasks();
-            recyclerView.setAdapter(new TaskRecyclerViewAdapter(tasks.getValue(), mListener));
+            LiveData<List<Task>> liveDataTasks = database.getTaskDao().selectAllTasks();
+            liveDataTasks.observe(this, new Observer<List<Task>>(
+                    ) {
+                        @Override
+                        public void onChanged(@Nullable List<Task> tasks) {
+                            recyclerView.setAdapter(new TaskRecyclerViewAdapter(tasks, mListener));
+                        }
+                    }
+            );
+
+
         }
         return view;
     }

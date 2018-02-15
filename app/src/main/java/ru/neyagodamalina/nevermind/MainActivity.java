@@ -17,21 +17,14 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.text.DateFormat;
-import java.util.Date;
-
-import ru.neyagodamalina.nevermind.business.Duration;
 import ru.neyagodamalina.nevermind.business.persistence.Task;
 import ru.neyagodamalina.nevermind.business.util.Constants;
-import ru.neyagodamalina.nevermind.business.util.FormatDuration;
 import ru.neyagodamalina.nevermind.fragment.CreateTaskFragment;
-import ru.neyagodamalina.nevermind.fragment.TaskFragment;
-import ru.neyagodamalina.nevermind.fragment.dummy.DummyContent;
+import ru.neyagodamalina.nevermind.fragment.ListTaskFragment;
 
-public class MainActivity extends AppCompatActivity implements TaskFragment.OnListFragmentInteractionListener,
+public class MainActivity extends AppCompatActivity implements ListTaskFragment.OnListFragmentInteractionListener,
         NavigationView.OnNavigationItemSelectedListener {
 
     private FloatingActionButton bt_add;
@@ -70,11 +63,12 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnLi
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-        TaskFragment taskFragment = TaskFragment.newInstance(1);
-        fragmentTransaction.replace(R.id.fragment_container, taskFragment);
+
+        ListTaskFragment listTaskFragment = ListTaskFragment.newInstance(1);
+        fragmentTransaction.replace(R.id.fragment_container, listTaskFragment, "LIST_TASKS_FRAGMENT");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
-        Toast toast = Toast.makeText(getApplicationContext(), "Hiiiiiiiya!", Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getApplicationContext(), listTaskFragment.getTag(), Toast.LENGTH_SHORT);
         toast.show();
 
 
@@ -87,10 +81,10 @@ public class MainActivity extends AppCompatActivity implements TaskFragment.OnLi
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
                 CreateTaskFragment createTaskFragment = new CreateTaskFragment();
-                fragmentTransaction.replace(R.id.fragment_container, createTaskFragment);
+                fragmentTransaction.replace(R.id.fragment_container, createTaskFragment, "CREATE_TASK_FRAGMENT");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                Toast toast = Toast.makeText(getApplicationContext(), "Hiiiiiiiya!", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(getApplicationContext(), createTaskFragment.getTag(), Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
