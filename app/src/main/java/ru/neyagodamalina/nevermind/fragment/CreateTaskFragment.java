@@ -25,7 +25,7 @@ import ru.neyagodamalina.nevermind.business.util.Constants;
 
 public class CreateTaskFragment extends CommonFragment {
     private Button  mCleanTaskTextButton;
-    private Button  mCancelAlarmButton;
+    private Button  mCancelAlarmButton; 
     private EditText mEditTaskText;
     private View mViewFragment;
 
