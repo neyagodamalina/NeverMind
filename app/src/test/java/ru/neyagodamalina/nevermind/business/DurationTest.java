@@ -6,7 +6,8 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
-import ru.neyagodamalina.nevermind.business.util.FormatDuration;
+import ru.neyagodamalina.nevermind.util.FormatDuration;
+import ru.neyagodamalina.nevermind.util.Duration;
 
 import static org.junit.Assert.*;
 

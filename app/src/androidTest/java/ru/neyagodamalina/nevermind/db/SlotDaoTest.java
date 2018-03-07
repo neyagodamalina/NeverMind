@@ -1,4 +1,4 @@
-package ru.neyagodamalina.nevermind.persistence;
+package ru.neyagodamalina.nevermind.db;
 
 import android.support.test.runner.AndroidJUnit4;
 
@@ -8,8 +8,7 @@ import org.junit.runner.RunWith;
 import java.util.Calendar;
 import java.util.List;
 
-import ru.neyagodamalina.nevermind.business.persistence.Slot;
-import ru.neyagodamalina.nevermind.business.persistence.Task;
+import ru.neyagodamalina.nevermind.CommonConnectDatabase;
 
 import static org.junit.Assert.assertEquals;
 

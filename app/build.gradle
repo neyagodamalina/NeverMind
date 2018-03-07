@@ -36,4 +36,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'android.arch.lifecycle:compiler:1.0.0-rc1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0-rc1'
+    //androidTestCompile  'org.mockito:mockito-core:2.11.0'
+    androidTestCompile 'org.mockito:mockito-android:2.11.0'
 }

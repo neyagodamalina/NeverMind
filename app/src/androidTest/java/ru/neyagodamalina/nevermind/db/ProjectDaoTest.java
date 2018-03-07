@@ -1,21 +1,15 @@
-package ru.neyagodamalina.nevermind.persistence;
+package ru.neyagodamalina.nevermind.db;
 
 import org.junit.Test;
 
-import ru.neyagodamalina.nevermind.business.persistence.Project;
-import ru.neyagodamalina.nevermind.business.persistence.ProjectDao;
-import ru.neyagodamalina.nevermind.business.persistence.Slot;
-import ru.neyagodamalina.nevermind.business.persistence.Task;
-import ru.neyagodamalina.nevermind.business.util.Constants;
-import ru.neyagodamalina.nevermind.persistence.CommonConnectDatabase;
-import android.util.Log;
+import ru.neyagodamalina.nevermind.CommonConnectDatabase;
 
 import static org.junit.Assert.*;
 
 /**
  * Created by developer on 22.11.2017.
  */
-public class ProjectDaoTest extends CommonConnectDatabase{
+public class ProjectDaoTest extends CommonConnectDatabase {
     @Test
     public void insertProject() throws Exception {
         Project project = new Project(0, "Lonely project", 0, 0);
@@ -50,7 +44,7 @@ public class ProjectDaoTest extends CommonConnectDatabase{
 
         assertArrayEquals(new long[] {0,0,0}, new long[] {
                 database.getProjectDao().selectAllProjects().size(),
-                database.getTaskDao().selectAllTasks().getValue().size(),
+                database.getTaskDao().selectAllTasks().getValue()==null? 0 : database.getTaskDao().selectAllTasks().getValue().size(),
                 database.getSlotDao().selectAllSlot().size()});
     }
 

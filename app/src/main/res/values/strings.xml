@@ -1,6 +1,10 @@
 <resources>
     <string name="app_name">NeverMind</string>
 
+    <string name="title_projects">Projects</string>
+    <string name="title_tasks">Tasks</string>
+    <string name="title_new_task">New task</string>
+
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
@@ -19,4 +23,13 @@
     <string name="remind_question">Save. Remind?</string>
     <string name="yes">yes</string>
     <string name="no">no</string>
+    <string name="hint_create_task">Type task\'s text</string>
+
+
+    <string-array name="projects_delete_me">
+        <item>My Live</item>
+        <item>Build house</item>
+        <item>Migration</item>
+        <item>Charity</item>
+    </string-array>
 </resources>

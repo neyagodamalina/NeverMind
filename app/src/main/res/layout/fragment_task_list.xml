@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list"
-    android:name="ru.neyagodamalina.nevermind.fragment.TaskFragment"
+    android:text="ru.neyagodamalina.nevermind.fragment.TaskFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginLeft="16dp"
     android:layout_marginRight="16dp"
     app:layoutManager="LinearLayoutManager"
-    tools:context="ru.neyagodamalina.nevermind.fragment.ListTaskFragment"
+    tools:context="ru.neyagodamalina.nevermind.ui.ListTaskFragment"
     tools:listitem="@layout/fragment_task_item" />
