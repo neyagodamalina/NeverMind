@@ -5,10 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
-import ru.neyagodamalina.nevermind.ui.ListTaskFragment.OnListFragmentInteractionListener;
+import ru.neyagodamalina.nevermind.ui.ListTasksFragment.OnListFragmentInteractionListener;
 //import ru.neyagodamalina.nevermind.fragment.dummy.DummyContent.DummyItem;
 
 import java.util.List;
@@ -35,7 +36,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
-        holder.mContentView.setText(mValues.get(position).getText());
+        holder.mContentView.setText(mValues.get(position).getTitle());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -44,9 +45,11 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
                     // Notify the active callbacks interface (the activity, if the
                     // fragment is attached to one) that an item has been selected.
                     mListener.onListFragmentInteraction(holder.mItem);
+                    Toast.makeText(v.getContext(), "onClick in onBindViewHolder", Toast.LENGTH_LONG);
                 }
             }
         });
+
     }
 
     @Override

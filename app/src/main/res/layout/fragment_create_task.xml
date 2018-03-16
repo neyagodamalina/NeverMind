@@ -21,11 +21,10 @@
             android:text="@string/new_task"
             android:textAppearance="@android:style/TextAppearance.Material.Large" />
         <Spinner
-            android:id="@+id/btChooseProject"
+            android:id="@+id/spChooseProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/tvTitleNewTask"
-            android:entries="@array/projects_delete_me"
             />
 
 
@@ -98,7 +97,7 @@
 
 
         <Button
-            android:id="@+id/btFoto"
+            android:id="@+id/btPhoto"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:layout_alignParentBottom="true"
@@ -125,6 +124,7 @@
             android:background="@drawable/ic_clear_text"
             android:layout_margin="10dp"
             />
+
 
 
     </RelativeLayout>

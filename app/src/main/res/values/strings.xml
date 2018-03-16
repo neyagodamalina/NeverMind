@@ -24,6 +24,7 @@
     <string name="yes">yes</string>
     <string name="no">no</string>
     <string name="hint_create_task">Type task\'s text</string>
+    <string name="toast_task_added">Task added.</string>
 
 
     <string-array name="projects_delete_me">

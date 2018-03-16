@@ -1,6 +1,7 @@
 package ru.neyagodamalina.nevermind.db;
 
 import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.Ignore;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
@@ -25,6 +26,10 @@ public class Project extends Duration {
         this.title = text.length() > 20 ? text.substring(0, 20) : text;
     }
 
+    @Ignore
+    public Project(String text) {
+        this(0, text, 0, 0);
+    }
 
     public long getId(){return this.id;}
 }

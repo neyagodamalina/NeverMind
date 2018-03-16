@@ -1,5 +1,6 @@
 package ru.neyagodamalina.nevermind.db;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.room.Dao;
 import android.arch.persistence.room.Delete;
 import android.arch.persistence.room.Insert;
@@ -23,8 +24,8 @@ public interface ProjectDao {
     @Delete
     public void deleteProject(Project project);
 
-    @Query("select * from project")
-    public List<Project> selectAllProjects();
+    @Query("select * from project order by title")
+    public LiveData<List<Project>> selectAllProjects();
 
     @Query("select * from project where id = 1")
     public Project selectDefaultProject();

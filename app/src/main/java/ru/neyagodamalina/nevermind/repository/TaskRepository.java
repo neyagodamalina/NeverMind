@@ -1,7 +1,10 @@
 package ru.neyagodamalina.nevermind.repository;
 
+import android.arch.lifecycle.LiveData;
 import android.content.Context;
 import android.util.Log;
+
+import java.util.List;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.AppDatabase;
@@ -42,6 +45,15 @@ public class TaskRepository {
 
     public AppDatabase getDatabase(){
         return database;
+    }
+
+    public void addProject(Project project){
+        long id = projectDao.insertProject(project);
+        Log.d(Constants.LOG_TAG, "Insert new project id=" + id);
+    }
+
+    public LiveData<List<Project>> getAllProjects(){
+        return projectDao.selectAllProjects();
     }
 
 
