@@ -4,19 +4,13 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.Window;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
-import ru.neyagodamalina.nevermind.ui.CreateTaskFragment;
-import ru.neyagodamalina.nevermind.ui.ListTasksFragment;
 import ru.neyagodamalina.nevermind.util.Constants;
 
 
@@ -40,7 +34,7 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
-        showFragment(Constants.LIST_TASKS_FRAGMENT);
+        showFragment(Constants.FRAGMENT_LIST_TASKS);
 
 
     }
@@ -52,12 +46,13 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_projects:
+                    makeShowFragment(Constants.FRAGMENT_LIST_PROJECTS, true);
                     return true;
                 case R.id.navigation_tasks:
-                    makeShowFragment(Constants.LIST_TASKS_FRAGMENT, true);
+                    makeShowFragment(Constants.FRAGMENT_LIST_TASKS, true);
                     return true;
                 case R.id.navigation_new_task:
-                    makeShowFragment(Constants.CREATE_TASK_FRAGMENT, true);
+                    makeShowFragment(Constants.FRAGMENT_CREATE_TASK, true);
                     return true;
             }
             return false;
@@ -78,10 +73,10 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         BottomNavigationView navigation =  findViewById(R.id.navigation);
 
         switch (tagFragment) {
-            case Constants.LIST_TASKS_FRAGMENT:
+            case Constants.FRAGMENT_LIST_TASKS:
                 navigation.setSelectedItemId(R.id.navigation_tasks);
                 break;
-            case Constants.CREATE_TASK_FRAGMENT:
+            case Constants.FRAGMENT_CREATE_TASK:
                 navigation.setSelectedItemId(R.id.navigation_new_task);
                 break;
             default:
@@ -102,6 +97,7 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
         if (isAddToBackStack)
             fragmentTransaction.addToBackStack(null);
+
         fragmentTransaction.commit();
 
 
@@ -115,10 +111,13 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         Fragment fragment;
 
         switch (tag) {
-            case Constants.LIST_TASKS_FRAGMENT:
+            case Constants.FRAGMENT_LIST_PROJECTS:
+                fragment = new ListProjectsFragment();
+                break;
+            case Constants.FRAGMENT_LIST_TASKS:
                 fragment = new ListTasksFragment();
                 break;
-            case Constants.CREATE_TASK_FRAGMENT:
+            case Constants.FRAGMENT_CREATE_TASK:
                 fragment = new CreateTaskFragment();
                 break;
             default:

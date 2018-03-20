@@ -6,8 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -15,10 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import ru.neyagodamalina.nevermind.R;
-import ru.neyagodamalina.nevermind.db.AppDatabase;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.viewmodel.ListTasksViewModel;
-import ru.neyagodamalina.nevermind.viewmodel.TaskViewModel;
 
 import java.util.List;
 
@@ -45,7 +41,7 @@ public class ListTasksFragment extends CommonFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_task_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_list_tasks, container, false);
         listTasksViewModel = ViewModelProviders.of(this).get(ListTasksViewModel.class);
 
         // Set the adapter
