@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
+
+import java.util.List;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
@@ -20,8 +24,7 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
     @Override
     public void onBackPressed() {
-        //getFragmentManager().get
-        super.onBackPressed();
+        super.onBackPressed(); logBackStack();
     }
 
     @Override
@@ -34,7 +37,17 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
-        showFragment(Constants.FRAGMENT_LIST_TASKS);
+        Fragment privaryFragment = createFragmentByTag(Constants.FRAGMENT_LIST_TASKS);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragment_container, privaryFragment, Constants.FRAGMENT_LIST_TASKS)
+                .commit();
+        CURRENT_FRAGMENT = Constants.FRAGMENT_LIST_TASKS;
+
+
+
+        //showFragment(Constants.FRAGMENT_LIST_TASKS);
 
 
     }
@@ -46,7 +59,8 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_projects:
-                    makeShowFragment(Constants.FRAGMENT_LIST_PROJECTS, true);
+                    //makeShowFragment(Constants.FRAGMENT_LIST_PROJECTS, true);
+                    logBackStack();
                     return true;
                 case R.id.navigation_tasks:
                     makeShowFragment(Constants.FRAGMENT_LIST_TASKS, true);
@@ -88,7 +102,9 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
         if (CURRENT_FRAGMENT.equals(tagFragment)) return;
 
-        Fragment fragment = getFragmentByTag(tagFragment);
+        Fragment fragment = createFragmentByTag(tagFragment);
+
+        //Log.i(Constants.LOG_TAG, getSupportFragmentManager().findFragmentByTag(Constants.FRAGMENT_LIST_TASKS).toString());
 
         FragmentTransaction fragmentTransaction = getSupportFragmentManager()
                 .beginTransaction()
@@ -96,17 +112,16 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
                 .replace(R.id.fragment_container, fragment, tagFragment);
 
         if (isAddToBackStack)
-            fragmentTransaction.addToBackStack(null);
+            fragmentTransaction.addToBackStack(tagFragment);
 
         fragmentTransaction.commit();
-
 
         CURRENT_FRAGMENT = tagFragment;
     }
 
 
 
-    private Fragment getFragmentByTag(String tag){
+    private Fragment createFragmentByTag(String tag){
 
         Fragment fragment;
 
@@ -128,5 +143,29 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
     }
 
+    public void logBackStack(){
+        FragmentManager manager = getSupportFragmentManager();
+        int count = manager.getBackStackEntryCount();
+        if (count == 0) Log.i(Constants.LOG_TAG, "Count entry in back stack = " + count);
+        for (int i = 0; i < count; i++){
+            Log.i(Constants.LOG_TAG, "Back stack\t" + manager.getBackStackEntryAt(i).getId() + "\t" + manager.getBackStackEntryAt(i).getName());
+        }
+
+        List<Fragment> fragmentList = manager.getFragments();
+        for (Fragment fragment : fragmentList){
+            Log.i(Constants.LOG_TAG, "Manager\t" + fragment.getTag());
+        }
+
+        Log.i(Constants.LOG_TAG,"--------------------");
+
+    }
+
+    public void clearBackStack(){
+        FragmentManager manager = getSupportFragmentManager();
+        Fragment fragment = manager.findFragmentByTag(Constants.FRAGMENT_CREATE_TASK);
+        //manager.popBackStackImmediate(Constants.FRAGMENT_LIST_TASKS, 0);
+        //int count = manager.getBackStackEntryCount();
+        //Log.i(Constants.LOG_TAG, "Count entry in back stack = " + count);
+    }
 
 }

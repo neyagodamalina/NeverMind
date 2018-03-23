@@ -125,6 +125,24 @@
             android:layout_margin="10dp"
             />
 
+        <Button
+            android:id="@+id/buttonTest11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btCleanTaskText"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="100dp"
+            android:layout_toEndOf="@+id/btList"
+            android:text="logBackStack" />
+
+        <Button
+            android:id="@+id/buttonTest22"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/buttonTest11"
+            android:layout_below="@+id/buttonTest11"
+            android:layout_marginTop="46dp"
+            android:text="clearBackStack" />
 
 
     </RelativeLayout>

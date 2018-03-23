@@ -6,7 +6,6 @@ import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +24,6 @@ import java.util.List;
 import java.util.concurrent.Executors;
 
 import ru.neyagodamalina.nevermind.R;
-import ru.neyagodamalina.nevermind.db.AppDatabase;
 import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.repository.TaskRepository;
@@ -141,6 +139,28 @@ public class CreateTaskFragment extends CommonFragment {
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
         // endregion
+
+
+        // Test buttons
+
+        Button button11 = (Button) mViewFragment.findViewById(R.id.buttonTest11);
+        button11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(Constants.LOG_TAG, mViewFragment.getContext().toString());
+                ((MainActivity) mViewFragment.getContext()).logBackStack();
+            }
+        });
+
+
+        Button button22 = (Button) mViewFragment.findViewById(R.id.buttonTest22);
+        button22.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((MainActivity) mViewFragment.getContext()).clearBackStack();
+            }
+        });
+
 
         //region List of projects
         LiveData<List<Project>> projects = taskViewModel.getAllProjects();
