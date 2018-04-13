@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -157,7 +158,11 @@ public class CreateTaskFragment extends CommonFragment {
         button22.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((MainActivity) mViewFragment.getContext()).clearBackStack();
+                BottomNavigationView navigation =  ((BottomNavigationView) (((MainActivity) mViewFragment.getContext()).findViewById(R.id.navigation)));
+                Menu menu = navigation.getMenu();
+                navigation.setSelectedItemId(R.id.navigation_projects);
+                // menu.getItem(0).setChecked(true);
+                Log.d(Constants.LOG_TAG, "Count menu = " + menu.size());
             }
         });
 
