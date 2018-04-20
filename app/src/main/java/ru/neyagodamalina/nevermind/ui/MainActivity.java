@@ -8,11 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
-import java.util.List;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
@@ -25,21 +22,6 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
     private static String PREVIOUS_FRAGMENT = "NO_FRAGMENT";
     private static String START_FRAGMENT = Constants.FRAGMENT_CREATE_TASK;
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-
-//        FragmentManager manager = getSupportFragmentManager();
-//        int count = manager.getBackStackEntryCount();
-//        if (count > 0) {
-//            String currentFragmentTag = manager.getBackStackEntryAt(count - 1).getName();
-//            CURRENT_FRAGMENT = currentFragmentTag;
-//        }
-//        else CURRENT_FRAGMENT = START_FRAGMENT;
-        CURRENT_FRAGMENT = PREVIOUS_FRAGMENT;
-        updateNavigationBarState(CURRENT_FRAGMENT);
-        logBackStack();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
 
 
-    boolean isFragmentInBackStack(String tagFragment){
+    boolean isTransactionInBackStack(String tagFragment){
         FragmentManager manager = getSupportFragmentManager();
         int count = manager.getBackStackEntryCount();
         int n = 0;
@@ -110,21 +92,30 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
         if (CURRENT_FRAGMENT.equals(tagFragment)) return;
 
-        Fragment fragment = createFragmentByTag(tagFragment);
+        //logBackStack();
 
-        //Log.i(Constants.LOG_TAG, getSupportFragmentManager().findFragmentByTag(Constants.FRAGMENT_LIST_TASKS).toString());
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        Fragment fragment = manager.findFragmentByTag(tagFragment);
+        if (fragment == null) {
+            fragment = createFragmentByTag(tagFragment);
+            transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
+                    .replace(R.id.fragment_container, fragment, tagFragment)
+                    //.addToBackStack(tagFragment)
+                    .commit();
+        }
+        else{
+            transaction.attach(fragment);
+        }
 
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager()
-                .beginTransaction()
-                .setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
-                .replace(R.id.fragment_container, fragment, tagFragment);
+//        Fragment currentFragment = manager.getPrimaryNavigationFragment();
+//        if (currentFragment != null) {
+//            transaction.detach(currentFragment);
+//        }
 
-
-        //String transactionName = CURRENT_FRAGMENT + "->" + tagFragment;
-        if (!isFragmentInBackStack(tagFragment)  && !tagFragment.equals(START_FRAGMENT))
-            fragmentTransaction.addToBackStack(tagFragment);
-
-        fragmentTransaction.commit();
+//        transaction.setPrimaryNavigationFragment(fragment);
+//        transaction.setReorderingAllowed(true);
+//        transaction.commit();
 
         PREVIOUS_FRAGMENT = CURRENT_FRAGMENT;
         CURRENT_FRAGMENT = tagFragment;
@@ -133,6 +124,25 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
         logBackStack();
 
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+
+        FragmentManager manager = getSupportFragmentManager();
+        int count = manager.getBackStackEntryCount();
+        CURRENT_FRAGMENT = PREVIOUS_FRAGMENT;
+
+        if (count > 0) {
+            String currentFragmentTag = manager.getBackStackEntryAt(count - 1).getName();
+            PREVIOUS_FRAGMENT = currentFragmentTag;
+        }
+        else PREVIOUS_FRAGMENT = START_FRAGMENT;
+
+        updateNavigationBarState(CURRENT_FRAGMENT);
+        logBackStack();
     }
 
     private void updateNavigationBarState(String tagFragment){
@@ -187,7 +197,8 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
             Log.i(Constants.LOG_TAG, "Back stack\t" + manager.getBackStackEntryAt(i).getId() + "\t" + manager.getBackStackEntryAt(i).getName());
         }
 
-        Log.i(Constants.LOG_TAG,"--------------------" + CURRENT_FRAGMENT);
+        //Log.i(Constants.LOG_TAG,"-------------" + PREVIOUS_FRAGMENT);
+        Log.i(Constants.LOG_TAG,"-------------" + CURRENT_FRAGMENT);
 
     }
 
