@@ -11,7 +11,7 @@ import java.util.concurrent.Executors;
 
 import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.Task;
-import ru.neyagodamalina.nevermind.repository.TaskRepository;
+import ru.neyagodamalina.nevermind.repository.NMRepository;
 
 /**
  * Created by developer on 07.03.2018.
@@ -19,7 +19,7 @@ import ru.neyagodamalina.nevermind.repository.TaskRepository;
 
 public class TaskViewModel extends AndroidViewModel {
 
-    private TaskRepository taskRepository = new TaskRepository(this.getApplication());
+    private NMRepository NMRepository = new NMRepository(this.getApplication());
     private final Executor executor = Executors.newFixedThreadPool(1);
 
     public TaskViewModel(@NonNull Application application) {
@@ -30,7 +30,7 @@ public class TaskViewModel extends AndroidViewModel {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                taskRepository.addTask(task);
+                NMRepository.addTask(task);
             }
         });
     }
@@ -39,13 +39,13 @@ public class TaskViewModel extends AndroidViewModel {
         executor.execute(new Runnable() {
             @Override
             public void run() {
-                taskRepository.addProject(project);
+                NMRepository.addProject(project);
             }
         });
     }
 
     public LiveData<List<Project>> getAllProjects(){
-        return taskRepository.getAllProjects();
+        return NMRepository.getAllProjects();
     }
 
 }

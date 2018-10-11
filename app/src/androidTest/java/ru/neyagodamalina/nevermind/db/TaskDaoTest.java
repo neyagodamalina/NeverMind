@@ -9,9 +9,11 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 
 import java.util.List;
+import static org.junit.Assert.assertEquals;
 
 
-import ru.neyagodamalina.nevermind.CommonConnectDatabase;
+import ru.neyagodamalina.nevermind.InitDatabaseForTest;
+import ru.neyagodamalina.nevermind.LiveDataTestUtil;
 
 import static org.mockito.Mockito.verify;
 
@@ -20,30 +22,24 @@ import static org.mockito.Mockito.verify;
  */
 
 @RunWith(AndroidJUnit4.class)
-public class TaskDaoTest extends CommonConnectDatabase {
-
-    @Mock
-    private Observer<List<Task>> observer;
+public class TaskDaoTest extends InitDatabaseForTest {
 
 
     @Test
     public void insert3Tasks() throws Exception {
 
-        LiveData<List<Task>> liveDataTasks = database.getTaskDao().selectAllTasks();
-        liveDataTasks.observeForever(observer);
+        LiveData<List<Task>> tasks = mTaskDao.selectAllTasks();
 
         Task task1 = new Task("task 1");
         Task task2 = new Task("task 2");
         Task task3 = new Task("task 3");
 
 
-        database.getTaskDao().insertTask(task1);
-        database.getTaskDao().insertTask(task2);
-        database.getTaskDao().insertTask(task3);
+        mTaskDao.insertTask(task1);
+        mTaskDao.insertTask(task2);
+        mTaskDao.insertTask(task3);
+        assertEquals(3, LiveDataTestUtil.getValue(tasks).size());
 
-        Thread.sleep(1000); // необходимо, чтобы observer получил обновленные данные
-
-        verify(observer).onChanged(liveDataTasks.getValue());
     }
 
 

@@ -1,5 +1,7 @@
 package ru.neyagodamalina.nevermind.ui;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
@@ -8,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.BottomNavigationView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -27,7 +28,7 @@ import java.util.concurrent.Executors;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.Task;
-import ru.neyagodamalina.nevermind.repository.TaskRepository;
+import ru.neyagodamalina.nevermind.repository.NMRepository;
 import ru.neyagodamalina.nevermind.util.Constants;
 import ru.neyagodamalina.nevermind.viewmodel.TaskViewModel;
 
@@ -99,8 +100,8 @@ public class CreateTaskFragment extends CommonFragment {
                 Executors.newSingleThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        TaskRepository taskRepository = new TaskRepository(getContext());
-                        taskRepository.deleteAllProjects();
+                        NMRepository NMRepository = new NMRepository(getContext());
+                        NMRepository.deleteAllProjects();
                     }
                 });
                 Toast.makeText(getContext(), "Deleted all projects from database.", Toast.LENGTH_LONG).show();
@@ -158,11 +159,11 @@ public class CreateTaskFragment extends CommonFragment {
         button22.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                BottomNavigationView navigation =  ((BottomNavigationView) (((MainActivity) mViewFragment.getContext()).findViewById(R.id.navigation)));
-                Menu menu = navigation.getMenu();
-                navigation.setSelectedItemId(R.id.navigation_projects);
-                // menu.getItem(0).setChecked(true);
-                Log.d(Constants.LOG_TAG, "Count menu = " + menu.size());
+                Activity activity = getActivity();
+                FragmentManager manager = activity.getFragmentManager();
+                manager.popBackStackImmediate();
+                //manager.popBackStack(Constants.FRAGMENT_LIST_PROJECTS, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                ((MainActivity) activity).logBackStack();
             }
         });
 

@@ -18,23 +18,21 @@ import ru.neyagodamalina.nevermind.util.Constants;
  * Created by developer on 05.03.2018.
  */
 
-public class TaskRepository {
+public class NMRepository {
     private final ProjectDao projectDao;
     private final TaskDao taskDao;
     private final AppDatabase database;
     private Context context;
 
-    public TaskRepository(Context context){
+    public NMRepository(Context context){
         this.context = context;
-        this.database = AppDatabase.getDatabase(context);
+        this.database = AppDatabase.getInstance(context);
         projectDao = database.getProjectDao();
         taskDao = database.getTaskDao();
     }
 
     public void deleteAllProjects(){
         projectDao.deleteAllProjects();
-        // init add the default project. It exists always.
-        AppDatabase.init(context);
     }
 
     public void addTask(Task task){

@@ -1,5 +1,6 @@
 package ru.neyagodamalina.nevermind.db;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
@@ -7,8 +8,11 @@ import android.arch.persistence.room.RoomDatabase;
 import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
+import java.util.Iterator;
+import java.util.List;
 import java.util.concurrent.Executors;
 
 import ru.neyagodamalina.nevermind.R;
@@ -18,57 +22,98 @@ import ru.neyagodamalina.nevermind.util.Constants;
 
 /**
  * Created by developer on 08.11.2017.
+ * AppDatabase is production database on the file never_mind_db
  */
 
 @Database(entities = {Slot.class, Task.class, Project.class}, version = 1, exportSchema = true)
 public abstract class AppDatabase extends RoomDatabase {
-    private static AppDatabase INSTANCE;
 
+    @VisibleForTesting
+    public static final String DATABASE_NAME = "never_mind_db";
 
-    public abstract SlotDao getSlotDao();
+    private static AppDatabase sInstance;
 
-    public abstract TaskDao getTaskDao();
-
-    public abstract ProjectDao getProjectDao();
+    public abstract SlotDao     getSlotDao();
+    public abstract TaskDao     getTaskDao();
+    public abstract ProjectDao  getProjectDao();
 
     private static Context context;
 
-    public static AppDatabase getDatabase(Context context) {
+    public static AppDatabase getInstance(final Context context) {
+        if (sInstance == null) {
+            synchronized (AppDatabase.class) {
+                if (sInstance == null) {
+                    sInstance = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, DATABASE_NAME).build();
+                    Log.d(Constants.LOG_TAG, "Database has builded.");
+//                    sInstance = buildDatabase(context.getApplicationContext(), executors);
+//                    sInstance.updateDatabaseCreated(context.getApplicationContext());
+                }
+            }
+        }
+        return sInstance;
+    }
 
-        AppDatabase.context = context;
-        if ((INSTANCE == null) || (!INSTANCE.isOpen())) {
-            Log.d(Constants.LOG_TAG, "Build database");
-            INSTANCE =
-                    Room.databaseBuilder(context, AppDatabase.class, "never_mind_db")
-                            //Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class)
-                            // To simplify the exercise, allow queries on the main thread.
-                            // Don't do this on a real app!
-                            //.allowMainThreadQueries()
-                            //   .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12)
-                            // recreate the database if necessary
+    public synchronized static AppDatabase getInstanceForTest(final Context context) {
+        if ((sInstance == null) || (!sInstance.isOpen())) {
+            AppDatabase.context = context;
+                if ((sInstance == null) || ((sInstance != null) && (!sInstance.isOpen()))) {
+                    sInstance = Room.inMemoryDatabaseBuilder(AppDatabase.context, AppDatabase.class)
+                            .addCallback(dbCallback)
                             .build();
+                    Log.d(Constants.LOG_TAG, "Database for test has builded.");
+                }
+            }
+        return sInstance;
+    }
 
-            // Insert default project, if it doesn't exist.
-            Executors.newSingleThreadExecutor().execute(new Runnable() {
+    /**
+     * Insert first default data into database
+     */
+    private static RoomDatabase.Callback dbCallback = new RoomDatabase.Callback() {
+        public void onCreate(SupportSQLiteDatabase db) {
+            super.onCreate(db);
+            Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                 @Override
                 public void run() {
-                    if (INSTANCE.getProjectDao().selectDefaultProject() == null)
-                        init(AppDatabase.context);
+                    insertDefaultData(AppDatabase.context);
                 }
             });
         }
+    };
 
-        return INSTANCE;
+    private static void insertDefaultData(Context context) {
+        Project defaultProject = new Project(1, context.getResources().getString(R.string.name_default_project), 0, 0);
+        long projectId = sInstance.getProjectDao().insertProject(defaultProject);
+        Log.d(Constants.LOG_TAG, "Populate database. Insert default data inserted Project with id = " + projectId);
     }
-
-    public static void destroyInstance() {
-        INSTANCE = null;
-    }
-
-    public static void init(Context context) {
-        INSTANCE.getProjectDao().insertProject(new Project(1, context.getResources().getString(R.string.name_default_project), 0, 0));
-
-    }
-
 
 }
+
+//    public static NMDatabase getDatabase(Context context) {
+//        if ((database == null) || (!database.isOpen())) {
+//            Log.d(Constants.LOG_TAG, "Database for app has initiated - " + AppDatabase.class.getName());
+//            database =
+//                    Room.databaseBuilder(context, NMDatabase.class, "never_mind_db")
+//                            //Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class)
+//                            // To simplify the exercise, allow queries on the main thread.
+//                            // Don't do this on a real app!
+//                            //.allowMainThreadQueries()
+//                            //   .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4, MIGRATION_4_5, MIGRATION_5_6, MIGRATION_6_7, MIGRATION_7_8, MIGRATION_8_9, MIGRATION_9_10, MIGRATION_10_11, MIGRATION_11_12)
+//                            // recreate the database if necessary
+//                            .build();
+//
+//            // Insert default project, if it doesn't exist.
+//            Executors.newSingleThreadExecutor().execute(new Runnable() {
+//                @Override
+//                public void run() {
+//                    if (database.getProjectDao().selectDefaultProject() == null)
+//                        init(AppDatabase.context);
+//                }
+// getProjectDao().insertProject(new Project(1, context.getResources().getString(R.string.name_default_project), 0, 0));
+//            });
+//        }
+//
+//        return database;
+//    }
+
+

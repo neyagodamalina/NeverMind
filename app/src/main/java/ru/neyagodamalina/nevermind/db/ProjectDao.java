@@ -18,17 +18,20 @@ public interface ProjectDao {
     @Insert
     public long insertProject(Project project);
 
-    @Query("delete from project")
+    @Query("delete from project where id <> 1")
     public void deleteAllProjects();
 
     @Delete
-    public void deleteProject(Project project);
+    public int deleteProject(Project project);
 
     @Query("select * from project order by title")
     public LiveData<List<Project>> selectAllProjects();
 
     @Query("select * from project where id = 1")
     public Project selectDefaultProject();
+
+    @Query("select * from project where id = :id")
+    public Project selectProjectById(long id);
 
 
 }

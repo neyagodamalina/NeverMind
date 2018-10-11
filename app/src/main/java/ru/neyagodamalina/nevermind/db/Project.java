@@ -32,4 +32,9 @@ public class Project extends Duration {
     }
 
     public long getId(){return this.id;}
+
+    @Override
+    public String toString() {
+        return "Project (id,name) = (" + this.getId() + "," + this.title + ")\t" + super.toString();
+    }
 }

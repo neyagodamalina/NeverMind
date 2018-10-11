@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import ru.neyagodamalina.nevermind.R;
@@ -31,6 +33,35 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+        Button btLogBackStack = findViewById(R.id.logBackStack);
+        btLogBackStack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logBackStack();
+            }
+        });
+
+        Button btClearBackStack = findViewById(R.id.clearBackStack);
+        btClearBackStack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager manager = getSupportFragmentManager();
+                Fragment fragmentListProjects = createFragmentByTag(Constants.FRAGMENT_LIST_PROJECTS);
+                Fragment fragmentListTasks = createFragmentByTag(Constants.FRAGMENT_LIST_TASKS);
+                manager.beginTransaction()
+                        .replace(R.id.fragment_container, fragmentListProjects, Constants.FRAGMENT_LIST_PROJECTS)
+                        .addToBackStack(Constants.FRAGMENT_LIST_PROJECTS)
+                        .replace(R.id.fragment_container, fragmentListTasks, Constants.FRAGMENT_LIST_TASKS)
+                        .addToBackStack(Constants.FRAGMENT_LIST_TASKS)
+                        .commit();
+
+                // manager.popBackStack(Constants.FRAGMENT_LIST_PROJECTS, 0);
+                // updateNavigationBarState(Constants.FRAGMENT_LIST_PROJECTS);
+                logBackStack();
+            }
+        });
+
 
 
 //        Fragment privacyFragment = createFragmentByTag(Constants.FRAGMENT_LIST_TASKS);
@@ -92,21 +123,20 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
         if (CURRENT_FRAGMENT.equals(tagFragment)) return;
 
-        //logBackStack();
 
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
-        Fragment fragment = manager.findFragmentByTag(tagFragment);
-        if (fragment == null) {
-            fragment = createFragmentByTag(tagFragment);
+//        Fragment fragment = manager.findFragmentByTag(tagFragment);
+//        if (fragment == null) {
+        Fragment  fragment = createFragmentByTag(tagFragment);
             transaction.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out)
                     .replace(R.id.fragment_container, fragment, tagFragment)
-                    //.addToBackStack(tagFragment)
+                    .addToBackStack(tagFragment)
                     .commit();
-        }
-        else{
-            transaction.attach(fragment);
-        }
+//        }
+//        else{
+//            transaction.attach(fragment);
+//        }
 
 //        Fragment currentFragment = manager.getPrimaryNavigationFragment();
 //        if (currentFragment != null) {
@@ -197,8 +227,7 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
             Log.i(Constants.LOG_TAG, "Back stack\t" + manager.getBackStackEntryAt(i).getId() + "\t" + manager.getBackStackEntryAt(i).getName());
         }
 
-        //Log.i(Constants.LOG_TAG,"-------------" + PREVIOUS_FRAGMENT);
-        Log.i(Constants.LOG_TAG,"-------------" + CURRENT_FRAGMENT);
+        Log.i(Constants.LOG_TAG,PREVIOUS_FRAGMENT + " -> " + CURRENT_FRAGMENT);
 
     }
 

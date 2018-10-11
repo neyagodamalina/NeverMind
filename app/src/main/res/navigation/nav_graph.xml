@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/createTaskFragment">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="ru.neyagodamalina.nevermind.ui.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main" />
+    <fragment
+        android:id="@+id/createTaskFragment"
+        android:name="ru.neyagodamalina.nevermind.ui.CreateTaskFragment"
+        android:label="fragment_create_task"
+        tools:layout="@layout/fragment_create_task" ></fragment>
+    <fragment
+        android:id="@+id/listTasksFragment"
+        android:name="ru.neyagodamalina.nevermind.ui.ListTasksFragment"
+        android:label="fragment_list_tasks"
+        tools:layout="@layout/fragment_list_tasks" />
+</navigation>

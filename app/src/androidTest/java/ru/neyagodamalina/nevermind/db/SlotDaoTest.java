@@ -8,7 +8,7 @@ import org.junit.runner.RunWith;
 import java.util.Calendar;
 import java.util.List;
 
-import ru.neyagodamalina.nevermind.CommonConnectDatabase;
+import ru.neyagodamalina.nevermind.InitDatabaseForTest;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,13 +17,13 @@ import static org.junit.Assert.assertEquals;
  * Created by developer on 08.11.2017.
  */
 @RunWith(AndroidJUnit4.class)
-public class SlotDaoTest extends CommonConnectDatabase {
+public class SlotDaoTest extends InitDatabaseForTest {
 
     @Test
     public void insert2SlotsFor1Task() throws Exception {
 
         Task task = new Task("task insert2SlotsFor1Task");
-        long taskId = database.getTaskDao().insertTask(task);
+        long taskId = mTaskDao.insertTask(task);
 
         Calendar start = Calendar.getInstance();
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
@@ -39,10 +39,10 @@ public class SlotDaoTest extends CommonConnectDatabase {
 
         Slot slot2 = new Slot(taskId, start.getTimeInMillis(), stop.getTimeInMillis());
 
-        database.getSlotDao().insertSlot(slot1);
-        database.getSlotDao().insertSlot(slot2);
+        mSlotDao.insertSlot(slot1);
+        mSlotDao.insertSlot(slot2);
 
-        List<Slot> slots = database.getSlotDao().selectSlotsForTask(taskId);
+        List<Slot> slots = mSlotDao.selectSlotsForTask(taskId);
         assertEquals(2, slots.size());
     }
 

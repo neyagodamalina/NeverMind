@@ -40,6 +40,7 @@ public class Task extends Duration {
         this.projectId = projectId;
     }
 
+    // Default project with id = 1 must exists.
     @Ignore
     public Task(String text) {
         this(0, 1, text, 0, 0);

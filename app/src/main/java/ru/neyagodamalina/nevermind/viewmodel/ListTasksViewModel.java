@@ -6,13 +6,9 @@ import android.arch.lifecycle.LiveData;
 import android.support.annotation.NonNull;
 
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
-import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.repository.ListTasksRepository;
-import ru.neyagodamalina.nevermind.repository.TaskRepository;
 
 /**
  * Created by developer on 14.03.2018.
