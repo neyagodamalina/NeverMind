@@ -3,21 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/createTaskFragment">
+    app:startDestination="@id/navigation_new_task">
 
-    <activity
-        android:id="@+id/mainActivity"
-        android:name="ru.neyagodamalina.nevermind.ui.MainActivity"
-        android:label="activity_main"
-        tools:layout="@layout/activity_main" />
     <fragment
-        android:id="@+id/createTaskFragment"
+        android:id="@+id/navigation_new_task"
         android:name="ru.neyagodamalina.nevermind.ui.CreateTaskFragment"
-        android:label="fragment_create_task"
-        tools:layout="@layout/fragment_create_task" ></fragment>
+        android:label="navigation_new_task" />
     <fragment
-        android:id="@+id/listTasksFragment"
+        android:id="@+id/navigation_list_tasks"
         android:name="ru.neyagodamalina.nevermind.ui.ListTasksFragment"
         android:label="fragment_list_tasks"
         tools:layout="@layout/fragment_list_tasks" />
+    <fragment
+        android:id="@+id/navigation_list_projects"
+        android:name="ru.neyagodamalina.nevermind.ui.ListProjectsFragment"
+        android:label="fragment_list_projects"
+        tools:layout="@layout/fragment_list_projects" />
 </navigation>

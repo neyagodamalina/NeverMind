@@ -83,8 +83,8 @@ public class CreateTaskFragment extends CommonFragment {
             public void onClick(View view) {
                 Log.d(Constants.LOG_TAG, "Add task without alarm.");
                 addTask();
-                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.navigation);
-                bottomNavigationView.setSelectedItemId(R.id.navigation_tasks);
+                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_navigation_view);
+                bottomNavigationView.setSelectedItemId(R.id.navigation_list_tasks);
                 Toast.makeText(view.getContext(), R.string.toast_task_added, Toast.LENGTH_LONG).show();
             }
         });
@@ -150,7 +150,7 @@ public class CreateTaskFragment extends CommonFragment {
             @Override
             public void onClick(View view) {
                 Log.d(Constants.LOG_TAG, mViewFragment.getContext().toString());
-                ((MainActivity) mViewFragment.getContext()).logBackStack();
+//                ((MainActivity) mViewFragment.getContext()).logBackStack();
             }
         });
 
@@ -163,7 +163,7 @@ public class CreateTaskFragment extends CommonFragment {
                 FragmentManager manager = activity.getFragmentManager();
                 manager.popBackStackImmediate();
                 //manager.popBackStack(Constants.FRAGMENT_LIST_PROJECTS, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                ((MainActivity) activity).logBackStack();
+//                ((MainActivity) activity).logBackStack();
             }
         });
 

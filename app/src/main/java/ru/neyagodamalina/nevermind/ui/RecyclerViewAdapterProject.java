@@ -7,19 +7,30 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.List;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import ru.neyagodamalina.nevermind.R;
+import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.ui.ListTasksFragment.OnListFragmentInteractionListener;
 //import ru.neyagodamalina.nevermind.fragment.dummy.DummyContent.DummyItem;
 
 import java.util.List;
 
-public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerViewAdapter.ViewHolder> {
+import ru.neyagodamalina.nevermind.R;
+import ru.neyagodamalina.nevermind.db.Task;
 
-    private final List<Task> mValues;
-    private final OnListFragmentInteractionListener mListener;
+public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerViewAdapterProject.ViewHolder>{
+    private final List<Project> mValues;
+    private final ListProjectsFragment.OnListFragmentInteractionListener mListener;
 
-    public TaskRecyclerViewAdapter(List<Task> items, OnListFragmentInteractionListener listener) {
+    public RecyclerViewAdapterProject(List<Project> items, ListProjectsFragment.OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -29,11 +40,11 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
 
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.fragment_task_item, parent, false);
-        return new ViewHolder(view);
+        return new RecyclerViewAdapterProject.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerViewAdapterProject.ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
         holder.mContentView.setText(mValues.get(position).getTitle());
@@ -61,7 +72,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public Task mItem;
+        public Project mItem;
 
         public ViewHolder(View view) {
             super(view);
@@ -75,4 +86,7 @@ public class TaskRecyclerViewAdapter extends RecyclerView.Adapter<TaskRecyclerVi
             return super.toString() + " '" + mContentView.getText() + "'";
         }
     }
+
 }
+
+

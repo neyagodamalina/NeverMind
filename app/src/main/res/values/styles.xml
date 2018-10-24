@@ -1,4 +1,4 @@
-<resources xmlns:android="http://schemas.android.com/tools">
+<resources>
 
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light">
@@ -8,6 +8,22 @@
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="windowNoTitle">true</item>
 
+        <!--  ActionMode above toolbar -->
+        <item name="windowActionModeOverlay">true</item>
+        <item name="actionModeStyle">@style/ActionModeToolbar</item>
+        <item name="actionModeCloseDrawable">@drawable/ic_arrow_back_white_24dp</item>
+        <item name="actionModeBackground">@color/colorActionModeToolbarBackground</item>
+
+
+    </style>
+
+
+    <style name="ActionModeToolbar" parent="@style/Widget.AppCompat.ActionMode">
+        <item name="titleTextStyle">@style/TitleActionModeTextStyle</item>
+    </style>
+
+    <style name="TitleActionModeTextStyle">
+        <item name="android:textColor">@color/colorTitle</item>
     </style>
 
 </resources>

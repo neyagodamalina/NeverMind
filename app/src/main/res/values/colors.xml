@@ -3,4 +3,6 @@
     <color name="colorPrimary">#000000</color>
     <color name="colorPrimaryDark">#464646</color>
     <color name="colorAccent">#0000FF</color>
+    <color name="colorActionModeToolbarBackground">#000000</color>
+    <color name="colorTitle">#FFFFFF</color>
 </resources>

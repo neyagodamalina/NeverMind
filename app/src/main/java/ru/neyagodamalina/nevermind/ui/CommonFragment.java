@@ -23,10 +23,10 @@ import ru.neyagodamalina.nevermind.util.Constants;
 
 public class CommonFragment extends Fragment {
     protected Calendar createCalendar = Calendar.getInstance();
-    private static DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+    private static DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd  HH:mm:ss");
 
     public String getName(){
-        return this.getClass().getSimpleName() + dateFormat.format(new Date(createCalendar.getTimeInMillis()));
+        return this.getClass().getSimpleName() + "\t" +  dateFormat.format(new Date(createCalendar.getTimeInMillis()));
     }
 
     @Override
@@ -40,6 +40,7 @@ public class CommonFragment extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(Constants.LOG_TAG, this.getName() + "\tonCreate");
     }
+
 
     @Nullable
     @Override

@@ -6,6 +6,7 @@ import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 
 import ru.neyagodamalina.nevermind.util.Duration;
+import ru.neyagodamalina.nevermind.util.StringCutter;
 
 /**
  * Created by developer on 05.09.2017.
@@ -23,7 +24,7 @@ public class Project extends Duration {
         super(timeStart, timeStop);
         this.id = id;
         this.text = text;
-        this.title = text.length() > 20 ? text.substring(0, 20) : text;
+        this.title = StringCutter.cut(text);
     }
 
     @Ignore
@@ -36,5 +37,10 @@ public class Project extends Duration {
     @Override
     public String toString() {
         return "Project (id,name) = (" + this.getId() + "," + this.title + ")\t" + super.toString();
+    }
+
+    @Ignore
+    public String getTitle() {
+        return title;
     }
 }
