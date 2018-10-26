@@ -3,7 +3,6 @@ package ru.neyagodamalina.nevermind.ui;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +11,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -30,6 +32,12 @@ public class ListTasksFragment extends CommonFragment {
     private static RecyclerViewAdapterTask adapter;
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true); // Add items menu for list of task
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_list_tasks, container, false);
@@ -38,9 +46,10 @@ public class ListTasksFragment extends CommonFragment {
         MainActivity mainActivity = (MainActivity) view.getContext();
         mainActivity.setCurrentFragment(this);
 
+        recyclerView = view.findViewById(R.id.navigation_list_tasks);
+
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            recyclerView = (RecyclerView) view;
+        if (recyclerView instanceof RecyclerView) {
             recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
 
             LiveData<List<Task>> liveDataTasks = listTasksViewModel.getAllTasks();
@@ -60,6 +69,31 @@ public class ListTasksFragment extends CommonFragment {
 
         return view;
     }
+
+    /**
+     * Add items menu for list of task
+     */
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.toolbar_list_tasks, menu);
+    }
+
+    /**
+     * Press menu item on main toolbar only action for this fragment.
+     */
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_add_task:
+                Toast.makeText(this.getActivity(),"Press add task", Toast.LENGTH_LONG).show();
+                return true;
+        }
+
+        return false;
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated

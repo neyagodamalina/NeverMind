@@ -6,12 +6,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.view.ActionMode;
 import android.util.Log;
-import android.util.SparseBooleanArray;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.neyagodamalina.nevermind.R;
@@ -36,7 +33,7 @@ public class Toolbar_ActionMode_Callback implements ActionMode.Callback {
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
-        mode.getMenuInflater().inflate(R.menu.context_action_menu_task, menu);//Inflate the menu over action mode
+        mode.getMenuInflater().inflate(R.menu.context_action_menu_list_tasks, menu);//Inflate the menu over action mode
         return true;
     }
 

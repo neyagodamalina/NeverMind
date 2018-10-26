@@ -13,6 +13,7 @@
 
     <item
         android:id="@+id/navigation_new_task"
+        android:layout_height="wrap_content"
         android:icon="@drawable/ic_add_task_24dp"
         android:title="@string/title_new_task" />
 

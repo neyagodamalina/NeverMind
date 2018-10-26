@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -28,7 +30,12 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         setContentView(R.layout.activity_main);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         NavHostFragment hostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
 
@@ -71,7 +78,31 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         Toast.makeText(this, "onListFragmentInteraction id = " + item.getId(), Toast.LENGTH_LONG);
     }
 
+    /**
+     * Create main toolbar menu
+     */
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar_main, menu);
+        //return super.onCreateOptionsMenu(menu);
+        return true;
+    }
+
+    /**
+     * Press menu item on main toolbar
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.action_settings:
+                Toast.makeText(this,"Press settings", Toast.LENGTH_LONG).show();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item); // important line
+    }
 
     public void setCurrentFragment(Fragment fragment){
         this.fragment = fragment;

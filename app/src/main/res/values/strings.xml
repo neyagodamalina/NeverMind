@@ -31,6 +31,8 @@
     <string name="delete">Delete</string>
     <string name="selected">selected</string>
 
+    <!--Toolbar-->
+    <string name="add">Add</string>
 
 
     <string-array name="projects_delete_me">

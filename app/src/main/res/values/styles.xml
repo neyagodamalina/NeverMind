@@ -23,7 +23,7 @@
     </style>
 
     <style name="TitleActionModeTextStyle">
-        <item name="android:textColor">@color/colorTitle</item>
+        <item name="android:textColor">@color/colorTitleToolbar</item>
     </style>
 
 </resources>
