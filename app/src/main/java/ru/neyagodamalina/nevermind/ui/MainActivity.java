@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         int id = item.getItemId();
         switch (id) {
             case R.id.action_settings:
-                Toast.makeText(this,"Press settings", Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"Press settings", Toast.LENGTH_SHORT).show();
                 return true;
         }
 

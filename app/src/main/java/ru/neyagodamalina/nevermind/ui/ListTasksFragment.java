@@ -79,7 +79,7 @@ public class ListTasksFragment extends CommonFragment {
     }
 
     /**
-     * Press menu item on main toolbar only action for this fragment.
+     * Press menu item on main toolbar, only action for this fragment.
      */
 
     @Override
@@ -87,7 +87,7 @@ public class ListTasksFragment extends CommonFragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_add_task:
-                Toast.makeText(this.getActivity(),"Press add task", Toast.LENGTH_LONG).show();
+                Toast.makeText(this.getActivity(),"Press add task", Toast.LENGTH_SHORT).show();
                 return true;
         }
 
