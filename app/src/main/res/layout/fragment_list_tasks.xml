@@ -7,6 +7,5 @@
     android:layout_height="match_parent"
     android:layout_marginLeft="2dp"
     android:layout_marginRight="2dp"
-    tools:context="ru.neyagodamalina.nevermind.ui.ListTasksFragment"
-    tools:listitem="@layout/fragment_task_item" />
+    tools:context="ru.neyagodamalina.nevermind.ui.ListTasksFragment" />
 

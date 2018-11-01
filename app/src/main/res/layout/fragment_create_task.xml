@@ -3,14 +3,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical">
-    />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <TextView
             android:id="@+id/tvTitleNewTask"
@@ -20,20 +18,20 @@
             android:layout_alignParentTop="true"
             android:text="@string/new_task"
             android:textAppearance="@android:style/TextAppearance.Material.Large" />
+
         <Spinner
             android:id="@+id/spChooseProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvTitleNewTask"
-            />
+            android:layout_below="@id/tvTitleNewTask" />
 
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
+            android:orientation="vertical"
 
             >
 
@@ -44,8 +42,7 @@
                 android:layout_gravity="center"
                 android:alpha="0.5"
                 android:text="@string/remind_question"
-                android:textAppearance="@android:style/TextAppearance.Material.Small"
-                />
+                android:textAppearance="@android:style/TextAppearance.Material.Small" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -57,21 +54,18 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_alignParentLeft="true"
-                    android:background="@drawable/ic_add_alarm"
-                    />
+                    android:background="@drawable/ic_add_alarm" />
 
                 <Button
                     android:id="@+id/btCancelAlarm"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:layout_alignParentRight="true"
-                    android:background="@drawable/ic_cancel_alarm"
-                    />
+                    android:background="@drawable/ic_cancel_alarm" />
 
             </RelativeLayout>
         </LinearLayout>
     </RelativeLayout>
-
 
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -82,48 +76,53 @@
             android:id="@+id/etTask"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:background="@drawable/edit_text_style"
             android:gravity="top|start"
+            android:hint="@string/hint_create_task"
             android:inputType="textMultiLine"
             android:padding="10dp"
-            android:hint="@string/hint_create_task"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium"
-            android:background="@drawable/edit_text_style"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentStart="true">
-            <requestFocus/>
+            android:textAppearance="@android:style/TextAppearance.Material.Medium">
+
+            <requestFocus />
         </EditText>
 
 
-
-
-        <Button
-            android:id="@+id/btPhoto"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/ic_create_photo"
-            android:layout_margin="10dp"/>
-
-        <Button
-            android:id="@+id/btList"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentStart="true"
-            android:background="@drawable/ic_create_list"
-            android:layout_margin="10dp"/>
-
-
-        <Button
-            android:id="@+id/btCleanTaskText"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_alignParentRight="true"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@drawable/ic_clear_text"
-            android:layout_margin="10dp"
-            />
+            android:layout_alignParentRight="true"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btCleanTaskText"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_clear_text" />
+
+            <Button
+                android:id="@+id/btPhoto"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_create_photo" />
+
+            <Button
+                android:id="@+id/btList"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="10dp"
+                android:background="@drawable/ic_create_list" />
+
+        </LinearLayout>
+
 
         <Button
             android:id="@+id/buttonTest11"
@@ -139,8 +138,8 @@
             android:id="@+id/buttonTest22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/buttonTest11"
             android:layout_below="@+id/buttonTest11"
+            android:layout_alignStart="@+id/buttonTest11"
             android:layout_marginTop="49dp"
             android:text="clearBackStack" />
 

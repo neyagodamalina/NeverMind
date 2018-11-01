@@ -1,22 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_margin="5dp"
+    android:padding="5dp"
+    android:background="@color/colorMainBackground">
 
-    <TextView
-        android:id="@+id/id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textColor="@color/colorPrimary"
-        android:textAppearance="?attr/textAppearanceListItem" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/content"
-        android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/task_date_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/task_date_create"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01.10.18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="|" />
+
+            <TextView
+                android:id="@+id/task_date_last"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="04.10.18" />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_notifications_off_black_24dp" />
+
+        <TextView
+            android:id="@+id/task_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="1y 11m 30d 23h 59m 59s" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:textColor="@color/colorPrimary"
-        android:textAppearance="?attr/textAppearanceListItem" />
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/task_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/task_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Build house, make all people happy"
+            android:textAppearance="@android:style/TextAppearance.Material.Large"
+            android:visibility="visible"/>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/task_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/round_photo" />
+
+        <TextView
+            android:id="@+id/task_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$1250"
+            android:layout_alignBottom="@id/btPlay"
+            android:layout_centerInParent="true"
+            />
+        <Button
+            android:id="@+id/btPlay"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_play_black_64dp" />
+    </RelativeLayout>
 </LinearLayout>
+

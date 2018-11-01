@@ -5,16 +5,10 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ru.neyagodamalina.nevermind.ui.MainActivity">
-
-<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
-    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
-    <!--xmlns:tools="http://schemas.android.com/tools"-->
-    <!--android:id="@+id/container"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:orientation="vertical"-->
-    <!--tools:context="ru.neyagodamalina.nevermind.ui.MainActivity">-->
+    android:layout_weight="1"
+    tools:context="ru.neyagodamalina.nevermind.ui.MainActivity"
+    android:background="@drawable/background"
+    >
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -51,8 +45,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true"
         android:background="?android:attr/windowBackground"
         app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior"
         app:menu="@menu/navigation" />
-<!--</LinearLayout>-->
+
+
 </android.support.design.widget.CoordinatorLayout>

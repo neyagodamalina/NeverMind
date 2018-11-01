@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.view.ActionMode;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
@@ -66,6 +67,11 @@ public class ListTasksFragment extends CommonFragment {
         }
 
         implementRecyclerViewClickListeners();
+
+        // Separate items in List of tasks
+//        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+//                DividerItemDecoration.VERTICAL);
+//        recyclerView.addItemDecoration(mDividerItemDecoration);
 
         return view;
     }

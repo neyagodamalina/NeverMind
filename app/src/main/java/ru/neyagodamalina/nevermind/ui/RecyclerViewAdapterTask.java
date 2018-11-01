@@ -38,7 +38,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
+        //holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
         holder.mContentView.setText(mValues.get(position).getTitle());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -69,8 +69,8 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.id);
-            mContentView = (TextView) view.findViewById(R.id.content);
+            mIdView = (TextView) view.findViewById(R.id.task_id);
+            mContentView = (TextView) view.findViewById(R.id.task_title);
         }
 
         @Override
