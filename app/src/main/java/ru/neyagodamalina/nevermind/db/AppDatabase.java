@@ -1,22 +1,16 @@
 package ru.neyagodamalina.nevermind.db;
 
-import android.arch.lifecycle.LiveData;
 import android.arch.persistence.db.SupportSQLiteDatabase;
 import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
-import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.util.Log;
 
-import java.util.Iterator;
-import java.util.List;
 import java.util.concurrent.Executors;
 
 import ru.neyagodamalina.nevermind.R;
-import ru.neyagodamalina.nevermind.util.Duration;
 import ru.neyagodamalina.nevermind.util.Constants;
 
 
@@ -25,7 +19,7 @@ import ru.neyagodamalina.nevermind.util.Constants;
  * AppDatabase is production database on the file never_mind_db
  */
 
-@Database(entities = {Slot.class, Task.class, Project.class}, version = 1, exportSchema = true)
+@Database(entities = {Slot.class, Task.class, Project.class}, version = 1, exportSchema = false)
 public abstract class AppDatabase extends RoomDatabase {
 
     @VisibleForTesting
