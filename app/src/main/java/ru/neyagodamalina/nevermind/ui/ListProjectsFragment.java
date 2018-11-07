@@ -1,13 +1,13 @@
 package ru.neyagodamalina.nevermind.ui;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +16,6 @@ import java.util.List;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Project;
-import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.viewmodel.ListProjectsViewModel;
 
 /**
@@ -31,13 +30,18 @@ public class ListProjectsFragment extends CommonFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_list_projects, container, false);
+        View mViewFragment =  inflater.inflate(R.layout.fragment_list_projects, container, false);
         ListProjectsViewModel listProjectsViewModel = ViewModelProviders.of(this).get(ListProjectsViewModel.class);
 
+        MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
+        mainActivity.setCurrentFragment(this);
+        mainActivity.setTitle(R.string.title_projects);
+
+
         // Set the adapter
-        if (view instanceof RecyclerView) {
-            Context context = view.getContext();
-            recyclerView = (RecyclerView) view;
+        if (mViewFragment instanceof RecyclerView) {
+            Context context = mViewFragment.getContext();
+            recyclerView = (RecyclerView) mViewFragment;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
             LiveData<List<Project>> liveDataProjects = listProjectsViewModel.getAllProjects();
@@ -52,7 +56,7 @@ public class ListProjectsFragment extends CommonFragment {
         }
 
 
-        return view;
+        return mViewFragment;
     }
     /**
      * This interface must be implemented by activities that contain this

@@ -1,15 +1,18 @@
 package ru.neyagodamalina.nevermind.ui;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
+
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.view.ActionMode;
-import android.support.v7.widget.DividerItemDecoration;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.view.ActionMode;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,6 +26,7 @@ import java.util.List;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
+import ru.neyagodamalina.nevermind.util.SparseBooleanArrayParcelable;
 import ru.neyagodamalina.nevermind.viewmodel.ListTasksViewModel;
 
 public class ListTasksFragment extends CommonFragment {
@@ -39,15 +43,24 @@ public class ListTasksFragment extends CommonFragment {
     }
 
     @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mActionMode != null)
+            outState.putParcelable("selectedItems", adapter.getSelectedIds());
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view =  inflater.inflate(R.layout.fragment_list_tasks, container, false);
+                             final Bundle savedInstanceState) {
+        View mViewFragment = inflater.inflate(R.layout.fragment_list_tasks, container, false);
         ListTasksViewModel listTasksViewModel = ViewModelProviders.of(this).get(ListTasksViewModel.class);
 
-        MainActivity mainActivity = (MainActivity) view.getContext();
+        MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
         mainActivity.setCurrentFragment(this);
 
-        recyclerView = view.findViewById(R.id.navigation_list_tasks);
+        mainActivity.setTitle(R.string.title_tasks);
+
+        recyclerView = mViewFragment.findViewById(R.id.navigation_list_tasks);
 
         // Set the adapter
         if (recyclerView instanceof RecyclerView) {
@@ -59,6 +72,15 @@ public class ListTasksFragment extends CommonFragment {
                         @Override
                         public void onChanged(@Nullable List<Task> tasks) {
                             adapter = new RecyclerViewAdapterTask(tasks, mListener);
+                            if (savedInstanceState != null) {
+                                SparseBooleanArrayParcelable selectedItems = savedInstanceState.getParcelable("selectedItems");
+                                if (selectedItems != null) {
+                                    adapter.setSelectedItemsIds(selectedItems);
+                                    mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode_Callback(getActivity(), adapter, tasks));
+                                    mActionMode.setTitle(String.valueOf(adapter
+                                            .getSelectedCount()) + " " + getContext().getResources().getString(R.string.selected));
+                                }
+                            }
                             recyclerView.setAdapter(adapter);
                             ListTasksFragment.tasks = tasks;
                         }
@@ -68,12 +90,7 @@ public class ListTasksFragment extends CommonFragment {
 
         implementRecyclerViewClickListeners();
 
-        // Separate items in List of tasks
-//        DividerItemDecoration mDividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-//                DividerItemDecoration.VERTICAL);
-//        recyclerView.addItemDecoration(mDividerItemDecoration);
-
-        return view;
+        return mViewFragment;
     }
 
     /**
@@ -93,7 +110,7 @@ public class ListTasksFragment extends CommonFragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_add_task:
-                Toast.makeText(this.getActivity(),"Press add task", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this.getActivity(), "Press add task", Toast.LENGTH_SHORT).show();
                 return true;
         }
 
@@ -113,6 +130,7 @@ public class ListTasksFragment extends CommonFragment {
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
         void onListFragmentInteraction(Task item);
+
     }
 
     //Implement item click and long click over recycler view
@@ -143,7 +161,7 @@ public class ListTasksFragment extends CommonFragment {
 
         if (hasCheckedItems && mActionMode == null)
             // there are some selected items, start the actionMode
-            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode_Callback(getActivity(),adapter, tasks));
+            mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode_Callback(getActivity(), adapter, tasks));
         else if (!hasCheckedItems && mActionMode != null)
             // there no selected items, finish the actionMode
             mActionMode.finish();
@@ -155,6 +173,7 @@ public class ListTasksFragment extends CommonFragment {
 
 
     }
+
     //Set action mode null after use
     public void setNullToActionMode() {
         if (mActionMode != null)

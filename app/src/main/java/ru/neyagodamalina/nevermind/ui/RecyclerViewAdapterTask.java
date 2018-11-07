@@ -1,30 +1,29 @@
 package ru.neyagodamalina.nevermind.ui;
 
-import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.util.List;
+
+import androidx.recyclerview.widget.RecyclerView;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.ui.ListTasksFragment.OnListFragmentInteractionListener;
-//import ru.neyagodamalina.nevermind.fragment.dummy.DummyContent.DummyItem;
-
-import java.util.List;
+import ru.neyagodamalina.nevermind.util.SparseBooleanArrayParcelable;
 
 public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAdapterTask.ViewHolder> {
 
     private final List<Task> mValues;
     private final OnListFragmentInteractionListener mListener;
-    private SparseBooleanArray mSelectedItemsIds;
+    private SparseBooleanArrayParcelable mSelectedItemsIds;
 
     public RecyclerViewAdapterTask(List<Task> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
-        mSelectedItemsIds = new SparseBooleanArray();
+        mSelectedItemsIds = new SparseBooleanArrayParcelable();
     }
 
     @Override
@@ -37,21 +36,30 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
+
         holder.mItem = mValues.get(position);
-        //holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
+        holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
         holder.mContentView.setText(mValues.get(position).getTitle());
 
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    // Notify the active callbacks interface (the activity, if the
-                    // fragment is attached to one) that an item has been selected.
-                    mListener.onListFragmentInteraction(holder.mItem);
-                    Toast.makeText(v.getContext(), "onClick in onBindViewHolder", Toast.LENGTH_LONG);
-                }
-            }
-        });
+
+        // Set background for selected or not selected items
+        holder.itemView
+                .setBackgroundResource(mSelectedItemsIds.get(position) ? R.drawable.item_background_selected
+                        : R.drawable.item_background);
+
+
+
+//        holder.mView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (null != mListener) {
+//                    // Notify the active callbacks interface (the activity, if the
+//                    // fragment is attached to one) that an item has been selected.
+//                    mListener.onListFragmentInteraction(holder.mItem);
+//                    Toast.makeText(v.getContext(), "onClick in onBindViewHolder", Toast.LENGTH_LONG);
+//                }
+//            }
+//        });
 
     }
 
@@ -91,7 +99,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
     //Remove selected selections
     public void removeSelection() {
-        mSelectedItemsIds = new SparseBooleanArray();
+        mSelectedItemsIds = new SparseBooleanArrayParcelable();
         notifyDataSetChanged();
     }
 
@@ -111,8 +119,13 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         return mSelectedItemsIds.size();
     }
 
+
+    public void setSelectedItemsIds(SparseBooleanArrayParcelable mSelectedItemsIds) {
+        this.mSelectedItemsIds = mSelectedItemsIds;
+    }
+
     //Return all selected ids
-    public SparseBooleanArray getSelectedIds() {
+    public SparseBooleanArrayParcelable getSelectedIds() {
         return mSelectedItemsIds;
     }
 }

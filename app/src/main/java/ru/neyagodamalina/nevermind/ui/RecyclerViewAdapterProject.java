@@ -1,6 +1,6 @@
 package ru.neyagodamalina.nevermind.ui;
 
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,23 +8,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Project;
-import ru.neyagodamalina.nevermind.db.Task;
-import ru.neyagodamalina.nevermind.ui.ListTasksFragment.OnListFragmentInteractionListener;
 //import ru.neyagodamalina.nevermind.fragment.dummy.DummyContent.DummyItem;
 
-import java.util.List;
-
-import ru.neyagodamalina.nevermind.R;
-import ru.neyagodamalina.nevermind.db.Task;
 
 public class RecyclerViewAdapterProject extends RecyclerView.Adapter<RecyclerViewAdapterProject.ViewHolder>{
     private final List<Project> mValues;

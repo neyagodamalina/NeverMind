@@ -2,12 +2,12 @@ package ru.neyagodamalina.nevermind.ui;
 
 import android.app.Activity;
 import android.app.FragmentManager;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.BottomNavigationView;
+import androidx.annotation.Nullable;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +52,11 @@ public class CreateTaskFragment extends CommonFragment {
         super.onCreateView(inflater, container, savedInstanceState);
 
         mViewFragment =  inflater.inflate(R.layout.fragment_create_task, container, false);
+
+        MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
+        mainActivity.setCurrentFragment(this);
+        mainActivity.setTitle(R.string.title_new_task);
+
 
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
 

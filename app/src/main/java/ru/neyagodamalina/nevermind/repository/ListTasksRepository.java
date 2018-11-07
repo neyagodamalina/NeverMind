@@ -1,11 +1,9 @@
 package ru.neyagodamalina.nevermind.repository;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.content.Context;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 import ru.neyagodamalina.nevermind.db.AppDatabase;
 import ru.neyagodamalina.nevermind.db.Task;

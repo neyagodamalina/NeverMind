@@ -1,15 +1,13 @@
 package ru.neyagodamalina.nevermind.util;
 
-import android.arch.persistence.room.Ignore;
-import android.arch.persistence.room.Index;
+import androidx.room.Ignore;
+import androidx.room.Index;
 import android.content.res.Resources;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -17,8 +15,6 @@ import java.util.TimeZone;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.exception.WrongTimeStopTimeStartException;
 import ru.neyagodamalina.nevermind.exception.WrongMonthNumberException;
-import ru.neyagodamalina.nevermind.util.FormatDuration;
-import ru.neyagodamalina.nevermind.util.Month;
 
 import static ru.neyagodamalina.nevermind.util.FormatDuration.FORMAT_DAYS;
 import static ru.neyagodamalina.nevermind.util.FormatDuration.FORMAT_HOURS;
@@ -27,8 +23,8 @@ import static ru.neyagodamalina.nevermind.util.FormatDuration.FORMAT_MONTHS;
 import static ru.neyagodamalina.nevermind.util.FormatDuration.FORMAT_SMART;
 import static ru.neyagodamalina.nevermind.util.FormatDuration.FORMAT_YEARS;
 
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
 
 public class Duration {
 

@@ -1,12 +1,11 @@
 package ru.neyagodamalina.nevermind.db;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 
 import java.util.List;
 import static org.junit.Assert.assertEquals;

@@ -16,15 +16,12 @@
 
 package ru.neyagodamalina.nevermind;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
-import android.util.Log;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.annotation.Nullable;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
-import ru.neyagodamalina.nevermind.util.Constants;
 
 public class LiveDataTestUtil {
 

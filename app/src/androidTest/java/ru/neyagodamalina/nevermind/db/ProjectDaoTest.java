@@ -1,13 +1,12 @@
 package ru.neyagodamalina.nevermind.db;
 
-import android.arch.lifecycle.LiveData;
-import android.support.test.runner.AndroidJUnit4;
+import androidx.lifecycle.LiveData;
+import androidx.test.runner.AndroidJUnit4;
 import android.util.Log;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Iterator;
 import java.util.List;
 
 import ru.neyagodamalina.nevermind.LiveDataTestUtil;

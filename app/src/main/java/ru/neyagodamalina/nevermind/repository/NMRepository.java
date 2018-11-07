@@ -1,12 +1,11 @@
 package ru.neyagodamalina.nevermind.repository;
 
-import android.arch.lifecycle.LiveData;
+import androidx.lifecycle.LiveData;
 import android.content.Context;
 import android.util.Log;
 
 import java.util.List;
 
-import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.AppDatabase;
 import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.ProjectDao;

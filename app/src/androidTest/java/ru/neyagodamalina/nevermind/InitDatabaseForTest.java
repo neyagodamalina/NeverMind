@@ -1,7 +1,6 @@
 package ru.neyagodamalina.nevermind;
 
-import android.support.test.InstrumentationRegistry;
-import android.util.Log;
+import androidx.test.InstrumentationRegistry;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,7 +9,6 @@ import ru.neyagodamalina.nevermind.db.AppDatabase;
 import ru.neyagodamalina.nevermind.db.ProjectDao;
 import ru.neyagodamalina.nevermind.db.SlotDao;
 import ru.neyagodamalina.nevermind.db.TaskDao;
-import ru.neyagodamalina.nevermind.util.Constants;
 
 /**
  * Created by developer on 14.11.2017.

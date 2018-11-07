@@ -4,7 +4,7 @@ package ru.neyagodamalina.nevermind.util;
  * Created by developer on 17.08.2017.
  */
 
-import android.support.annotation.IntDef;
+import androidx.annotation.IntDef;
 
 import static ru.neyagodamalina.nevermind.util.FormatDuration.FORMAT_DAYS;
 import static ru.neyagodamalina.nevermind.util.FormatDuration.FORMAT_HOURS;
