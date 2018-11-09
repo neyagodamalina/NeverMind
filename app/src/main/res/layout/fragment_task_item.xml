@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_margin="5dp"
-    android:padding="5dp"
-    android:background="@drawable/item_background">
+    android:background="@drawable/item_background"
+    android:orientation="vertical"
+    android:padding="5dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/task_date_group"
+            android:id="@+id/task_data_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -28,27 +28,40 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="|" />
+                android:text="-" />
 
             <TextView
                 android:id="@+id/task_date_last"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="04.10.18" />
+
         </LinearLayout>
-
-        <Button
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/ic_notifications_off_black_24dp" />
-
         <TextView
             android:id="@+id/task_duration"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
             android:text="1y 11m 30d 23h 59m 59s" />
+
+        <TextView
+            android:id="@+id/task_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="($1250)" />
+
+        <Button
+            android:id="@+id/btPlay"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/ic_play_black_64dp" />
+
+        <TextView
+            android:id="@+id/project_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/btPlay"
+            android:text="My live" />
 
     </RelativeLayout>
 
@@ -68,7 +81,7 @@
             android:layout_height="wrap_content"
             android:text="Build house, make all people happy"
             android:textAppearance="@android:style/TextAppearance.Material.Large"
-            android:visibility="visible"/>
+            android:visibility="visible" />
     </LinearLayout>
 
     <RelativeLayout
@@ -81,20 +94,13 @@
             android:layout_height="wrap_content"
             android:src="@drawable/round_photo" />
 
-        <TextView
-            android:id="@+id/task_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="$1250"
-            android:layout_alignBottom="@id/btPlay"
-            android:layout_centerInParent="true"
-            />
         <Button
-            android:id="@+id/btPlay"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_play_black_64dp" />
+            android:layout_alignParentBottom="true"
+            android:background="@drawable/ic_notifications_off_black_24dp" />
+
     </RelativeLayout>
 </LinearLayout>
 

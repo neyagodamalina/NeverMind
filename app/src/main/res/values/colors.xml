@@ -6,4 +6,5 @@
     <color name="colorActionModeToolbarBackground">#000000</color>
     <color name="colorTitleToolbar">#FFFFFF</color>
     <color name="colorMainBackground">#FFFFFF</color>
+    <color name="colorBackgroundItem">#BBFFFFFF</color>
 </resources>
