@@ -1,6 +1,5 @@
 package ru.neyagodamalina.nevermind.ui;
 
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +11,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.ui.ListTasksFragment.OnListFragmentInteractionListener;
+import ru.neyagodamalina.nevermind.util.Constants;
+import ru.neyagodamalina.nevermind.util.Duration;
+import ru.neyagodamalina.nevermind.util.FormatDuration;
 import ru.neyagodamalina.nevermind.util.SparseBooleanArrayParcelable;
 
 public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAdapterTask.ViewHolder> {
@@ -39,7 +41,8 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
-        holder.mContentView.setText(mValues.get(position).getTitle());
+        holder.mTitleView.setText(mValues.get(position).getTitle());
+        holder.mDurationView.setText(mValues.get(position).toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
 
 
         // Set background for selected or not selected items
@@ -71,19 +74,21 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     public class ViewHolder extends RecyclerView.ViewHolder {
         public final View mView;
         public final TextView mIdView;
-        public final TextView mContentView;
+        public final TextView mTitleView;
+        public final TextView mDurationView;
         public Task mItem;
 
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView = (TextView) view.findViewById(R.id.task_id);
-            mContentView = (TextView) view.findViewById(R.id.task_title);
+            mIdView         = view.findViewById(R.id.task_id);
+            mTitleView      = view.findViewById(R.id.task_title);
+            mDurationView   = view.findViewById(R.id.task_duration);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mContentView.getText() + "'";
+            return super.toString() + " '" + mTitleView.getText() + "'";
         }
     }
 
