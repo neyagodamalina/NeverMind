@@ -1,9 +1,13 @@
 package ru.neyagodamalina.nevermind.ui;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -12,11 +16,12 @@ import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.ui.ListTasksFragment.OnListFragmentInteractionListener;
 import ru.neyagodamalina.nevermind.util.Constants;
-import ru.neyagodamalina.nevermind.util.Duration;
 import ru.neyagodamalina.nevermind.util.FormatDuration;
 import ru.neyagodamalina.nevermind.util.SparseBooleanArrayParcelable;
 
 public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAdapterTask.ViewHolder> {
+
+
 
     private final List<Task> mValues;
     private final OnListFragmentInteractionListener mListener;
@@ -32,17 +37,18 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.fragment_task_item, parent, false);
+                .inflate(R.layout.row_list_task, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
 
         holder.mItem = mValues.get(position);
         holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
         holder.mTitleView.setText(mValues.get(position).getTitle());
         holder.mDurationView.setText(mValues.get(position).toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
+        holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
 
 
         // Set background for selected or not selected items
@@ -51,7 +57,34 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                         : R.drawable.item_background);
 
 
+        // region duration text
+        holder.mDurationView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
 
+                    Task task = mValues.get(position);
+                    List possibleFormats = task.getPossibleFormats();
+                    int currentFormat = (Integer) view.getTag(R.id.tag_current_format_duration);
+                    currentFormat++;
+                    if (currentFormat < possibleFormats.size()) {
+                        holder.mDurationView.setText(mValues.get(position).toStringDuration((Integer) possibleFormats.get(currentFormat), holder.mView.getResources()));
+                        holder.mDurationView.setTag(R.id.tag_current_format_duration, currentFormat);
+                    }
+                    else{
+                        holder.mDurationView.setText(mValues.get(position).toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
+                        holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
+                    }
+
+//                    Toast.makeText(view.getContext(),"Press duration.", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Log.e(Constants.LOG_TAG, e.getMessage());
+                }
+            }
+        });
+
+
+        // endregion
 //        holder.mView.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -81,9 +114,9 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mIdView         = view.findViewById(R.id.task_id);
-            mTitleView      = view.findViewById(R.id.task_title);
-            mDurationView   = view.findViewById(R.id.task_duration);
+            mIdView = view.findViewById(R.id.tv_task_id);
+            mTitleView = view.findViewById(R.id.tv_task_title);
+            mDurationView = view.findViewById(R.id.tv_task_duration);
         }
 
         @Override

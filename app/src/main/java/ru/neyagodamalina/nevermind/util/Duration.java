@@ -166,7 +166,7 @@ public class Duration {
                 result = this.toHours() + resources.getString(R.string.letter_hour);
                 break;
             case FORMAT_MINUTES:
-                result = this.toMinutes() + resources.getString(R.string.letter_minute);
+                result = this.toMinutes() + resources.getString(R.string.letter_minute_long);
                 break;
         }
         return result;
