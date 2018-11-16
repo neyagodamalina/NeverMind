@@ -150,7 +150,7 @@ public class Duration {
 
 
                 // "3y1m1d1h1m1s" -> "3y 1m 1d 1h 1m 1s"
-                result = sb.toString().replaceAll("(\\D)", "$1 ").trim();
+                result = sb.toString().replaceAll("(\\d\\D+)", "$1 ").trim();
 
                 break;
             case FORMAT_YEARS:
@@ -166,7 +166,7 @@ public class Duration {
                 result = this.toHours() + resources.getString(R.string.letter_hour);
                 break;
             case FORMAT_MINUTES:
-                result = this.toMinutes() + resources.getString(R.string.letter_minute_long);
+                result = this.toMinutes() + resources.getString(R.string.letter_minute);
                 break;
         }
         return result;

@@ -13,8 +13,7 @@
     <string name="letter_month">m</string>
     <string name="letter_day">d</string>
     <string name="letter_hour">h</string>
-    <string name="letter_minute">m</string>
-    <string name="letter_minute_long">min</string>
+    <string name="letter_minute">min</string>
     <string name="letter_second">s</string>
 
     <string name="task_today">Task today</string>

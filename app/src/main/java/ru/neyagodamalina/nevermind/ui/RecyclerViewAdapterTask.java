@@ -49,6 +49,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         holder.mTitleView.setText(mValues.get(position).getTitle());
         holder.mDurationView.setText(mValues.get(position).toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
+        holder.mPeriod.setText(mValues.get(position).toStringPeriod());
 
 
         // Set background for selected or not selected items
@@ -109,6 +110,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         public final TextView mIdView;
         public final TextView mTitleView;
         public final TextView mDurationView;
+        public final TextView mPeriod;
         public Task mItem;
 
         public ViewHolder(View view) {
@@ -117,6 +119,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
             mIdView = view.findViewById(R.id.tv_task_id);
             mTitleView = view.findViewById(R.id.tv_task_title);
             mDurationView = view.findViewById(R.id.tv_task_duration);
+            mPeriod = view.findViewById(R.id.tv_task_date_create);
         }
 
         @Override
