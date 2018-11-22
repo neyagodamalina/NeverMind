@@ -1,10 +1,12 @@
 package ru.neyagodamalina.nevermind.business;
 
+
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
+
 
 import ru.neyagodamalina.nevermind.util.FormatDuration;
 import ru.neyagodamalina.nevermind.util.Duration;
@@ -174,6 +176,18 @@ public class DurationTest {
         Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals("01.03.17 23:59 - 02.03.17 0:00", slot.toStringPeriod());
     }
+
+    @Test
+    public void toStringPeriodTimeZone() throws Exception {
+        Calendar start = Calendar.getInstance();
+        start.set(2018, Calendar.NOVEMBER, 16, 0, 59, 12);
+        Calendar stop = Calendar.getInstance();
+        stop.set(2018, Calendar.NOVEMBER, 16, 1, 1, 30);
+        Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
+        System.out.println(slot.toStringPeriod());
+        assertEquals("16.11.18 0:59 - 1:01", slot.toStringPeriod());
+    }
+
 
     @Test
     public void toDaysPart() throws Exception {
