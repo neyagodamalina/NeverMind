@@ -4,11 +4,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -49,7 +49,10 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         holder.mTitleView.setText(mValues.get(position).getTitle());
         holder.mDurationView.setText(mValues.get(position).toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
-        holder.mPeriod.setText(mValues.get(position).toStringPeriod());
+
+        DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
+        holder.mDateCreate.setText(dateFormat.format(new Date(mValues.get(position).getDateCreate())));
+
 
 
         // Set background for selected or not selected items
@@ -77,7 +80,6 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
                     }
 
-//                    Toast.makeText(view.getContext(),"Press duration.", Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     Log.e(Constants.LOG_TAG, e.getMessage());
                 }
@@ -110,7 +112,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         public final TextView mIdView;
         public final TextView mTitleView;
         public final TextView mDurationView;
-        public final TextView mPeriod;
+        public final TextView mDateCreate;
         public Task mItem;
 
         public ViewHolder(View view) {
@@ -119,7 +121,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
             mIdView = view.findViewById(R.id.tv_task_id);
             mTitleView = view.findViewById(R.id.tv_task_title);
             mDurationView = view.findViewById(R.id.tv_task_duration);
-            mPeriod = view.findViewById(R.id.tv_task_date_create);
+            mDateCreate = view.findViewById(R.id.tv_task_date_created);
         }
 
         @Override

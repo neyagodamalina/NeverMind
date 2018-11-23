@@ -3,6 +3,7 @@ package ru.neyagodamalina.nevermind.util;
 import androidx.room.Ignore;
 import androidx.room.Index;
 import android.content.res.Resources;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -207,7 +208,6 @@ public class Duration {
         DateFormat timeFormat = DateFormat.getTimeInstance(DateFormat.SHORT);
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.SHORT);
         DateFormat dateTimeFormat = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT);
-
 
         Calendar start = Calendar.getInstance();
         start.setTimeInMillis(timeStart);

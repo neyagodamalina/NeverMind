@@ -34,6 +34,10 @@
     <!--Toolbar-->
     <string name="add">Add</string>
 
+    <!--Row item -->
+    <string name="created">created</string>
+    <string name="started">started</string>
+    <string name="last">last</string>
 
     <string-array name="projects_delete_me">
         <item>My Live</item>

@@ -13,36 +13,71 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        // Date
+        <!--Date-->
         <LinearLayout
             android:id="@+id/task_date_group"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_task_date_create"
+            <!--Created-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="01.10.18"
-                android:textSize="@dimen/text_size_small" />
+                android:orientation="vertical">
 
-            <TextView
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/created"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_task_date_created"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+            <!--Started-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="-"
-                android:textSize="@dimen/text_size_small" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_task_date_last"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/started"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_task_date_started"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+            <!--Last work-->
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textSize="@dimen/text_size_small" />
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/last"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_task_date_last"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
 
         </LinearLayout>
 
         // Duration
+
         <LinearLayout
             android:id="@+id/task_duration_group"
             android:layout_width="wrap_content"
@@ -57,8 +92,8 @@
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/task_date_group"
                 android:background="@drawable/dash"
-                android:textSize="@dimen/text_size_small"
-                android:clickable="true"/>
+                android:clickable="true"
+                android:textSize="@dimen/text_size_small" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -90,14 +125,14 @@
             android:layout_alignParentRight="true"
             android:background="@drawable/ic_play_black_64dp" />
 
-        <TextView
-            android:id="@+id/tv_project_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@id/btn_play"
-            android:text="My live" />
 
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_project_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="My live" />
 
     <LinearLayout
         android:layout_width="match_parent"

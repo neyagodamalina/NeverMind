@@ -1,5 +1,7 @@
 package ru.neyagodamalina.nevermind.db;
 
+import java.util.Calendar;
+
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
@@ -29,6 +31,9 @@ public class Task extends Duration {
 
     String title;
 
+
+    long dateCreate;
+
     @ColumnInfo(index = true)
     private long projectId;
 
@@ -38,6 +43,7 @@ public class Task extends Duration {
         this.text = text;
         this.title = StringCutter.cut(text);
         this.projectId = projectId;
+        this.dateCreate = Calendar.getInstance().getTimeInMillis();
     }
 
     // Default project with id = 1 must exists.
@@ -61,6 +67,10 @@ public class Task extends Duration {
         return title;
     }
 
+    @Ignore
+    public long getDateCreate() {
+        return dateCreate;
+    }
 
 
 
