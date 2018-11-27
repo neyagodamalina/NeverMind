@@ -1,10 +1,15 @@
 package ru.neyagodamalina.nevermind.ui;
 
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -22,13 +27,12 @@ import ru.neyagodamalina.nevermind.util.SparseBooleanArrayParcelable;
 public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAdapterTask.ViewHolder> {
 
 
-
-    private final List<Task> mValues;
+    private final List<Task> tasks;
     private final OnListFragmentInteractionListener mListener;
     private SparseBooleanArrayParcelable mSelectedItemsIds;
 
     public RecyclerViewAdapterTask(List<Task> items, OnListFragmentInteractionListener listener) {
-        mValues = items;
+        tasks = items;
         mListener = listener;
         mSelectedItemsIds = new SparseBooleanArrayParcelable();
     }
@@ -43,16 +47,17 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-
-        holder.mItem = mValues.get(position);
-        holder.mIdView.setText(String.valueOf(mValues.get(position).getId()));
-        holder.mTitleView.setText(mValues.get(position).getTitle());
-        holder.mDurationView.setText(mValues.get(position).toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
+        Task task = tasks.get(position);
+        holder.mItem = task;
+        holder.mIdView.setText(String.valueOf(task.getId()));
+        holder.mTitleView.setText(task.getTitle());
+        holder.mDurationView.setText(task.toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
 
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
-        holder.mDateCreate.setText(dateFormat.format(new Date(mValues.get(position).getDateCreate())));
-
+        holder.mDateCreate.setText(dateFormat.format(new Date(task.getDateCreate())));
+        holder.mDateStarted.setText(dateFormat.format(new Date(task.getTimeStart())));
+        holder.mDateLast.setText(dateFormat.format(new Date(task.getTimeStop())));
 
 
         // Set background for selected or not selected items
@@ -67,16 +72,15 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
             public void onClick(View view) {
                 try {
 
-                    Task task = mValues.get(position);
+                    Task task = tasks.get(position);
                     List possibleFormats = task.getPossibleFormats();
                     int currentFormat = (Integer) view.getTag(R.id.tag_current_format_duration);
                     currentFormat++;
                     if (currentFormat < possibleFormats.size()) {
-                        holder.mDurationView.setText(mValues.get(position).toStringDuration((Integer) possibleFormats.get(currentFormat), holder.mView.getResources()));
+                        holder.mDurationView.setText(task.toStringDuration((Integer) possibleFormats.get(currentFormat), holder.mView.getResources()));
                         holder.mDurationView.setTag(R.id.tag_current_format_duration, currentFormat);
-                    }
-                    else{
-                        holder.mDurationView.setText(mValues.get(position).toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
+                    } else {
+                        holder.mDurationView.setText(task.toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
                         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
                     }
 
@@ -85,26 +89,27 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                 }
             }
         });
-
-
         // endregion
-//        holder.mView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (null != mListener) {
-//                    // Notify the active callbacks interface (the activity, if the
-//                    // fragment is attached to one) that an item has been selected.
-//                    mListener.onListFragmentInteraction(holder.mItem);
-//                    Toast.makeText(v.getContext(), "onClick in onBindViewHolder", Toast.LENGTH_LONG);
-//                }
-//            }
-//        });
+
+
+        holder.btPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Drawable drawable = holder.btPlay.getDrawable();
+                if (drawable instanceof Animatable)
+                    ((Animatable) drawable).start();
+
+                else Log.d(Constants.LOG_TAG, "animation is null");
+                Task task = tasks.get(position);
+                Toast.makeText(v.getContext(), "Click task id=" + task.getId(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
     @Override
     public int getItemCount() {
-        return mValues.size();
+        return tasks.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -113,6 +118,9 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         public final TextView mTitleView;
         public final TextView mDurationView;
         public final TextView mDateCreate;
+        public final TextView mDateStarted;
+        public final TextView mDateLast;
+        public final ImageButton btPlay;
         public Task mItem;
 
         public ViewHolder(View view) {
@@ -122,6 +130,9 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
             mTitleView = view.findViewById(R.id.tv_task_title);
             mDurationView = view.findViewById(R.id.tv_task_duration);
             mDateCreate = view.findViewById(R.id.tv_task_date_created);
+            mDateStarted = view.findViewById(R.id.tv_task_date_started);
+            mDateLast = view.findViewById(R.id.tv_task_date_last);
+            btPlay = view.findViewById(R.id.btn_play);
         }
 
         @Override

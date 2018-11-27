@@ -6,6 +6,6 @@ package ru.neyagodamalina.nevermind.util;
 
 public class StringCutter {
     public static String cut(String s){
-        return ((s != null) && (s.length() > 30)) ? s.substring(0, 30) + "..." : s;
+        return ((s != null) && (s.length() > 40)) ? s.substring(0, 40) + "..." : s;
     }
 }

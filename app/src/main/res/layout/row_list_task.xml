@@ -23,6 +23,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/text_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -41,6 +42,7 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/text_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -53,12 +55,14 @@
                     android:id="@+id/tv_task_date_started"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="26.11.18"
                     android:textSize="@dimen/text_size_small" />
             </LinearLayout>
             <!--Last work-->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/text_margin"
                 android:orientation="vertical">
 
                 <TextView
@@ -71,59 +75,84 @@
                     android:id="@+id/tv_task_date_last"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="26.11.18"
                     android:textSize="@dimen/text_size_small" />
             </LinearLayout>
 
+            <!--Duration-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/text_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/duration"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_task_duration"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/dash"
+                    android:clickable="true"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+            <!--Total-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginRight="@dimen/text_margin">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/total"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_task_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/dash"
+                    android:text="$1250"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+
+            <!--Id for test-->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="id"
+                    android:textSize="@dimen/text_size_small" />
+
+                <TextView
+                    android:id="@+id/tv_task_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="@dimen/text_size_small" />
+            </LinearLayout>
+
+
         </LinearLayout>
 
-        // Duration
-
-        <LinearLayout
-            android:id="@+id/task_duration_group"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/text_margin"
-            android:layout_toLeftOf="@id/btn_play"
-            android:orientation="horizontal">
-
-            <TextView
-                android:id="@+id/tv_task_duration"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/task_date_group"
-                android:background="@drawable/dash"
-                android:clickable="true"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/text_margin"
-                android:text="("
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:id="@+id/tv_task_total"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/dash"
-                android:text="$1250"
-                android:textSize="@dimen/text_size_small" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text=")"
-                android:textSize="@dimen/text_size_small" />
-
-        </LinearLayout>
-
-        <Button
+        <ImageButton
             android:id="@+id/btn_play"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
-            android:background="@drawable/ic_play_black_64dp" />
+            android:src="@drawable/anim_play"
+            />
 
 
     </RelativeLayout>
@@ -132,26 +161,18 @@
         android:id="@+id/tv_project_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:textSize="@dimen/text_size"
         android:text="My live" />
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/tv_task_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:id="@+id/tv_task_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-
-        <TextView
-            android:id="@+id/tv_task_title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Build house, make all people happy"
-            android:textAppearance="@android:style/TextAppearance.Material.Large"
-            android:visibility="visible" />
-    </LinearLayout>
+        android:text="Build house, make all people happy"
+        android:textSize="@dimen/text_size_big"
+        android:textColor="@color/colorPrimary"
+        android:visibility="visible" />
+    <!--android:textAppearance="@android:style/TextAppearance.Material.Large"-->
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -38,6 +38,8 @@
     <string name="created">created</string>
     <string name="started">started</string>
     <string name="last">last</string>
+    <string name="duration">duration</string>
+    <string name="total">total</string>
 
     <string-array name="projects_delete_me">
         <item>My Live</item>
