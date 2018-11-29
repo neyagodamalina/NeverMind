@@ -1,0 +1,56 @@
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt">
+    <aapt:attr name="android:drawable">
+        <vector
+            android:name="vector"
+            android:width="32dp"
+            android:height="32dp"
+            android:viewportWidth="32"
+            android:viewportHeight="32"
+            >
+            <path
+                android:name="circle"
+                android:pathData="M 0.89 16 C 0.89 11.99 2.48 8.15 5.32 5.32 C 8.15 2.48 11.99 0.89 16 0.89 C 20.01 0.89 23.85 2.48 26.68 5.32 C 29.52 8.15 31.11 11.99 31.11 16 C 31.11 20.01 29.52 23.85 26.68 26.68 C 23.85 29.52 20.01 31.11 16 31.11 C 11.99 31.11 8.15 29.52 5.32 26.68 C 2.48 23.85 0.89 20.01 0.89 16 Z M 1.11 16 C 1.11 12.05 2.68 8.26 5.47 5.47 C 8.26 2.68 12.05 1.11 16 1.11 C 19.95 1.11 23.74 2.68 26.53 5.47 C 29.32 8.26 30.89 12.05 30.89 16 C 30.89 19.95 29.32 23.74 26.53 26.53 C 23.74 29.32 19.95 30.89 16 30.89 C 12.05 30.89 8.26 29.32 5.47 26.53 C 2.68 23.74 1.11 19.95 1.11 16 Z"
+                android:strokeColor="#000000"
+                android:strokeWidth="2"
+                android:fillColor="@color/colorBackgroundItem"
+                />
+            <group
+                android:name="group"
+                android:pivotX="16"
+                android:pivotY="16"
+                >
+                <path
+                    android:name="triangle"
+                    android:pathData="M 24.514 17.836 L 13.486 24.039 C 11.562 25.121 10 24.208 10 22 L 10 9.75 C 10 7.542 11.562 6.629 13.486 7.711 L 24.514 13.914 C 26.438 14.996 26.438 16.754 24.514 17.836"
+                    android:strokeColor="#000000"
+                    android:strokeWidth="2"
+                    />
+            </group>
+        </vector>
+    </aapt:attr>
+    <target android:name="triangle">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="pathData"
+                android:duration="500"
+                android:valueFrom="M 20.58 11.701 C 21.891 12.439 23.203 13.176 24.514 13.914 C 26.438 14.996 26.438 16.754 24.514 17.836 C 22.712 18.849 20.911 19.863 19.109 20.876 L 13.486 24.039 C 11.562 25.121 10 24.208 10 22 L 10 9.75 C 10 7.542 11.562 6.629 13.486 7.711 L 20.58 11.701"
+                android:valueTo="M 20.4 8 C 22.387 8 24 9.613 24 11.6 C 24 14.533 24 17.467 24 20.4 C 24 22.387 22.387 24 20.4 24 L 11.6 24 C 9.613 24 8 22.387 8 20.4 L 8 11.6 C 8 9.613 9.613 8 11.6 8 L 20.4 8"
+                android:valueType="pathType"
+                android:interpolator="@android:interpolator/fast_out_slow_in"/>
+        </aapt:attr>
+    </target>
+    <target android:name="group">
+        <aapt:attr name="android:animation">
+            <objectAnimator
+                android:propertyName="rotation"
+                android:duration="500"
+                android:valueFrom="0"
+                android:valueTo="180"
+                android:valueType="floatType"
+                android:interpolator="@android:interpolator/fast_out_slow_in"
+                />
+        </aapt:attr>
+    </target>
+</animated-vector>
