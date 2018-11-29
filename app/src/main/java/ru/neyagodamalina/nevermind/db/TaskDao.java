@@ -5,6 +5,7 @@ import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public interface TaskDao {
 
     @Insert
-    public long insertTask(Task task);
+    public long insert(Task task);
 
     @Query("select * from task")
     public LiveData<List<Task>> selectAllTasks();
@@ -27,6 +28,7 @@ public interface TaskDao {
     @Query("delete from task")
     public void deleteAllTasks();
 
-
+    @Update
+    void update(Task task);
 
 }

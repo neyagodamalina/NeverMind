@@ -1,4 +1,4 @@
-package ru.neyagodamalina.nevermind.util;
+package ru.neyagodamalina.nevermind.db;
 
 import androidx.room.Ignore;
 import androidx.room.Index;
@@ -26,6 +26,8 @@ import static ru.neyagodamalina.nevermind.util.FormatDuration.FORMAT_YEARS;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import ru.neyagodamalina.nevermind.util.FormatDuration;
+import ru.neyagodamalina.nevermind.util.Month;
 
 public class Duration {
 

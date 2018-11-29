@@ -5,7 +5,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import ru.neyagodamalina.nevermind.util.Duration;
 import ru.neyagodamalina.nevermind.util.StringCutter;
 
 /**

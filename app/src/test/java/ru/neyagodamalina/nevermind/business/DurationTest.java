@@ -9,7 +9,7 @@ import java.util.List;
 
 
 import ru.neyagodamalina.nevermind.util.FormatDuration;
-import ru.neyagodamalina.nevermind.util.Duration;
+import ru.neyagodamalina.nevermind.db.Duration;
 
 import static org.junit.Assert.*;
 

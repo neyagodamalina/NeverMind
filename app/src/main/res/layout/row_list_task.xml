@@ -154,6 +154,16 @@
             android:src="@drawable/anim_play"
             />
 
+        <ImageButton
+            android:id="@+id/btn_rec"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/anim_rec"
+            android:visibility="gone"
+            />
+
+
 
     </RelativeLayout>
 

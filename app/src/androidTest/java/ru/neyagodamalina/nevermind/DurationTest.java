@@ -9,7 +9,7 @@ import org.junit.runner.RunWith;
 
 import java.util.Calendar;
 
-import ru.neyagodamalina.nevermind.util.Duration;
+import ru.neyagodamalina.nevermind.db.Duration;
 import ru.neyagodamalina.nevermind.util.FormatDuration;
 
 import static org.junit.Assert.*;

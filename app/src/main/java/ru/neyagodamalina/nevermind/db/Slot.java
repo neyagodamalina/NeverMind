@@ -7,8 +7,6 @@ import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
-import ru.neyagodamalina.nevermind.util.Duration;
-
 /**
  * Created by developer on 14.11.2017.
  */

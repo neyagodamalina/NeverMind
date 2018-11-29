@@ -1,6 +1,7 @@
 package ru.neyagodamalina.nevermind.viewmodel;
 
 import android.app.Application;
+
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.annotation.NonNull;
@@ -26,7 +27,7 @@ public class TaskViewModel extends AndroidViewModel {
         super(application);
     }
 
-    public void addTask(final Task task){
+    public void addTask(final Task task) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -35,7 +36,7 @@ public class TaskViewModel extends AndroidViewModel {
         });
     }
 
-    public void addProject(final Project project){
+    public void addProject(final Project project) {
         executor.execute(new Runnable() {
             @Override
             public void run() {
@@ -44,8 +45,16 @@ public class TaskViewModel extends AndroidViewModel {
         });
     }
 
-    public LiveData<List<Project>> getAllProjects(){
+    public LiveData<List<Project>> getAllProjects() {
         return NMRepository.getAllProjects();
     }
 
+    public void startTask(final Task task) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                NMRepository.startTask(task);
+            }
+        });
+    }
 }

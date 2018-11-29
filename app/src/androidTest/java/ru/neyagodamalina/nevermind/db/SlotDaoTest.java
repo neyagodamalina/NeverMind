@@ -23,7 +23,7 @@ public class SlotDaoTest extends InitDatabaseForTest {
     public void insert2SlotsFor1Task() throws Exception {
 
         Task task = new Task("task insert2SlotsFor1Task");
-        long taskId = mTaskDao.insertTask(task);
+        long taskId = mTaskDao.insert(task);
 
         Calendar start = Calendar.getInstance();
         start.set(2017, Calendar.JANUARY, 1, 0, 0, 0);
@@ -39,8 +39,8 @@ public class SlotDaoTest extends InitDatabaseForTest {
 
         Slot slot2 = new Slot(taskId, start.getTimeInMillis(), stop.getTimeInMillis());
 
-        mSlotDao.insertSlot(slot1);
-        mSlotDao.insertSlot(slot2);
+        mSlotDao.insert(slot1);
+        mSlotDao.insert(slot2);
 
         List<Slot> slots = mSlotDao.selectSlotsForTask(taskId);
         assertEquals(2, slots.size());

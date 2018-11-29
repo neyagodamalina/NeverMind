@@ -28,6 +28,7 @@ import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.util.SparseBooleanArrayParcelable;
 import ru.neyagodamalina.nevermind.viewmodel.ListTasksViewModel;
+import ru.neyagodamalina.nevermind.viewmodel.TaskViewModel;
 
 public class ListTasksFragment extends CommonFragment {
     private ListTasksFragment.OnListFragmentInteractionListener mListener;
@@ -35,6 +36,7 @@ public class ListTasksFragment extends CommonFragment {
     private ActionMode mActionMode;
     private static List<Task> tasks;
     private static RecyclerViewAdapterTask adapter;
+    private static TaskViewModel taskViewModel;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class ListTasksFragment extends CommonFragment {
                              final Bundle savedInstanceState) {
         View mViewFragment = inflater.inflate(R.layout.fragment_list_tasks, container, false);
         ListTasksViewModel listTasksViewModel = ViewModelProviders.of(this).get(ListTasksViewModel.class);
-
+        this.taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);;
         MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
         mainActivity.setCurrentFragment(this);
 
@@ -197,6 +199,10 @@ public class ListTasksFragment extends CommonFragment {
         Toast.makeText(getActivity(), selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
         mActionMode.finish();//Finish action mode after use
 
+    }
+
+    public void startTask(Task task){
+        taskViewModel.startTask(task);
     }
 
 }

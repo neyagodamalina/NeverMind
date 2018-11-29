@@ -4,11 +4,14 @@ import androidx.lifecycle.LiveData;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.List;
 
 import ru.neyagodamalina.nevermind.db.AppDatabase;
 import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.ProjectDao;
+import ru.neyagodamalina.nevermind.db.Slot;
+import ru.neyagodamalina.nevermind.db.SlotDao;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.db.TaskDao;
 import ru.neyagodamalina.nevermind.util.Constants;
@@ -20,6 +23,7 @@ import ru.neyagodamalina.nevermind.util.Constants;
 public class NMRepository {
     private final ProjectDao projectDao;
     private final TaskDao taskDao;
+    private final SlotDao slotDao;
     private final AppDatabase database;
     private Context context;
 
@@ -28,6 +32,7 @@ public class NMRepository {
         this.database = AppDatabase.getInstance(context);
         projectDao = database.getProjectDao();
         taskDao = database.getTaskDao();
+        slotDao = database.getSlotDao();
     }
 
     public void deleteAllProjects(){
@@ -35,7 +40,7 @@ public class NMRepository {
     }
 
     public void addTask(Task task){
-        long id = taskDao.insertTask(task);
+        long id = taskDao.insert(task);
         Log.d(Constants.LOG_TAG, "Insert new task id=" + id);
     }
 
@@ -53,5 +58,15 @@ public class NMRepository {
         return projectDao.selectAllProjects();
     }
 
+    public void startTask(Task task){
+        Slot slot = new Slot(task.getId(), Calendar.getInstance().getTimeInMillis(), 0);
+        slotDao.insert(slot);
+        if (task.getTimeStart() == 0) {
+            task.setTimeStart(slot.getTimeStart());
+            task.setTimeStop(slot.getTimeStart()); // While new task is working set timeStop = timeStart. When task was stopped will change stopTime to current time.
+        }
+        taskDao.update(task);
 
+        Log.d(Constants.LOG_TAG, "Start task id=" + task.getId());
+    }
 }

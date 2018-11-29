@@ -1,7 +1,6 @@
 package ru.neyagodamalina.nevermind.db;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
@@ -34,9 +33,9 @@ public class TaskDaoTest extends InitDatabaseForTest {
         Task task3 = new Task("task 3");
 
 
-        mTaskDao.insertTask(task1);
-        mTaskDao.insertTask(task2);
-        mTaskDao.insertTask(task3);
+        mTaskDao.insert(task1);
+        mTaskDao.insert(task2);
+        mTaskDao.insert(task3);
         assertEquals(3, LiveDataTestUtil.getValue(tasks).size());
 
     }

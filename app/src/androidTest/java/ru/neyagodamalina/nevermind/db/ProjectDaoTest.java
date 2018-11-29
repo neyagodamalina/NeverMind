@@ -29,19 +29,19 @@ public class ProjectDaoTest extends InitDatabaseForTest {
         long projectId = mProjectDao.insertProject(project);
 
         Task task1 = new Task(0, projectId, "Task11 for project1", 0, 0);
-        mTaskDao.insertTask(task1);
+        mTaskDao.insert(task1);
 
         Task task2 = new Task(0, projectId, "Task12 for project1", 0, 0);
-        long taskId2 = mTaskDao.insertTask(task2);
+        long taskId2 = mTaskDao.insert(task2);
 
         Slot slot1 = new Slot(taskId2, 1, 2);
-        mSlotDao.insertSlot(slot1);
+        mSlotDao.insert(slot1);
 
         Slot slot2 = new Slot(taskId2, 3, 4);
-        mSlotDao.insertSlot(slot2);
+        mSlotDao.insert(slot2);
 
         Slot slot3 = new Slot(taskId2, 5, 6);
-        mSlotDao.insertSlot(slot3);
+        mSlotDao.insert(slot3);
 
         Project projectFromDB = null;
 
@@ -76,19 +76,19 @@ public class ProjectDaoTest extends InitDatabaseForTest {
         long projectId = mProjectDao.insertProject(project);
 
         Task task1 = new Task(0, projectId, "Task11 for project1", 0, 0);
-        mTaskDao.insertTask(task1);
+        mTaskDao.insert(task1);
 
         Task task2 = new Task(0, projectId, "Task12 for project1", 0, 0);
-        long taskId2 = mTaskDao.insertTask(task2);
+        long taskId2 = mTaskDao.insert(task2);
 
         Slot slot1 = new Slot(taskId2, 1, 2);
-        mSlotDao.insertSlot(slot1);
+        mSlotDao.insert(slot1);
 
         Slot slot2 = new Slot(taskId2, 3, 4);
-        mSlotDao.insertSlot(slot2);
+        mSlotDao.insert(slot2);
 
         Slot slot3 = new Slot(taskId2, 5, 6);
-        mSlotDao.insertSlot(slot3);
+        mSlotDao.insert(slot3);
 
         mProjectDao.deleteAllProjects();
 

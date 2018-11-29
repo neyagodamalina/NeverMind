@@ -1,12 +1,14 @@
 package ru.neyagodamalina.nevermind.ui;
 
+import android.content.Context;
 import android.graphics.drawable.Animatable;
+import android.graphics.drawable.Animatable2;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,6 +32,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     private final List<Task> tasks;
     private final OnListFragmentInteractionListener mListener;
     private SparseBooleanArrayParcelable mSelectedItemsIds;
+    private static int playingPosition = -1; // not exist playing task
 
     public RecyclerViewAdapterTask(List<Task> items, OnListFragmentInteractionListener listener) {
         tasks = items;
@@ -47,7 +50,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
-        Task task = tasks.get(position);
+        final Task task = tasks.get(position);
         holder.mItem = task;
         holder.mIdView.setText(String.valueOf(task.getId()));
         holder.mTitleView.setText(task.getTitle());
@@ -91,20 +94,44 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         });
         // endregion
 
+        // region duration btPlay & btRec
+
+        Log.d(Constants.LOG_TAG, position + "\t" + holder.btPlay.toString());
+
+        // change button Play to Rec
+        if ((playingPosition != -1) && (playingPosition == position)){
+            Log.d(Constants.LOG_TAG, position + "->onBindViewHolder");
+            holder.btPlay.setVisibility(View.GONE);
+            holder.btRec.setVisibility(View.VISIBLE);
+            Drawable drawableRec = holder.btRec.getDrawable();
+            if (drawableRec instanceof Animatable)
+                ((Animatable) drawableRec).start();
+        }
+
+
 
         holder.btPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Drawable drawable = holder.btPlay.getDrawable();
+                Drawable drawable = ((ImageButton) v).getDrawable();
                 if (drawable instanceof Animatable)
                     ((Animatable) drawable).start();
 
-                else Log.d(Constants.LOG_TAG, "animation is null");
-                Task task = tasks.get(position);
-                Toast.makeText(v.getContext(), "Click task id=" + task.getId(), Toast.LENGTH_SHORT).show();
+                // start task after and of animation
+                if (drawable instanceof AnimatedVectorDrawable)
+                    ((AnimatedVectorDrawable) drawable).registerAnimationCallback(new Animatable2.AnimationCallback() {
+                        @Override
+                        public void onAnimationEnd(Drawable drawable) {
+                            super.onAnimationEnd(drawable);
+                            playingPosition = position;
+                            MainActivity context = (MainActivity) holder.mView.getContext();
+                            ((ListTasksFragment) context.getCurrentFragment()).startTask(task);
+                        }
+                    });
+
             }
         });
-
+        // endregion
     }
 
     @Override
@@ -120,7 +147,8 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         public final TextView mDateCreate;
         public final TextView mDateStarted;
         public final TextView mDateLast;
-        public final ImageButton btPlay;
+        public ImageButton btPlay;
+        public ImageButton btRec;
         public Task mItem;
 
         public ViewHolder(View view) {
@@ -133,6 +161,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
             mDateStarted = view.findViewById(R.id.tv_task_date_started);
             mDateLast = view.findViewById(R.id.tv_task_date_last);
             btPlay = view.findViewById(R.id.btn_play);
+            btRec = view.findViewById(R.id.btn_rec);
         }
 
         @Override
@@ -182,4 +211,9 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     public SparseBooleanArrayParcelable getSelectedIds() {
         return mSelectedItemsIds;
     }
+
+    public void startTask(Task task) {
+
+    }
+
 }

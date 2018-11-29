@@ -21,7 +21,7 @@ public interface SlotDao {
     public List<Slot> selectSlotsForTask(long taskId);
 
     @Insert
-    public long insertSlot(Slot slot);
+    public long insert(Slot slot);
 
 
 }
