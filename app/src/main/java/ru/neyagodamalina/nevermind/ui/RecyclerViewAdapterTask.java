@@ -1,7 +1,5 @@
 package ru.neyagodamalina.nevermind.ui;
 
-import android.content.Context;
-import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
@@ -11,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -25,6 +22,7 @@ import ru.neyagodamalina.nevermind.ui.ListTasksFragment.OnListFragmentInteractio
 import ru.neyagodamalina.nevermind.util.Constants;
 import ru.neyagodamalina.nevermind.util.FormatDuration;
 import ru.neyagodamalina.nevermind.util.SparseBooleanArrayParcelable;
+import ru.neyagodamalina.nevermind.util.TaskState;
 
 public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAdapterTask.ViewHolder> {
 
@@ -51,10 +49,10 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         final Task task = tasks.get(position);
-        holder.mItem = task;
+        holder.mTask = task;
         holder.mIdView.setText(String.valueOf(task.getId()));
         holder.mTitleView.setText(task.getTitle());
-        holder.mDurationView.setText(task.toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
+        holder.mDurationView.setText(task.toStringDuration(FormatDuration.FORMAT_SMART, holder.itemView.getResources()));
         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
 
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
@@ -80,10 +78,10 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                     int currentFormat = (Integer) view.getTag(R.id.tag_current_format_duration);
                     currentFormat++;
                     if (currentFormat < possibleFormats.size()) {
-                        holder.mDurationView.setText(task.toStringDuration((Integer) possibleFormats.get(currentFormat), holder.mView.getResources()));
+                        holder.mDurationView.setText(task.toStringDuration((Integer) possibleFormats.get(currentFormat), holder.itemView.getResources()));
                         holder.mDurationView.setTag(R.id.tag_current_format_duration, currentFormat);
                     } else {
-                        holder.mDurationView.setText(task.toStringDuration(FormatDuration.FORMAT_SMART, holder.mView.getResources()));
+                        holder.mDurationView.setText(task.toStringDuration(FormatDuration.FORMAT_SMART, holder.itemView.getResources()));
                         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
                     }
 
@@ -96,27 +94,29 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
         // region duration btPlay & btRec
 
-        Log.d(Constants.LOG_TAG, position + "\t" + holder.btPlay.toString());
 
         // change button Play to Rec
-        if ((playingPosition != -1) && (playingPosition == position)){
-            Log.d(Constants.LOG_TAG, position + "->onBindViewHolder");
+        if (task.getState() == TaskState.STATE_PLAY){
+//        if ((playingPosition != -1) && (playingPosition == position)){
+//            Log.d(Constants.LOG_TAG, position + "select\t" + holder.btPlay.toString());
             holder.btPlay.setVisibility(View.GONE);
             holder.btRec.setVisibility(View.VISIBLE);
             Drawable drawableRec = holder.btRec.getDrawable();
-            if (drawableRec instanceof Animatable)
-                ((Animatable) drawableRec).start();
+            if (drawableRec instanceof AnimatedVectorDrawable)
+                ((AnimatedVectorDrawable) drawableRec).start();
         }
 
+        Log.d(Constants.LOG_TAG, task.getId() + "\t" + holder.btPlay.toString() + "\t" + holder.btPlay.getDrawable());
 
 
         holder.btPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Drawable drawable = ((ImageButton) v).getDrawable();
-                if (drawable instanceof Animatable)
-                    ((Animatable) drawable).start();
-
+                if (drawable instanceof AnimatedVectorDrawable)
+                    ((AnimatedVectorDrawable) drawable).start();
+                notifyItemChanged(position);
+                Log.d(Constants.LOG_TAG, "starting-------" + task.getId() + "\t " + holder.btPlay.toString() + "\t" + ((AnimatedVectorDrawable) holder.btPlay.getDrawable()));
                 // start task after and of animation
                 if (drawable instanceof AnimatedVectorDrawable)
                     ((AnimatedVectorDrawable) drawable).registerAnimationCallback(new Animatable2.AnimationCallback() {
@@ -124,7 +124,10 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                         public void onAnimationEnd(Drawable drawable) {
                             super.onAnimationEnd(drawable);
                             playingPosition = position;
-                            MainActivity context = (MainActivity) holder.mView.getContext();
+
+
+                            // start task
+                            MainActivity context = (MainActivity) holder.itemView.getContext();
                             ((ListTasksFragment) context.getCurrentFragment()).startTask(task);
                         }
                     });
@@ -140,7 +143,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
+//        public final View mView;
         public final TextView mIdView;
         public final TextView mTitleView;
         public final TextView mDurationView;
@@ -149,11 +152,11 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         public final TextView mDateLast;
         public ImageButton btPlay;
         public ImageButton btRec;
-        public Task mItem;
+        public Task mTask;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
+//            mView = view;
             mIdView = view.findViewById(R.id.tv_task_id);
             mTitleView = view.findViewById(R.id.tv_task_title);
             mDurationView = view.findViewById(R.id.tv_task_duration);
@@ -212,8 +215,5 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         return mSelectedItemsIds;
     }
 
-    public void startTask(Task task) {
-
-    }
 
 }

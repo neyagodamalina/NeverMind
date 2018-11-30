@@ -15,6 +15,7 @@ import ru.neyagodamalina.nevermind.db.SlotDao;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.db.TaskDao;
 import ru.neyagodamalina.nevermind.util.Constants;
+import ru.neyagodamalina.nevermind.util.TaskState;
 
 /**
  * Created by developer on 05.03.2018.
@@ -64,6 +65,7 @@ public class NMRepository {
         if (task.getTimeStart() == 0) {
             task.setTimeStart(slot.getTimeStart());
             task.setTimeStop(slot.getTimeStart()); // While new task is working set timeStop = timeStart. When task was stopped will change stopTime to current time.
+            task.setState(TaskState.STATE_PLAY);
         }
         taskDao.update(task);
 

@@ -10,6 +10,7 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import ru.neyagodamalina.nevermind.util.StringCutter;
+import ru.neyagodamalina.nevermind.util.TaskState;
 
 /**
  * Created by developer on 04.09.2017.
@@ -30,8 +31,9 @@ public class Task extends Duration {
 
     String title;
 
-
     long dateCreate;
+
+    int state;
 
     @ColumnInfo(index = true)
     private long projectId;
@@ -43,6 +45,7 @@ public class Task extends Duration {
         this.title = StringCutter.cut(text);
         this.projectId = projectId;
         this.dateCreate = Calendar.getInstance().getTimeInMillis();
+        this.state = TaskState.STATE_STOP;
     }
 
     // Default project with id = 1 must exists.
@@ -70,6 +73,16 @@ public class Task extends Duration {
     public long getDateCreate() {
         return dateCreate;
     }
+
+    @Ignore
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state){
+        this.state = state;
+    }
+
 
 
 
