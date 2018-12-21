@@ -57,4 +57,24 @@ public class TaskViewModel extends AndroidViewModel {
             }
         });
     }
+
+    public void stopTask(final Task task) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                NMRepository.stopTask(task);
+            }
+        });
+    }
+
+    public void deleteTask(final Task task) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                NMRepository.deleteTask(task);
+            }
+        });
+    }
+
+
 }

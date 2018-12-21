@@ -1,13 +1,18 @@
 package ru.neyagodamalina.nevermind.ui;
 
+import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
+import android.os.Build;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -15,7 +20,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.vectordrawable.graphics.drawable.Animatable2Compat;
+import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.ui.ListTasksFragment.OnListFragmentInteractionListener;
@@ -30,7 +39,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     private final List<Task> tasks;
     private final OnListFragmentInteractionListener mListener;
     private SparseBooleanArrayParcelable mSelectedItemsIds;
-    private static int playingPosition = -1; // not exist playing task
+    public static Parcelable instanceState; // for scroll to this position after refresh RecycleView
 
     public RecyclerViewAdapterTask(List<Task> items, OnListFragmentInteractionListener listener) {
         tasks = items;
@@ -48,12 +57,15 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, final int position) {
+
         final Task task = tasks.get(position);
         holder.mTask = task;
         holder.mIdView.setText(String.valueOf(task.getId()));
         holder.mTitleView.setText(task.getTitle());
         holder.mDurationView.setText(task.toStringDuration(FormatDuration.FORMAT_SMART, holder.itemView.getResources()));
         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
+
+        Drawable bgDurationText = holder.mDurationView.getBackground(); // set red dash when task is playing
 
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
         holder.mDateCreate.setText(dateFormat.format(new Date(task.getDateCreate())));
@@ -92,46 +104,88 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         });
         // endregion
 
-        // region duration btPlay & btRec
+        // region btPlay & btRec
 
-
-        // change button Play to Rec
-        if (task.getState() == TaskState.STATE_PLAY){
-//        if ((playingPosition != -1) && (playingPosition == position)){
-//            Log.d(Constants.LOG_TAG, position + "select\t" + holder.btPlay.toString());
-            holder.btPlay.setVisibility(View.GONE);
-            holder.btRec.setVisibility(View.VISIBLE);
-            Drawable drawableRec = holder.btRec.getDrawable();
-            if (drawableRec instanceof AnimatedVectorDrawable)
-                ((AnimatedVectorDrawable) drawableRec).start();
+        // PLAY if was playing before
+        if (task.getState() == TaskState.STATE_REC) {
+            holder.btPlay.setImageResource(R.drawable.anim_rec); // Not set in row_list_task.xml, because play run anywhere where use this button.
+            Drawable drawableRec = holder.btPlay.getDrawable();
+            if (drawableRec instanceof Animatable)
+                ((Animatable) drawableRec).start();
+            holder.tvMoreDuration.setVisibility(View.VISIBLE);
         }
-
-        Log.d(Constants.LOG_TAG, task.getId() + "\t" + holder.btPlay.toString() + "\t" + holder.btPlay.getDrawable());
-
+        else
+            holder.btPlay.setImageResource(R.drawable.anim_play); // Not set in row_list_task.xml, because play run anywhere where use this button.
 
         holder.btPlay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // START
                 Drawable drawable = ((ImageButton) v).getDrawable();
-                if (drawable instanceof AnimatedVectorDrawable)
-                    ((AnimatedVectorDrawable) drawable).start();
-                notifyItemChanged(position);
-                Log.d(Constants.LOG_TAG, "starting-------" + task.getId() + "\t " + holder.btPlay.toString() + "\t" + ((AnimatedVectorDrawable) holder.btPlay.getDrawable()));
-                // start task after and of animation
-                if (drawable instanceof AnimatedVectorDrawable)
-                    ((AnimatedVectorDrawable) drawable).registerAnimationCallback(new Animatable2.AnimationCallback() {
-                        @Override
-                        public void onAnimationEnd(Drawable drawable) {
-                            super.onAnimationEnd(drawable);
-                            playingPosition = position;
+                if (drawable instanceof Animatable) {
+                    ((Animatable) drawable).start();
+                }
 
+                if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {   // API > 23
+                    AnimatedVectorDrawable drawableAVD = (AnimatedVectorDrawable) drawable;
+                    drawableAVD.registerAnimationCallback(
+                            new Animatable2.AnimationCallback() {
+                                @Override
+                                public void onAnimationEnd(Drawable drawable) {
+                                    super.onAnimationEnd(drawable);
+                                    holder.btPlay.setImageResource(R.drawable.anim_rec);
+                                    Drawable drawableRec = holder.btPlay.getDrawable();
+                                    if (drawableRec instanceof Animatable)
+                                        ((Animatable) drawableRec).start();
 
-                            // start task
-                            MainActivity context = (MainActivity) holder.itemView.getContext();
-                            ((ListTasksFragment) context.getCurrentFragment()).startTask(task);
-                        }
-                    });
+                                    // Visible ">" near duration TextView
+                                    holder.tvMoreDuration.setVisibility(View.VISIBLE);
 
+                                    // task start
+                                    MainActivity context = (MainActivity) holder.mView.getContext();
+                                    ((ListTasksFragment) context.getCurrentFragment()).startTask(task);
+
+                                }
+                            }
+                    );
+                }   //  if API > 23
+                else{
+                    AnimatedVectorDrawableCompat drawableAVDC = (AnimatedVectorDrawableCompat) drawable;
+                    drawableAVDC.registerAnimationCallback(
+                            new Animatable2Compat.AnimationCallback() {
+                                @Override
+                                public void onAnimationEnd(Drawable drawable) {
+                                    super.onAnimationEnd(drawable);
+                                    holder.btPlay.setImageResource(R.drawable.anim_rec);
+                                    Drawable drawableRec = holder.btPlay.getDrawable();
+                                    if (drawableRec instanceof Animatable)
+                                        ((Animatable) drawableRec).start();
+                                    // task start
+                                    MainActivity context = (MainActivity) holder.mView.getContext();
+                                    ((ListTasksFragment) context.getCurrentFragment()).startTask(task);
+                                }
+                            }
+                    );
+
+                }
+
+                // STOP
+                if (task.getState() == TaskState.STATE_REC){
+                    MainActivity context = (MainActivity) holder.mView.getContext();
+                    ((ListTasksFragment) context.getCurrentFragment()).stopTask(task);
+
+                    // UnVisible ">" near duration TextView
+                    holder.tvMoreDuration.setVisibility(View.GONE);
+
+                }
+
+                // Save scroll state RecycleView. After refresh data scroll RecycleView to the same position
+                MainActivity context = (MainActivity) holder.mView.getContext();
+                RecyclerView rv = context.findViewById(R.id.navigation_list_tasks);
+                if (rv !=null && rv instanceof RecyclerView) {
+                    LinearLayoutManager layoutManager = ((LinearLayoutManager) rv.getLayoutManager());
+                    instanceState = layoutManager.onSaveInstanceState();
+                }
             }
         });
         // endregion
@@ -142,35 +196,42 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         return tasks.size();
     }
 
+    @Override
+    public void onViewRecycled(@NonNull ViewHolder holder) {
+        super.onViewRecycled(holder);
+    }
+
     public class ViewHolder extends RecyclerView.ViewHolder {
-//        public final View mView;
+        public final View mView;
         public final TextView mIdView;
         public final TextView mTitleView;
         public final TextView mDurationView;
         public final TextView mDateCreate;
         public final TextView mDateStarted;
         public final TextView mDateLast;
-        public ImageButton btPlay;
-        public ImageButton btRec;
+        public final ImageButton btPlay;
+        public final TextView tvMoreDuration;
+
         public Task mTask;
 
         public ViewHolder(View view) {
             super(view);
-//            mView = view;
-            mIdView = view.findViewById(R.id.tv_task_id);
-            mTitleView = view.findViewById(R.id.tv_task_title);
-            mDurationView = view.findViewById(R.id.tv_task_duration);
-            mDateCreate = view.findViewById(R.id.tv_task_date_created);
-            mDateStarted = view.findViewById(R.id.tv_task_date_started);
-            mDateLast = view.findViewById(R.id.tv_task_date_last);
-            btPlay = view.findViewById(R.id.btn_play);
-            btRec = view.findViewById(R.id.btn_rec);
+            mView           = view;
+            mIdView         = view.findViewById(R.id.tv_task_id);
+            mTitleView      = view.findViewById(R.id.tv_task_title);
+            mDurationView   = view.findViewById(R.id.tv_task_duration);
+            mDateCreate     = view.findViewById(R.id.tv_task_date_created);
+            mDateStarted    = view.findViewById(R.id.tv_task_date_started);
+            mDateLast       = view.findViewById(R.id.tv_task_date_last);
+            btPlay          = view.findViewById(R.id.btn_play);
+            tvMoreDuration  = view.findViewById(R.id.tv_more_duration);
         }
 
         @Override
         public String toString() {
             return super.toString() + " '" + mTitleView.getText() + "'";
         }
+
     }
 
     /***
@@ -190,7 +251,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     }
 
 
-    //Put or delete selected position into SparseBooleanArray
+    //Put or deleteTask selected position into SparseBooleanArray
     public void selectView(int position, boolean value) {
         if (value)
             mSelectedItemsIds.put(position, value);
@@ -214,6 +275,5 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     public SparseBooleanArrayParcelable getSelectedIds() {
         return mSelectedItemsIds;
     }
-
 
 }

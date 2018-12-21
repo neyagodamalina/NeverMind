@@ -46,9 +46,6 @@ public class NMRepository {
     }
 
 
-    public AppDatabase getDatabase(){
-        return database;
-    }
 
     public void addProject(Project project){
         long id = projectDao.insertProject(project);
@@ -60,15 +57,31 @@ public class NMRepository {
     }
 
     public void startTask(Task task){
-        Slot slot = new Slot(task.getId(), Calendar.getInstance().getTimeInMillis(), 0);
+        long timeStart = Calendar.getInstance().getTimeInMillis();
+        Slot slot = new Slot(task.getId(), timeStart, timeStart); // Before slot will be stop timeStop = timeStart.
         slotDao.insert(slot);
-        if (task.getTimeStart() == 0) {
+        if (task.getTimeStart() == 0) { // Is this first slot for task&
             task.setTimeStart(slot.getTimeStart());
-            task.setTimeStop(slot.getTimeStart()); // While new task is working set timeStop = timeStart. When task was stopped will change stopTime to current time.
-            task.setState(TaskState.STATE_PLAY);
+            task.setTimeStop(slot.getTimeStop()); // While new task is working set timeStop = timeStart. When task was stopped will change stopTime to current time.
         }
+        task.setState(TaskState.STATE_REC);
         taskDao.update(task);
+    }
 
-        Log.d(Constants.LOG_TAG, "Start task id=" + task.getId());
+
+    public void stopTask(Task task){
+        long timeStop = Calendar.getInstance().getTimeInMillis();
+        Slot slot = slotDao.selectLastSlotForTask(task.getId());
+        if (slot != null) {
+            slot.setTimeStop(timeStop);
+            slotDao.update(slot);
+            task.setState(TaskState.STATE_STOP);
+            task.setTimeStop(timeStop);
+            taskDao.update(task);
+        }
+    }
+
+    public void deleteTask(Task task){
+        taskDao.delete(task);
     }
 }

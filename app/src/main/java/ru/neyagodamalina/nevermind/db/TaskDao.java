@@ -28,6 +28,10 @@ public interface TaskDao {
     @Query("delete from task")
     public void deleteAllTasks();
 
+    @Delete
+    void delete(Task task);
+
+
     @Update
     void update(Task task);
 

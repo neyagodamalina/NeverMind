@@ -13,6 +13,7 @@ import androidx.appcompat.view.ActionMode;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,6 +27,7 @@ import java.util.List;
 
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
+import ru.neyagodamalina.nevermind.util.Constants;
 import ru.neyagodamalina.nevermind.util.SparseBooleanArrayParcelable;
 import ru.neyagodamalina.nevermind.viewmodel.ListTasksViewModel;
 import ru.neyagodamalina.nevermind.viewmodel.TaskViewModel;
@@ -49,6 +51,8 @@ public class ListTasksFragment extends CommonFragment {
         super.onSaveInstanceState(outState);
         if (mActionMode != null)
             outState.putParcelable("selectedItems", adapter.getSelectedIds());
+
+
     }
 
     @Override
@@ -66,6 +70,7 @@ public class ListTasksFragment extends CommonFragment {
 
         // Set the adapter
         if (recyclerView instanceof RecyclerView) {
+
             recyclerView.setLayoutManager(new LinearLayoutManager(mainActivity));
 
             LiveData<List<Task>> liveDataTasks = listTasksViewModel.getAllTasks();
@@ -82,9 +87,18 @@ public class ListTasksFragment extends CommonFragment {
                                     mActionMode.setTitle(String.valueOf(adapter
                                             .getSelectedCount()) + " " + getContext().getResources().getString(R.string.selected));
                                 }
+
                             }
+
+                            // auto scroll to last position
+                            if (RecyclerViewAdapterTask.instanceState != null)
+                                recyclerView.getLayoutManager().onRestoreInstanceState(RecyclerViewAdapterTask.instanceState);
+
+
                             recyclerView.setAdapter(adapter);
                             ListTasksFragment.tasks = tasks;
+
+
                         }
                     }
             );
@@ -183,18 +197,17 @@ public class ListTasksFragment extends CommonFragment {
     }
 
     //Delete selected rows
-    public void deleteRows() {
-        SparseBooleanArray selected = adapter
-                .getSelectedIds();//Get selected ids
+    public void deleteTasks() {
+        SparseBooleanArray selected = adapter.getSelectedIds();//Get selected ids
 
         //Loop all selected ids
         for (int i = (selected.size() - 1); i >= 0; i--) {
             if (selected.valueAt(i)) {
-                //If current id is selected remove the item via key
-                tasks.remove(selected.keyAt(i));
-                adapter.notifyDataSetChanged();//notify adapter
-
+                //If current id is selected remove the item
+                Log.d(Constants.LOG_TAG, "Task has been deleted Id=" + tasks.get(selected.keyAt(i)).getId());
+                deleteTask(tasks.get(selected.keyAt(i)));
             }
+
         }
         Toast.makeText(getActivity(), selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
         mActionMode.finish();//Finish action mode after use
@@ -205,4 +218,14 @@ public class ListTasksFragment extends CommonFragment {
         taskViewModel.startTask(task);
     }
 
+
+    public void stopTask(Task task){
+        taskViewModel.stopTask(task);
+    }
+
+    public void deleteTask(Task task){
+        taskViewModel.deleteTask(task);
+    }
+
 }
+

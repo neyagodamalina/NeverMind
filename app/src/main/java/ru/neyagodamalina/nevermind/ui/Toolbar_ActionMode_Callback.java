@@ -11,6 +11,7 @@ import android.view.MenuItem;
 
 import java.util.List;
 
+import androidx.recyclerview.widget.RecyclerView;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.util.Constants;
@@ -55,12 +56,15 @@ public class Toolbar_ActionMode_Callback implements ActionMode.Callback {
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_delete:
-                Log.d(Constants.LOG_TAG, "Delete row(s)");
+                Fragment fragment = ((MainActivity) context).getCurrentFragment();
+                if ((fragment != null) && (fragment instanceof ListTasksFragment)) {
+                    ((ListTasksFragment) fragment).deleteTasks();
+                }
 //                //If current fragment is recycler view fragment
 //                Fragment recyclerFragment = new MainActivity().getFragment(1);//Get recycler view fragment
 //                if (recyclerFragment != null)
 //                    //If recycler fragment not null
-//                    ((RecyclerView_Fragment) recyclerFragment).deleteRows();//delete selected rows
+//                    ((RecyclerView_Fragment) recyclerFragment).deleteRows();//deleteTask selected rows
                 break;
 //            case R.id.action_edit:
 //                Log.d(Constants.LOG_TAG, "Edit row");
