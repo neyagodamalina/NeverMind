@@ -1,0 +1,3 @@
+//TODO Change background for horizontal device. Now it stretch to width screen.
+//DONE If scroll up, bottom navigation menu is invisible and then delete all tasks, bottom navigation menu does't appearance again.
+//TODO Select task, rotate, delete task (check what task has been deleted), but ActionMode does't destroy. Delete more - crash.

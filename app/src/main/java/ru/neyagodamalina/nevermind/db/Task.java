@@ -45,7 +45,7 @@ public class Task extends Duration {
         this.title = StringCutter.cut(text);
         this.projectId = projectId;
         this.dateCreate = Calendar.getInstance().getTimeInMillis();
-        this.state = TaskState.STATE_REC;
+        this.state = TaskState.STATE_STOP;
     }
 
     // Default project with id = 1 must exists.

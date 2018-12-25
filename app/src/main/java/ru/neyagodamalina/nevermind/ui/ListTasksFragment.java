@@ -1,6 +1,7 @@
 package ru.neyagodamalina.nevermind.ui;
 
 import androidx.annotation.NonNull;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -22,6 +23,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
+import com.google.android.material.bottomnavigation.BottomNavigationMenu;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
 
@@ -60,7 +65,8 @@ public class ListTasksFragment extends CommonFragment {
                              final Bundle savedInstanceState) {
         View mViewFragment = inflater.inflate(R.layout.fragment_list_tasks, container, false);
         ListTasksViewModel listTasksViewModel = ViewModelProviders.of(this).get(ListTasksViewModel.class);
-        this.taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);;
+        this.taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        ;
         MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
         mainActivity.setCurrentFragment(this);
 
@@ -107,6 +113,13 @@ public class ListTasksFragment extends CommonFragment {
         implementRecyclerViewClickListeners();
 
         return mViewFragment;
+    }
+
+    @Override
+    public void onDestroyView() {
+        if (mActionMode != null)
+            mActionMode.finish();
+        super.onDestroyView();
     }
 
     /**
@@ -212,19 +225,32 @@ public class ListTasksFragment extends CommonFragment {
         Toast.makeText(getActivity(), selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
         mActionMode.finish();//Finish action mode after use
 
+
+        BottomNavigationView bottomNavigationView = this.getActivity().findViewById(R.id.bottom_navigation_view);
+        CoordinatorLayout.LayoutParams params =
+                (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
+        ((HideBottomViewOnScrollBehavior) params.getBehavior()).slideUp(bottomNavigationView);
+
+
+//        coordinatorLayout.dispatchDependentViewsChanged(bottomNavigationView);
+        //recyclerView.refreshDrawableState();
+//        ((CoordinatorLayout.AttachedBehavior) coordinatorLayout).getBehavior().onDependentViewChanged(coordinatorLayout, recyclerView, bottomNavigationView);
+
     }
 
-    public void startTask(Task task){
+    public void startTask(Task task) {
         taskViewModel.startTask(task);
     }
 
 
-    public void stopTask(Task task){
+    public void stopTask(Task task) {
         taskViewModel.stopTask(task);
     }
 
-    public void deleteTask(Task task){
+    public void deleteTask(Task task) {
         taskViewModel.deleteTask(task);
+
+
     }
 
 }

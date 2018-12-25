@@ -30,11 +30,13 @@ public class Toolbar_ActionMode_Callback implements ActionMode.Callback {
         this.context = context;
         this.recyclerView_adapter = recyclerView_adapter;
         this.tasks = tasks;
+        Log.d(Constants.LOG_TAG, "Constructor Toolbar_ActionMode_Callback");
     }
 
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu) {
         mode.getMenuInflater().inflate(R.menu.context_action_menu_list_tasks, menu);//Inflate the menu over action mode
+        Log.d(Constants.LOG_TAG, "onCreateActionMode");
         return true;
     }
 
@@ -48,7 +50,7 @@ public class Toolbar_ActionMode_Callback implements ActionMode.Callback {
         } else {
             menu.findItem(R.id.action_delete).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
         }
-
+        Log.d(Constants.LOG_TAG, "onPrepareActionMode");
         return true;
     }
 
@@ -108,6 +110,5 @@ public class Toolbar_ActionMode_Callback implements ActionMode.Callback {
         Fragment fragment = ((MainActivity) context).getCurrentFragment();
         if (fragment != null)
             ((ListTasksFragment) fragment).setNullToActionMode();//Set action mode null
-
     }
 }
