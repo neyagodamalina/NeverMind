@@ -1,3 +1,6 @@
 //TODO Change background for horizontal device. Now it stretch to width screen.
 //DONE If scroll up, bottom navigation menu is invisible and then delete all tasks, bottom navigation menu does't appearance again.
-//TODO Select task, rotate, delete task (check what task has been deleted), but ActionMode does't destroy. Delete more - crash.
+//DONE Select task, rotate, delete task (check what task has been deleted), but ActionMode does't destroy. Delete more - crash.
+//TODO Change color of play button to grey when item is selected
+//DONE "started", "last" set in "-" for new task.
+//DONE Change border color for selected items

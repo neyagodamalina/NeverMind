@@ -22,6 +22,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
@@ -41,6 +43,7 @@ public class ListTasksFragment extends CommonFragment {
     private ListTasksFragment.OnListFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
     private ActionMode mActionMode;
+    private SparseBooleanArrayParcelable mSelectedTasks;
     private static List<Task> tasks;
     private static RecyclerViewAdapterTask adapter;
     private static TaskViewModel taskViewModel;
@@ -63,10 +66,12 @@ public class ListTasksFragment extends CommonFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
+
+        Log.d(Constants.LOG_TAG, "------------------ ListTasksFragment onCreateView ------------------");
         View mViewFragment = inflater.inflate(R.layout.fragment_list_tasks, container, false);
         ListTasksViewModel listTasksViewModel = ViewModelProviders.of(this).get(ListTasksViewModel.class);
         this.taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
-        ;
+
         MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
         mainActivity.setCurrentFragment(this);
 
@@ -84,26 +89,21 @@ public class ListTasksFragment extends CommonFragment {
                     ) {
                         @Override
                         public void onChanged(@Nullable List<Task> tasks) {
+                            Log.d(Constants.LOG_TAG, "------------------ Observer onChanged ------------------");
                             adapter = new RecyclerViewAdapterTask(tasks, mListener);
-                            if (savedInstanceState != null) {
-                                SparseBooleanArrayParcelable selectedItems = savedInstanceState.getParcelable("selectedItems");
-                                if (selectedItems != null) {
-                                    adapter.setSelectedItemsIds(selectedItems);
-                                    mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode_Callback(getActivity(), adapter, tasks));
-                                    mActionMode.setTitle(String.valueOf(adapter
-                                            .getSelectedCount()) + " " + getContext().getResources().getString(R.string.selected));
-                                }
-
+                            if (mSelectedTasks != null) {
+                                adapter.setSelectedItemsIds(mSelectedTasks);
+                                mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode_Callback(getActivity(), adapter, tasks));
+                                mActionMode.setTitle(String.valueOf(adapter.getSelectedCount()) + " " + getContext().getResources().getString(R.string.selected));
                             }
+
 
                             // auto scroll to last position
                             if (RecyclerViewAdapterTask.instanceState != null)
                                 recyclerView.getLayoutManager().onRestoreInstanceState(RecyclerViewAdapterTask.instanceState);
 
-
                             recyclerView.setAdapter(adapter);
                             ListTasksFragment.tasks = tasks;
-
 
                         }
                     }
@@ -111,8 +111,15 @@ public class ListTasksFragment extends CommonFragment {
         }
 
         implementRecyclerViewClickListeners();
-
+        Log.d(Constants.LOG_TAG, "CreateView\t" + this.toString());
         return mViewFragment;
+    }
+
+    @Override
+    public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        super.onViewStateRestored(savedInstanceState);
+        if (savedInstanceState != null)
+            mSelectedTasks = savedInstanceState.getParcelable("selectedItems");
     }
 
     @Override
@@ -205,8 +212,8 @@ public class ListTasksFragment extends CommonFragment {
 
     //Set action mode null after use
     public void setNullToActionMode() {
-        if (mActionMode != null)
-            mActionMode = null;
+        mActionMode = null;
+        mSelectedTasks = null;
     }
 
     //Delete selected rows
@@ -225,16 +232,13 @@ public class ListTasksFragment extends CommonFragment {
         Toast.makeText(getActivity(), selected.size() + " item deleted.", Toast.LENGTH_SHORT).show();//Show Toast
         mActionMode.finish();//Finish action mode after use
 
-
+        // After scrolling tasks, BottomNavigationView hides.
+        // When delete tasks, BottomNavigationView was be invisible (slideDown)
+        // and can't show it again without few tasks. Show (slideUp) BottomNavigationView any case.
         BottomNavigationView bottomNavigationView = this.getActivity().findViewById(R.id.bottom_navigation_view);
         CoordinatorLayout.LayoutParams params =
                 (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         ((HideBottomViewOnScrollBehavior) params.getBehavior()).slideUp(bottomNavigationView);
-
-
-//        coordinatorLayout.dispatchDependentViewsChanged(bottomNavigationView);
-        //recyclerView.refreshDrawableState();
-//        ((CoordinatorLayout.AttachedBehavior) coordinatorLayout).getBehavior().onDependentViewChanged(coordinatorLayout, recyclerView, bottomNavigationView);
 
     }
 

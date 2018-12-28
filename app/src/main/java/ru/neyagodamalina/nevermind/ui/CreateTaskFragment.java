@@ -90,7 +90,7 @@ public class CreateTaskFragment extends CommonFragment {
                 addTask();
                 BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_navigation_view);
                 bottomNavigationView.setSelectedItemId(R.id.navigation_list_tasks);
-                Toast.makeText(view.getContext(), R.string.toast_task_added, Toast.LENGTH_LONG).show();
+                Toast.makeText(view.getContext(), R.string.toast_task_added, Toast.LENGTH_SHORT).show();
             }
         });
         // endregion
@@ -109,7 +109,7 @@ public class CreateTaskFragment extends CommonFragment {
                         NMRepository.deleteAllProjects();
                     }
                 });
-                Toast.makeText(getContext(), "Deleted all projects from database.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Deleted all projects from database.", Toast.LENGTH_SHORT).show();
 
             }
         });

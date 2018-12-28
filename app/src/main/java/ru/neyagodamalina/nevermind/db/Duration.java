@@ -194,7 +194,7 @@ public class Duration {
         sb.append(value + "h");
 
         value = toMinutesPart();
-        sb.append(value + "m");
+        sb.append(value + "min");
 
         value = toSecondsPart();
         sb.append(value + "s");

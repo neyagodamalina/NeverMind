@@ -1,6 +1,8 @@
 package ru.neyagodamalina.nevermind;
 
-import androidx.test.InstrumentationRegistry;
+
+import 	androidx.test.core.app.ApplicationProvider;
+
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,7 +26,7 @@ public class InitDatabaseForTest {
 
     @Before
     public void init() {
-        database = AppDatabase.getInstanceForTest(InstrumentationRegistry.getTargetContext());
+        database = AppDatabase.getInstanceForTest(ApplicationProvider.getApplicationContext());
 
         mProjectDao = database.getProjectDao();
         mTaskDao    = database.getTaskDao();

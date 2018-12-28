@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
 public class LiveDataTestUtil {
 
     /**
-     * Get the value from a LiveData object. We're waiting for LiveData to emit, for 2 seconds.
+     * Get the value from a LiveData object. We're waiting for LiveData to wait, for 2 seconds.
      * Once we got a notification via onChanged, we stop observing.
      */
     public static <T> T getValue(final LiveData<T> liveData) throws InterruptedException {

@@ -1,9 +1,11 @@
 package ru.neyagodamalina.nevermind.db;
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.lifecycle.LiveData;
-import androidx.test.runner.AndroidJUnit4;
+import androidx.test.ext.junit.runners.AndroidJUnit4;
 import android.util.Log;
 
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -19,8 +21,13 @@ import static org.junit.Assert.assertEquals;
 /**
  * Created by developer on 22.11.2017.
  */
+
+
 @RunWith(AndroidJUnit4.class)
 public class ProjectDaoTest extends InitDatabaseForTest {
+
+    @Rule
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Test
     public void deleteProject() throws Exception {

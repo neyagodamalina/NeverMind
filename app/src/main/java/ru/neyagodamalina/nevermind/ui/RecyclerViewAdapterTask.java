@@ -4,7 +4,6 @@ import android.graphics.drawable.Animatable;
 import android.graphics.drawable.Animatable2;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.LayerDrawable;
 import android.os.Build;
 import android.os.Parcelable;
 import android.util.Log;
@@ -12,7 +11,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.text.DateFormat;
@@ -64,13 +62,10 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         holder.mTitleView.setText(task.getTitle());
         holder.mDurationView.setText(task.toStringDuration(FormatDuration.FORMAT_SMART, holder.itemView.getResources()));
         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
-
-        Drawable bgDurationText = holder.mDurationView.getBackground(); // set red dash when task is playing
-
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
         holder.mDateCreate.setText(dateFormat.format(new Date(task.getDateCreate())));
-        holder.mDateStarted.setText(dateFormat.format(new Date(task.getTimeStart())));
-        holder.mDateLast.setText(dateFormat.format(new Date(task.getTimeStop())));
+        holder.mDateStarted.setText((task.getTimeStart() == 0) ? "-" : dateFormat.format(new Date(task.getTimeStart())));
+        holder.mDateLast.setText((task.getTimeStop() == 0) ? "-" : dateFormat.format(new Date(task.getTimeStop())));
 
 
         // Set background for selected or not selected items
@@ -141,10 +136,9 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                                     // Visible ">" near duration TextView
                                     holder.tvMoreDuration.setVisibility(View.VISIBLE);
 
-                                    // task start
+                                    // task START
                                     MainActivity context = (MainActivity) holder.mView.getContext();
                                     ((ListTasksFragment) context.getCurrentFragment()).startTask(task);
-
                                 }
                             }
                     );
@@ -160,7 +154,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                                     Drawable drawableRec = holder.btPlay.getDrawable();
                                     if (drawableRec instanceof Animatable)
                                         ((Animatable) drawableRec).start();
-                                    // task start
+                                    // task START
                                     MainActivity context = (MainActivity) holder.mView.getContext();
                                     ((ListTasksFragment) context.getCurrentFragment()).startTask(task);
                                 }
@@ -169,23 +163,23 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
                 }
 
-                // STOP
+                // task STOP
                 if (task.getState() == TaskState.STATE_REC){
                     MainActivity context = (MainActivity) holder.mView.getContext();
                     ((ListTasksFragment) context.getCurrentFragment()).stopTask(task);
 
                     // UnVisible ">" near duration TextView
                     holder.tvMoreDuration.setVisibility(View.GONE);
-
                 }
 
-                // Save scroll state RecycleView. After refresh data scroll RecycleView to the same position
+                // Save scroll state RecycleView. After refresh data (after press play/stop button) scroll RecycleView to the same position
                 MainActivity context = (MainActivity) holder.mView.getContext();
                 RecyclerView rv = context.findViewById(R.id.navigation_list_tasks);
                 if (rv !=null && rv instanceof RecyclerView) {
                     LinearLayoutManager layoutManager = ((LinearLayoutManager) rv.getLayoutManager());
                     instanceState = layoutManager.onSaveInstanceState();
                 }
+                Log.d(Constants.LOG_TAG, position + "-click-Y=" + holder.mView.getY());
             }
         });
         // endregion
@@ -275,5 +269,6 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     public SparseBooleanArrayParcelable getSelectedIds() {
         return mSelectedItemsIds;
     }
+
 
 }
