@@ -4,3 +4,4 @@
 //TODO Change color of play button to grey when item is selected
 //DONE "started", "last" set in "-" for new task.
 //DONE Change border color for selected items
+//TODO 1d 38 min & 1478min, not show in hours 24h 38min?

@@ -18,7 +18,7 @@ import ru.neyagodamalina.nevermind.db.TaskDao;
 
 public class InitDatabaseForTest {
 
-    private AppDatabase database;
+    protected AppDatabase database;
 
     protected ProjectDao mProjectDao;
     protected TaskDao   mTaskDao;

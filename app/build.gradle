@@ -23,9 +23,6 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestImplementation('androidx.test.espresso:espresso-core:3.1.0', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
     implementation 'androidx.core:core:1.1.0-alpha01'
     implementation 'androidx.appcompat:appcompat:1.0.1'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -36,7 +33,7 @@ dependencies {
     implementation 'androidx.recyclerview:recyclerview:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation "androidx.arch.core:core-testing:2.0.0-rc01"
+    androidTestImplementation 'androidx.arch.core:core-testing:2.0.0-rc01'
     annotationProcessor 'androidx.lifecycle:lifecycle-compiler:2.0.0'
     annotationProcessor 'androidx.room:room-compiler:2.1.0-alpha02'
     //    androidTestCompile 'org.mockito:mockito-core:2.11.0'
@@ -44,4 +41,6 @@ dependencies {
     // Navigation
     implementation 'android.arch.navigation:navigation-fragment:1.0.0-alpha01'
     implementation 'android.arch.navigation:navigation-ui:1.0.0-alpha01'
+    androidTestImplementation 'androidx.test.espresso:espresso-contrib:3.1.1'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
 }

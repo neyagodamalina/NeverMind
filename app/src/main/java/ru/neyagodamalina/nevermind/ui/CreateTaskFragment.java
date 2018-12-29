@@ -105,8 +105,9 @@ public class CreateTaskFragment extends CommonFragment {
                 Executors.newSingleThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
-                        NMRepository NMRepository = new NMRepository(getContext());
-                        NMRepository.deleteAllProjects();
+                        Toast.makeText(getContext(),"Press list.", Toast.LENGTH_SHORT).show();
+//                        NMRepository NMRepository = new NMRepository(getContext());
+//                        NMRepository.deleteAllProjects();
                     }
                 });
                 Toast.makeText(getContext(), "Deleted all projects from database.", Toast.LENGTH_SHORT).show();

@@ -28,9 +28,8 @@ public class NMRepository {
     private final AppDatabase database;
     private Context context;
 
-    public NMRepository(Context context){
-        this.context = context;
-        this.database = AppDatabase.getInstance(context);
+    public NMRepository(AppDatabase database){
+        this.database = database;
         projectDao = database.getProjectDao();
         taskDao = database.getTaskDao();
         slotDao = database.getSlotDao();

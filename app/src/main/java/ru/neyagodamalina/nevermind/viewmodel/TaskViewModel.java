@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
+import ru.neyagodamalina.nevermind.db.AppDatabase;
 import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.repository.NMRepository;
@@ -20,7 +21,7 @@ import ru.neyagodamalina.nevermind.repository.NMRepository;
 
 public class TaskViewModel extends AndroidViewModel {
 
-    private NMRepository NMRepository = new NMRepository(this.getApplication());
+    private NMRepository NMRepository = new NMRepository(AppDatabase.getInstance(this.getApplication()));
     private final Executor executor = Executors.newFixedThreadPool(1);
 
     public TaskViewModel(@NonNull Application application) {
