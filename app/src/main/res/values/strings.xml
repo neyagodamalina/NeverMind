@@ -40,6 +40,7 @@
     <string name="last">last</string>
     <string name="duration">duration</string>
     <string name="total">total</string>
+    <string name="more_duration">\></string>
 
     <string-array name="projects_delete_me">
         <item>My Live</item>

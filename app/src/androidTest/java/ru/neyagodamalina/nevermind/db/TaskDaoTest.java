@@ -15,6 +15,7 @@ import static org.junit.Assert.assertEquals;
 import ru.neyagodamalina.nevermind.InitDatabaseForTest;
 import ru.neyagodamalina.nevermind.LiveDataTestUtil;
 
+import static org.mockito.ArgumentMatchers.longThat;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -43,6 +44,22 @@ public class TaskDaoTest extends InitDatabaseForTest {
         mTaskDao.insert(task3);
         assertEquals(3, LiveDataTestUtil.getValue(tasks).size());
 
+    }
+
+    @Test
+    public void zeroTimeStartTask(){
+        Task task = new Task("New task");
+        long id = mTaskDao.insert(task);
+        Task taskFromBD = mTaskDao.selectTaskById(id);
+        assertEquals(0, taskFromBD.getTimeStart());
+    }
+
+    @Test
+    public void zeroTimeStopTask(){
+        Task task = new Task("New task");
+        long id = mTaskDao.insert(task);
+        Task taskFromBD = mTaskDao.selectTaskById(id);
+        assertEquals(0, taskFromBD.getTimeStop());
     }
 
 

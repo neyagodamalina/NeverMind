@@ -8,6 +8,7 @@ import org.junit.Test;
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import ru.neyagodamalina.nevermind.InitDatabaseForTest;
 import ru.neyagodamalina.nevermind.LiveDataTestUtil;
+import ru.neyagodamalina.nevermind.db.Task;
 import ru.neyagodamalina.nevermind.util.Constants;
 
 import static org.junit.Assert.*;
@@ -18,16 +19,37 @@ public class NMRepositoryTest  extends InitDatabaseForTest {
     public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Test
-    public void startTask() {
+    public void taskStartStop() {
         NMRepository repository = new NMRepository(database);
+        Task task = new Task("New task");
+        long id = mTaskDao.insert(task);
+        Task taskFromBD = mTaskDao.selectTaskById(id);
+        repository.startTask(taskFromBD);
         try {
-            Log.d(Constants.LOG_TAG, "Count projects = " + LiveDataTestUtil.getValue(repository.getAllProjects()).size());
+            Thread.sleep(1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        repository.stopTask(taskFromBD);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        repository.startTask(taskFromBD);
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        repository.stopTask(taskFromBD);
+
+
+        assertEquals(4000, taskFromBD.getTimeStop() - task.getTimeStart(), 100);
+
     }
 
-    @Test
-    public void stopTask() {
-    }
+
 }

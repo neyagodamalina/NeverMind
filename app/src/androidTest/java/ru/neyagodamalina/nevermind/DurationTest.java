@@ -1,6 +1,7 @@
 package ru.neyagodamalina.nevermind;
 
 import android.content.Context;
+import android.util.Log;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -13,6 +14,7 @@ import org.junit.runner.RunWith;
 import java.util.Calendar;
 
 import ru.neyagodamalina.nevermind.db.Duration;
+import ru.neyagodamalina.nevermind.util.Constants;
 import ru.neyagodamalina.nevermind.util.FormatDuration;
 
 import static org.junit.Assert.*;
@@ -110,4 +112,5 @@ public class DurationTest {
         Duration slot = new Duration(start.getTimeInMillis(), stop.getTimeInMillis());
         assertEquals("", slot.toStringDuration(FormatDuration.FORMAT_SMART, appContext.getResources()));
     }
+
 }

@@ -33,6 +33,10 @@ public class Task extends Duration {
 
     long dateCreate;
 
+
+    long dateStart;
+    long dateLast;
+
     int state;
 
     @ColumnInfo(index = true)
@@ -75,6 +79,17 @@ public class Task extends Duration {
     }
 
     @Ignore
+    public long getDateStart() {
+        return dateStart;
+    }
+
+    @Ignore
+    public long getDateLast() {
+        return dateLast;
+    }
+
+
+    @Ignore
     public int getState() {
         return state;
     }
@@ -82,6 +97,15 @@ public class Task extends Duration {
     public void setState(int state){
         this.state = state;
     }
+
+    public void setDateStart(long dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public void setDateLast(long dateLast) {
+        this.dateLast = dateLast;
+    }
+
 
 
 

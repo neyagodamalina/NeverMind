@@ -64,9 +64,12 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         holder.mDurationView.setTag(R.id.tag_current_format_duration, FormatDuration.FORMAT_SMART);
         DateFormat dateFormat = SimpleDateFormat.getDateInstance(DateFormat.SHORT);
         holder.mDateCreate.setText(dateFormat.format(new Date(task.getDateCreate())));
-        holder.mDateStarted.setText((task.getTimeStart() == 0) ? "-" : dateFormat.format(new Date(task.getTimeStart())));
-        holder.mDateLast.setText((task.getTimeStop() == 0) ? "-" : dateFormat.format(new Date(task.getTimeStop())));
+        holder.mDateStart.setText((task.getDateStart() == 0) ? "-" : dateFormat.format(new Date(task.getDateStart())));
+        holder.mDateLast.setText((task.getDateLast() == 0) ? "-" : dateFormat.format(new Date(task.getDateLast())));
 
+        // ">" near duration while task is working
+        if (task.getState() == TaskState.STATE_REC)
+            holder.tvMoreDuration.setText(R.string.more_duration);
 
         // Set background for selected or not selected items
         holder.itemView
@@ -107,9 +110,8 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
             Drawable drawableRec = holder.btPlay.getDrawable();
             if (drawableRec instanceof Animatable)
                 ((Animatable) drawableRec).start();
-            holder.tvMoreDuration.setVisibility(View.VISIBLE);
-        }
-        else
+
+        } else
             holder.btPlay.setImageResource(R.drawable.anim_play); // Not set in row_list_task.xml, because play run anywhere where use this button.
 
         holder.btPlay.setOnClickListener(new View.OnClickListener() {
@@ -133,9 +135,6 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                                     if (drawableRec instanceof Animatable)
                                         ((Animatable) drawableRec).start();
 
-                                    // Visible ">" near duration TextView
-                                    holder.tvMoreDuration.setVisibility(View.VISIBLE);
-
                                     // task START
                                     MainActivity context = (MainActivity) holder.mView.getContext();
                                     ((ListTasksFragment) context.getCurrentFragment()).startTask(task);
@@ -143,7 +142,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                             }
                     );
                 }   //  if API > 23
-                else{
+                else {
                     AnimatedVectorDrawableCompat drawableAVDC = (AnimatedVectorDrawableCompat) drawable;
                     drawableAVDC.registerAnimationCallback(
                             new Animatable2Compat.AnimationCallback() {
@@ -164,22 +163,19 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                 }
 
                 // task STOP
-                if (task.getState() == TaskState.STATE_REC){
+                if (task.getState() == TaskState.STATE_REC) {
                     MainActivity context = (MainActivity) holder.mView.getContext();
                     ((ListTasksFragment) context.getCurrentFragment()).stopTask(task);
 
-                    // UnVisible ">" near duration TextView
-                    holder.tvMoreDuration.setVisibility(View.GONE);
                 }
 
                 // Save scroll state RecycleView. After refresh data (after press play/stop button) scroll RecycleView to the same position
                 MainActivity context = (MainActivity) holder.mView.getContext();
                 RecyclerView rv = context.findViewById(R.id.navigation_list_tasks);
-                if (rv !=null && rv instanceof RecyclerView) {
+                if (rv != null && rv instanceof RecyclerView) {
                     LinearLayoutManager layoutManager = ((LinearLayoutManager) rv.getLayoutManager());
                     instanceState = layoutManager.onSaveInstanceState();
                 }
-                Log.d(Constants.LOG_TAG, position + "-click-Y=" + holder.mView.getY());
             }
         });
         // endregion
@@ -201,7 +197,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
         public final TextView mTitleView;
         public final TextView mDurationView;
         public final TextView mDateCreate;
-        public final TextView mDateStarted;
+        public final TextView mDateStart;
         public final TextView mDateLast;
         public final ImageButton btPlay;
         public final TextView tvMoreDuration;
@@ -210,15 +206,15 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
         public ViewHolder(View view) {
             super(view);
-            mView           = view;
-            mIdView         = view.findViewById(R.id.tv_task_id);
-            mTitleView      = view.findViewById(R.id.tv_task_title);
-            mDurationView   = view.findViewById(R.id.tv_task_duration);
-            mDateCreate     = view.findViewById(R.id.tv_task_date_created);
-            mDateStarted    = view.findViewById(R.id.tv_task_date_started);
-            mDateLast       = view.findViewById(R.id.tv_task_date_last);
-            btPlay          = view.findViewById(R.id.btn_play);
-            tvMoreDuration  = view.findViewById(R.id.tv_more_duration);
+            mView = view;
+            mIdView = view.findViewById(R.id.tv_task_id);
+            mTitleView = view.findViewById(R.id.tv_task_title);
+            mDurationView = view.findViewById(R.id.tv_task_duration);
+            mDateCreate = view.findViewById(R.id.tv_task_date_created);
+            mDateStart = view.findViewById(R.id.tv_task_date_started);
+            mDateLast = view.findViewById(R.id.tv_task_date_last);
+            btPlay = view.findViewById(R.id.btn_play);
+            tvMoreDuration = view.findViewById(R.id.tv_more_duration);
         }
 
         @Override

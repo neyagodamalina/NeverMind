@@ -57,13 +57,11 @@ public class NMRepository {
 
     public void startTask(Task task){
         long timeStart = Calendar.getInstance().getTimeInMillis();
-        Slot slot = new Slot(task.getId(), timeStart, timeStart); // Before slot will be stop timeStop = timeStart.
+        Slot slot = new Slot(task.getId(), timeStart, timeStart); // When slot is working timeStop = timeStart.
         slotDao.insert(slot);
-        if (task.getTimeStart() == 0) { // Is this first slot for task&
-            task.setTimeStart(slot.getTimeStart());
-            task.setTimeStop(slot.getTimeStop()); // While new task is working set timeStop = timeStart. When task was stopped will change stopTime to current time.
-        }
         task.setState(TaskState.STATE_REC);
+        if (task.getTimeStop() == 0) // this is first work for task
+            task.setDateStart(timeStart);
         taskDao.update(task);
     }
 
@@ -75,7 +73,8 @@ public class NMRepository {
             slot.setTimeStop(timeStop);
             slotDao.update(slot);
             task.setState(TaskState.STATE_STOP);
-            task.setTimeStop(timeStop);
+            task.setTimeStop(task.getTimeStop() + slot.getTimeStop() - slot.getTimeStart());
+            task.setDateLast(timeStop);
             taskDao.update(task);
         }
     }

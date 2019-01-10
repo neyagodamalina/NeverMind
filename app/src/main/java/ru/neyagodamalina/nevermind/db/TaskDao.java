@@ -23,7 +23,7 @@ public interface TaskDao {
     public LiveData<List<Task>> selectAllTasks();
 
     @Query("select * from task where id = :taskId")
-    public Task selectTaskById(int taskId);
+    public Task selectTaskById(long taskId);
 
     @Query("delete from task")
     public void deleteAllTasks();

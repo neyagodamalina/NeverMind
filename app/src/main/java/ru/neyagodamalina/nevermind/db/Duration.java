@@ -152,7 +152,7 @@ public class Duration {
                 }
 
 
-                // "3y1m1d1h1m1s" -> "3y 1m 1d 1h 1m 1s"
+                // "3y1m1d1h1min1s" -> "3y 1m 1d 1h 1min 1s"
                 result = sb.toString().replaceAll("(\\d\\D+)", "$1 ").trim();
 
                 break;
@@ -200,7 +200,7 @@ public class Duration {
         sb.append(value + "s");
 
         // "3y1m1d1h1m" -> "3y 1m 1d 1h 1m"
-        result = sb.toString().replaceAll("(\\D)", "$1 ").trim();
+        result = sb.toString().replaceAll("(\\d\\D+)", "$1 ").trim();
 
         return result;
     }
