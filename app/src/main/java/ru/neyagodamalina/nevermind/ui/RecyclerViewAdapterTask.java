@@ -122,7 +122,6 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                 if (drawable instanceof Animatable) {
                     ((Animatable) drawable).start();
                 }
-
                 if (Build.VERSION.SDK_INT > Build.VERSION_CODES.M) {   // API > 23
                     AnimatedVectorDrawable drawableAVD = (AnimatedVectorDrawable) drawable;
                     drawableAVD.registerAnimationCallback(
@@ -171,7 +170,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
                 // Save scroll state RecycleView. After refresh data (after press play/stop button) scroll RecycleView to the same position
                 MainActivity context = (MainActivity) holder.mView.getContext();
-                RecyclerView rv = context.findViewById(R.id.navigation_list_tasks);
+                RecyclerView rv = context.findViewById(R.id.rv_navigation_list_tasks);
                 if (rv != null && rv instanceof RecyclerView) {
                     LinearLayoutManager layoutManager = ((LinearLayoutManager) rv.getLayoutManager());
                     instanceState = layoutManager.onSaveInstanceState();

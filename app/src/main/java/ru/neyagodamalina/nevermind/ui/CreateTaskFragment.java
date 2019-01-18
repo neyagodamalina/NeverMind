@@ -28,7 +28,6 @@ import java.util.concurrent.Executors;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Project;
 import ru.neyagodamalina.nevermind.db.Task;
-import ru.neyagodamalina.nevermind.repository.NMRepository;
 import ru.neyagodamalina.nevermind.util.Constants;
 import ru.neyagodamalina.nevermind.viewmodel.TaskViewModel;
 
@@ -89,7 +88,7 @@ public class CreateTaskFragment extends CommonFragment {
                 Log.d(Constants.LOG_TAG, "Add task without alarm.");
                 addTask();
                 BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_navigation_view);
-                bottomNavigationView.setSelectedItemId(R.id.navigation_list_tasks);
+                bottomNavigationView.setSelectedItemId(R.id.rv_navigation_list_tasks);
                 Toast.makeText(view.getContext(), R.string.toast_task_added, Toast.LENGTH_SHORT).show();
             }
         });

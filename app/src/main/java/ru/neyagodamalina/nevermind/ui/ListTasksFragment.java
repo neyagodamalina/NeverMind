@@ -22,12 +22,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.material.behavior.HideBottomViewOnScrollBehavior;
-import com.google.android.material.bottomnavigation.BottomNavigationMenu;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.List;
@@ -77,7 +74,7 @@ public class ListTasksFragment extends CommonFragment {
 
         mainActivity.setTitle(R.string.title_tasks);
 
-        recyclerView = mViewFragment.findViewById(R.id.navigation_list_tasks);
+        recyclerView = mViewFragment.findViewById(R.id.rv_navigation_list_tasks);
 
         // Set the adapter
         if (recyclerView instanceof RecyclerView) {
@@ -177,6 +174,7 @@ public class ListTasksFragment extends CommonFragment {
                 //If ActionMode not null select item
                 if (mActionMode != null)
                     onListItemSelect(position);
+                Toast.makeText(getContext(),"Press item " + position, Toast.LENGTH_SHORT).show();
             }
 
             @Override

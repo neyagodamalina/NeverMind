@@ -1,6 +1,8 @@
 package ru.neyagodamalina.nevermind;
 
 
+import android.util.Log;
+
 import 	androidx.test.core.app.ApplicationProvider;
 
 
@@ -11,6 +13,7 @@ import ru.neyagodamalina.nevermind.db.AppDatabase;
 import ru.neyagodamalina.nevermind.db.ProjectDao;
 import ru.neyagodamalina.nevermind.db.SlotDao;
 import ru.neyagodamalina.nevermind.db.TaskDao;
+import ru.neyagodamalina.nevermind.util.Constants;
 
 /**
  * Created by developer on 14.11.2017.
@@ -26,6 +29,7 @@ public class InitDatabaseForTest {
 
     @Before
     public void init() {
+        Log.d(Constants.LOG_TAG, "******************init*****************");
         database = AppDatabase.getInstanceForTest(ApplicationProvider.getApplicationContext());
 
         mProjectDao = database.getProjectDao();
