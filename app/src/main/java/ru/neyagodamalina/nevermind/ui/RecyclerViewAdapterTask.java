@@ -49,7 +49,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.row_list_task, parent, false);
+                .inflate(R.layout.row_list_tasks, parent, false);
         return new ViewHolder(view);
     }
 
@@ -106,13 +106,13 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
 
         // PLAY if was playing before
         if (task.getState() == TaskState.STATE_REC) {
-            holder.btPlay.setImageResource(R.drawable.anim_rec); // Not set in row_list_task.xml, because play run anywhere where use this button.
+            holder.btPlay.setImageResource(R.drawable.anim_rec); // Not set in row_list_tasks.xmll, because play run anywhere where use this button.
             Drawable drawableRec = holder.btPlay.getDrawable();
             if (drawableRec instanceof Animatable)
                 ((Animatable) drawableRec).start();
 
         } else
-            holder.btPlay.setImageResource(R.drawable.anim_play); // Not set in row_list_task.xml, because play run anywhere where use this button.
+            holder.btPlay.setImageResource(R.drawable.anim_play); // Not set in row_list_tasks.xmll, because play run anywhere where use this button.
 
         holder.btPlay.setOnClickListener(new View.OnClickListener() {
             @Override
