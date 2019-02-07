@@ -54,7 +54,7 @@ import static androidx.test.espresso.Espresso.onView;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest{
+public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
@@ -82,25 +82,29 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest{
         onView(withId(R.id.navigation_list_tasks)).perform(click());
         onView(withText(taskName)).check(doesNotExist());
         onView((withId(R.id.rv_navigation_list_tasks))).perform(scrollTo(hasDescendant(withText(taskName))));
-        onView(withText(taskName)).check(matches(isDisplayed()));
-
-        onView(allOf(withParent(withParent(withChild(withText(taskName)))), myMatcher())).perform(click());
-
-
-//        onView(withId(R.id.btn_play)).perform(click());
-
-
         try {
             Thread.sleep(10000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+        onView(withText(taskName)).check(matches(isDisplayed()));
+
+
+        onView(allOf(withChild(withText(taskName)), myMatcher())).perform(ChildViewAction.clickChildViewWithId(R.id.btn_play));
+
+//        onView(withId(R.id.btn_play)).perform(click());
+
+
+//        try {
+//            Thread.sleep(10000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 //        onView(withId(R.id.navigation_list_tasks)).perform(click());
 //        onView(withId(R.id.rv_navigation_list_tasks)).perform(RecyclerViewActions.scrollToHolder(withText(taskName))).perform(ChildViewAction.clickChildViewWithId(R.id.btn_play));
 
         //perform(RecyclerViewActions.actionOnItemAtPosition(8, ChildViewAction.clickChildViewWithId(R.id.btn_play)));
-
 
 
         //check(matches(withClassName(Matchers.<String>hasToString("ru.neyagodamalina.nevermind.ui.ListTasksFragment"))));
@@ -115,30 +119,32 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest{
 //        Log.d(Constants.LOG_TAG, "location=" + location[0] + "\t" + location[1]);
 
     }
-    private static Matcher<View> myMatcher(
-            ) {
+
+    public static Matcher<View> myMatcher(
+    ) {
 
         return new TypeSafeMatcher<View>() {
             @Override
             public void describeTo(Description description) {
+                description.appendText("myMatcher");
                 Log.d(Constants.LOG_TAG, "describeTo" + description);
-                description.appendText("myMatcher 1111");
             }
 
             @Override
             public boolean matchesSafely(View view) {
-                    Log.d(Constants.LOG_TAG, "myMatcher>>>>>>>>>\t" + view.toString() + ((view instanceof TextView)? ((TextView) view).getText():""));
+
+                Log.d(Constants.LOG_TAG, "myMatcher>>>>>>>>>\t" + view.toString() + ((view instanceof TextView) ? ((TextView) view).getText() : ""));
                 return true;
             }
         };
     }
 
-    private static ViewAssertion myAssertion(){
-        return new ViewAssertion(){
+    private static ViewAssertion myAssertion() {
+        return new ViewAssertion() {
 
             @Override
             public void check(View view, NoMatchingViewException noViewFoundException) {
-                Log.d(Constants.LOG_TAG, (view == null)? "null" : "myAssertion>>>>>>>>>\t" + view.toString() + ((view instanceof TextView)? ((TextView) view).getText():""));
+                Log.d(Constants.LOG_TAG, (view == null) ? "null" : "myAssertion>>>>>>>>>\t" + view.toString() + ((view instanceof TextView) ? ((TextView) view).getText() : ""));
             }
         };
     }

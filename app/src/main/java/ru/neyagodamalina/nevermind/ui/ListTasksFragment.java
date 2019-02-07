@@ -96,8 +96,8 @@ public class ListTasksFragment extends CommonFragment {
 
 
                             // auto scroll to last position
-                            if (RecyclerViewAdapterTask.instanceState != null)
-                                recyclerView.getLayoutManager().onRestoreInstanceState(RecyclerViewAdapterTask.instanceState);
+//                            if (RecyclerViewAdapterTask.instanceState != null)
+//                                recyclerView.getLayoutManager().onRestoreInstanceState(RecyclerViewAdapterTask.instanceState);
 
                             recyclerView.setAdapter(adapter);
                             ListTasksFragment.tasks = tasks;
