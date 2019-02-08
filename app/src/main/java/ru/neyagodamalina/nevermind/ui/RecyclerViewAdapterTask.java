@@ -173,7 +173,7 @@ public class RecyclerViewAdapterTask extends RecyclerView.Adapter<RecyclerViewAd
                 RecyclerView rv = context.findViewById(R.id.rv_navigation_list_tasks);
                 if (rv != null && rv instanceof RecyclerView) {
                     LinearLayoutManager layoutManager = ((LinearLayoutManager) rv.getLayoutManager());
-                 //   instanceState = layoutManager.onSaveInstanceState();
+                    instanceState = layoutManager.onSaveInstanceState();
                 }
             }
         });

@@ -82,24 +82,35 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
         onView(withId(R.id.navigation_list_tasks)).perform(click());
         onView(withText(taskName)).check(doesNotExist());
         onView((withId(R.id.rv_navigation_list_tasks))).perform(scrollTo(hasDescendant(withText(taskName))));
+        Log.d(Constants.LOG_TAG, "Scroll done!");
         try {
-            Thread.sleep(10000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         onView(withText(taskName)).check(matches(isDisplayed()));
 
+        MyY myY = new MyY();
+        onView(withText(taskName)).check(myY);
+        Log.d(Constants.LOG_TAG, "1>>>>>" + myY.y);
 
-        onView(allOf(withChild(withText(taskName)), myMatcher())).perform(ChildViewAction.clickChildViewWithId(R.id.btn_play));
+        // it works! onView(allOf(withChild(withText(taskName)), myMatcher())).perform(ChildViewAction.clickChildViewWithId(R.id.btn_play));
+        onView(withText(taskName)).perform(ChildViewAction.clickButtonPlayNearTitleView());
 
+        Log.d(Constants.LOG_TAG, "Click done!");
 //        onView(withId(R.id.btn_play)).perform(click());
 
 
-//        try {
-//            Thread.sleep(10000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        //onView(withText(taskName)).check(matches(isDisplayed()));
+
+        onView(withText(taskName)).check(myY);
+        Log.d(Constants.LOG_TAG, "2>>>>>" + myY.y);
 
 //        onView(withId(R.id.navigation_list_tasks)).perform(click());
 //        onView(withId(R.id.rv_navigation_list_tasks)).perform(RecyclerViewActions.scrollToHolder(withText(taskName))).perform(ChildViewAction.clickChildViewWithId(R.id.btn_play));
@@ -120,20 +131,24 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
 
     }
 
-    public static Matcher<View> myMatcher(
-    ) {
+    public static Matcher<View> btPlayOf(final MyY myY)
+        {
 
         return new TypeSafeMatcher<View>() {
             @Override
             public void describeTo(Description description) {
-                description.appendText("myMatcher");
-                Log.d(Constants.LOG_TAG, "describeTo" + description);
+                description.appendText("button Play near title ");
             }
 
             @Override
             public boolean matchesSafely(View view) {
 
-                Log.d(Constants.LOG_TAG, "myMatcher>>>>>>>>>\t" + view.toString() + ((view instanceof TextView) ? ((TextView) view).getText() : ""));
+                ViewParent viewParent = view.getParent();
+                if (viewParent instanceof View){
+                    View v = ((View) viewParent).findViewById(R.id.btn_play);
+                    Log.d(Constants.LOG_TAG, "myMatcher>>>>>>>>>\t" + v.toString() + ((v instanceof TextView) ? ((TextView) v).getText() : ""));
+                }
+
                 return true;
             }
         };
@@ -149,4 +164,16 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
         };
     }
 
+    class MyY implements ViewAssertion{
+
+        public int y;
+
+        @Override
+        public void check(View view, NoMatchingViewException noViewFoundException) {
+            int[] location = new int[2];
+            view.getLocationOnScreen(location);
+            y = location[1];
+
+        }
+    }
 }
