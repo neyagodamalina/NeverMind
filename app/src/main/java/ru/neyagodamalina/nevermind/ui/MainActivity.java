@@ -18,15 +18,10 @@ import ru.neyagodamalina.nevermind.db.Task;
 
 
 
-public class MainActivity extends AppCompatActivity implements ListTasksFragment.OnListFragmentInteractionListener {
+public class MainActivity extends CommonActivity implements ListTasksFragment.OnListFragmentInteractionListener {
 
-//    private static String CURRENT_FRAGMENT = "NO_FRAGMENT";
-//    private static String PREVIOUS_FRAGMENT = "NO_FRAGMENT";
-//    private static String START_FRAGMENT = Constants.FRAGMENT_CREATE_TASK;
 
-    private static Fragment fragment;
-
-    @Override
+        @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -34,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
 
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         NavHostFragment hostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
@@ -104,12 +99,5 @@ public class MainActivity extends AppCompatActivity implements ListTasksFragment
         return super.onOptionsItemSelected(item); // important line
     }
 
-    public void setCurrentFragment(Fragment fragment){
-        this.fragment = fragment;
-    }
-
-    public Fragment getCurrentFragment(){
-        return this.fragment;
-    }
 
 }

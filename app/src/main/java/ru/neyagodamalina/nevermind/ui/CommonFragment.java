@@ -67,6 +67,9 @@ public class CommonFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
+
+        ((CommonActivity) getContext()).setCurrentFragment(this);
+
         Log.d(Constants.LOG_TAG, this.getName() + "\tonResume");
     }
 

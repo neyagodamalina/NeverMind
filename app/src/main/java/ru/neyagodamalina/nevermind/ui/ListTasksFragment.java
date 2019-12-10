@@ -2,10 +2,13 @@ package ru.neyagodamalina.nevermind.ui;
 
 import androidx.annotation.NonNull;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -64,14 +67,12 @@ public class ListTasksFragment extends CommonFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
 
-        Log.d(Constants.LOG_TAG, "------------------ ListTasksFragment onCreateView ------------------");
+        Log.i(Constants.LOG_TAG, "------------------ ListTasksFragment onCreateView ------------------");
         View mViewFragment = inflater.inflate(R.layout.fragment_list_tasks, container, false);
         ListTasksViewModel listTasksViewModel = ViewModelProviders.of(this).get(ListTasksViewModel.class);
-        this.taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
 
         MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
-        mainActivity.setCurrentFragment(this);
-
         mainActivity.setTitle(R.string.title_tasks);
 
         recyclerView = mViewFragment.findViewById(R.id.rv_navigation_list_tasks);
@@ -86,12 +87,12 @@ public class ListTasksFragment extends CommonFragment {
                     ) {
                         @Override
                         public void onChanged(@Nullable List<Task> tasks) {
-                            Log.d(Constants.LOG_TAG, "------------------ Observer onChanged ------------------");
+                            Log.i(Constants.LOG_TAG, "------------------ Observer onChanged ------------------");
                             adapter = new RecyclerViewAdapterTask(tasks, mListener);
                             if (mSelectedTasks != null) {
                                 adapter.setSelectedItemsIds(mSelectedTasks);
                                 mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode_Callback(getActivity(), adapter, tasks));
-                                mActionMode.setTitle(String.valueOf(adapter.getSelectedCount()) + " " + getContext().getResources().getString(R.string.selected));
+                                mActionMode.setTitle(adapter.getSelectedCount() + " " + getContext().getResources().getString(R.string.selected));
                             }
 
 
@@ -108,7 +109,7 @@ public class ListTasksFragment extends CommonFragment {
         }
 
         implementRecyclerViewClickListeners();
-        Log.d(Constants.LOG_TAG, "CreateView\t" + this.toString());
+        Log.i(Constants.LOG_TAG, "CreateView\t" + this.toString());
         return mViewFragment;
     }
 
@@ -143,11 +144,35 @@ public class ListTasksFragment extends CommonFragment {
         int id = item.getItemId();
         switch (id) {
             case R.id.action_add_task:
-                Toast.makeText(this.getActivity(), "Press add task", Toast.LENGTH_SHORT).show();
+                BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_navigation_view);
+                bottomNavigationView.setSelectedItemId(R.id.navigation_new_task);
                 return true;
         }
 
         return false;
+    }
+
+    public void editTask() {
+
+        SparseBooleanArray selected = adapter.getSelectedIds();//Get selected ids
+        if (selected.size() != 1){
+            Log.d(Constants.LOG_TAG, "editTask: count of selected tasks isn't 1!");
+        }
+
+
+//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.nav_host_fragment, CreateEditTaskFragment.newInstance(tasks.get(selected.keyAt(0)).getId()));
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+
+
+
+        Intent intent = new Intent(getActivity(), BackActivity.class);
+        intent.putExtra("taskId", tasks.get(selected.keyAt(0)).getId());
+        intent.putExtra("fragmentId", R.layout.fragment_create_task);
+        startActivity(intent);
+
+
     }
 
     /**
@@ -200,11 +225,19 @@ public class ListTasksFragment extends CommonFragment {
             // there no selected items, finish the actionMode
             mActionMode.finish();
 
-        if (mActionMode != null)
+        if (mActionMode != null) {
             //set action mode title on item selection
-            mActionMode.setTitle(String.valueOf(adapter
-                    .getSelectedCount()) + " " + getContext().getResources().getString(R.string.selected));
+            mActionMode.setTitle(adapter.getSelectedCount() + " " + getContext().getResources().getString(R.string.selected));
 
+            // hide tools for only 1 task
+            if (adapter.getSelectedCount() > 1){
+                this.getActivity().findViewById(R.id.action_edit).setVisibility(View.INVISIBLE);
+            }
+            else{
+                this.getActivity().findViewById(R.id.action_edit).setVisibility(View.VISIBLE);
+            }
+
+        }
 
     }
 
@@ -222,7 +255,7 @@ public class ListTasksFragment extends CommonFragment {
         for (int i = (selected.size() - 1); i >= 0; i--) {
             if (selected.valueAt(i)) {
                 //If current id is selected remove the item
-                Log.d(Constants.LOG_TAG, "Task has been deleted Id=" + tasks.get(selected.keyAt(i)).getId());
+                Log.i(Constants.LOG_TAG, "Task has been deleted Id=" + tasks.get(selected.keyAt(i)).getId());
                 deleteTask(tasks.get(selected.keyAt(i)));
             }
 

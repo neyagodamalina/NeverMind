@@ -37,19 +37,19 @@ public class ChildViewAction {
                 ViewParent viewParent = view.getParent();
                 if (viewParent instanceof View){
                     View v = ((View) viewParent).findViewById(R.id.btn_play);
-                    //Log.d(Constants.LOG_TAG, "myAction>>>>>>>>>\t" + v.toString() + ((v instanceof TextView) ? ((TextView) v).getText() : ""));
+                    //Log.i(Constants.LOG_TAG, "myAction>>>>>>>>>\t" + v.toString() + ((v instanceof TextView) ? ((TextView) v).getText() : ""));
                     v.performClick();
                 }
-                Log.d(Constants.LOG_TAG, "myAction>>>>>>>>>\t");
+                Log.i(Constants.LOG_TAG, "myAction>>>>>>>>>\t");
 
-//                Log.d(Constants.LOG_TAG, view.toString());
-//                Log.d(Constants.LOG_TAG, v.toString());
+//                Log.i(Constants.LOG_TAG, view.toString());
+//                Log.i(Constants.LOG_TAG, v.toString());
 //                int[] location = new int[2];
 //                v.getLocationOnScreen(location);
-//                Log.d(Constants.LOG_TAG, "Before location=" + location[0] + "\t" + location[1]);
+//                Log.i(Constants.LOG_TAG, "Before location=" + location[0] + "\t" + location[1]);
 //                v.performClick();
 //                v.getLocationOnScreen(location);
-//                Log.d(Constants.LOG_TAG, "After location=" + location[0] + "\t" + location[1]);
+//                Log.i(Constants.LOG_TAG, "After location=" + location[0] + "\t" + location[1]);
 
             }
         };

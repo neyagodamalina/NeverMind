@@ -5,16 +5,14 @@ import android.os.Build;
 import androidx.fragment.app.Fragment;
 import androidx.core.view.MenuItemCompat;
 import androidx.appcompat.view.ActionMode;
-import android.util.Log;
+
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.List;
 
-import androidx.recyclerview.widget.RecyclerView;
 import ru.neyagodamalina.nevermind.R;
 import ru.neyagodamalina.nevermind.db.Task;
-import ru.neyagodamalina.nevermind.util.Constants;
 
 /**
  * Created by SONU on 22/03/16.
@@ -53,20 +51,25 @@ public class Toolbar_ActionMode_Callback implements ActionMode.Callback {
 
     @Override
     public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
+        Fragment fragment = null;
+
         switch (item.getItemId()) {
             case R.id.action_delete:
-                Fragment fragment = ((MainActivity) context).getCurrentFragment();
-                if ((fragment != null) && (fragment instanceof ListTasksFragment)) {
+                fragment = ((CommonActivity) context).getCurrentFragment();
+                if (fragment instanceof ListTasksFragment) {
                     ((ListTasksFragment) fragment).deleteTasks();
                 }
-//                //If current fragment is recycler view fragment
-//                Fragment recyclerFragment = new MainActivity().getFragment(1);//Get recycler view fragment
-//                if (recyclerFragment != null)
-//                    //If recycler fragment not null
-//                    ((RecyclerView_Fragment) recyclerFragment).deleteRows();//deleteTask selected rows
                 break;
+
+            case R.id.action_edit:
+                fragment = ((CommonActivity) context).getCurrentFragment();
+                if (fragment instanceof ListTasksFragment){
+                    ((ListTasksFragment) fragment).editTask();
+                }
+                break;
+
 //            case R.id.action_edit:
-//                Log.d(Constants.LOG_TAG, "Edit row");
+//                Log.i(Constants.LOG_TAG, "Edit row");
                 //Get selected ids on basis of current fragment action mode
 //                SparseBooleanArray selected;
 //                    selected = recyclerView_adapter
@@ -90,7 +93,7 @@ public class Toolbar_ActionMode_Callback implements ActionMode.Callback {
 //                mode.finish();//Finish action mode
                 //break;
 //            case R.id.action_create:
-//                Log.d(Constants.LOG_TAG, "Create row");
+//                Log.i(Constants.LOG_TAG, "Create row");
 //                mode.finish();//Finish action mode
 //                break;
         }
@@ -105,7 +108,7 @@ public class Toolbar_ActionMode_Callback implements ActionMode.Callback {
         //First check current fragment action mode
         recyclerView_adapter.removeSelection();  // remove selection
         Fragment fragment = ((MainActivity) context).getCurrentFragment();
-        if (fragment != null)
+        if (fragment instanceof  ListTasksFragment)
             ((ListTasksFragment) fragment).setNullToActionMode();//Set action mode null
     }
 }

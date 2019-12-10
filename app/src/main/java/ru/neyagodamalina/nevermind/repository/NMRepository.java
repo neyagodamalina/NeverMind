@@ -41,14 +41,18 @@ public class NMRepository {
 
     public void addTask(Task task){
         long id = taskDao.insert(task);
-        Log.d(Constants.LOG_TAG, "Insert new task id=" + id);
+        Log.i(Constants.LOG_TAG, "Insert new task id=" + id);
     }
 
+    public void editTask(Task task){
+        taskDao.update(task);
+        Log.i(Constants.LOG_TAG, "Update new task id=" + task.getId());
+    }
 
 
     public void addProject(Project project){
         long id = projectDao.insertProject(project);
-        Log.d(Constants.LOG_TAG, "Insert new project id=" + id);
+        Log.i(Constants.LOG_TAG, "Insert new project id=" + id);
     }
 
     public LiveData<List<Project>> getAllProjects(){
@@ -82,4 +86,11 @@ public class NMRepository {
     public void deleteTask(Task task){
         taskDao.delete(task);
     }
+
+    public LiveData<Task> getLiveDataTask(long id){
+        return taskDao.selectTaskById(id);
+    }
+
+
+
 }

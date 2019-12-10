@@ -73,7 +73,7 @@ public class ProjectDaoTest extends InitDatabaseForTest {
     public void insertProject() throws Exception {
         Project project = new Project(0, "Lonely project", 0, 0);
         long projectId = mProjectDao.insertProject(project);
-        Log.d(Constants.LOG_TAG, "Test. Insert project with id = " + projectId);
+        Log.i(Constants.LOG_TAG, "Test. Insert project with id = " + projectId);
         assertEquals(2, LiveDataTestUtil.getValue(mProjectDao.selectAllProjects()).size());
     }
 

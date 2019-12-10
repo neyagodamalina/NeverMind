@@ -29,9 +29,9 @@ public class InitDatabaseForTest {
 
     @Before
     public void init() {
-        Log.d(Constants.LOG_TAG, "******************init*****************");
-        database = AppDatabase.getInstanceForTest(ApplicationProvider.getApplicationContext());
 
+        database = AppDatabase.getInstanceForTest(ApplicationProvider.getApplicationContext());
+        Log.i(Constants.LOG_TAG, ">>>>>> Init database for test " + this.getClass().getSimpleName() + ". Database instance is " + database);
         mProjectDao = database.getProjectDao();
         mTaskDao    = database.getTaskDao();
         mSlotDao    = database.getSlotDao();
@@ -53,6 +53,8 @@ public class InitDatabaseForTest {
     public void close() {
         if (database != null) {
             database.close();
+            Log.i(Constants.LOG_TAG, "<<<<<< Closed database for test " + this.getClass().getSimpleName()  + ". Database instance is " + database);
+            Log.i(Constants.LOG_TAG,"------------------------------------------------------------------------------------------------------------------------------------------------------");
         }
     }
 }

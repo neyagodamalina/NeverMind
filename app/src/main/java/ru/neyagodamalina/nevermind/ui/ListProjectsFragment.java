@@ -34,7 +34,6 @@ public class ListProjectsFragment extends CommonFragment {
         ListProjectsViewModel listProjectsViewModel = ViewModelProviders.of(this).get(ListProjectsViewModel.class);
 
         MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
-        mainActivity.setCurrentFragment(this);
         mainActivity.setTitle(R.string.title_projects);
 
 

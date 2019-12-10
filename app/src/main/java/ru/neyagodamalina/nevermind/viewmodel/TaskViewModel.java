@@ -37,6 +37,16 @@ public class TaskViewModel extends AndroidViewModel {
         });
     }
 
+
+    public void editTask(final Task task) {
+        executor.execute(new Runnable() {
+            @Override
+            public void run() {
+                NMRepository.editTask(task);
+            }
+        });
+    }
+
     public void addProject(final Project project) {
         executor.execute(new Runnable() {
             @Override
@@ -75,6 +85,11 @@ public class TaskViewModel extends AndroidViewModel {
                 NMRepository.deleteTask(task);
             }
         });
+    }
+
+
+    public LiveData<Task> getTask(long id) {
+        return NMRepository.getLiveDataTask(id);
     }
 
 

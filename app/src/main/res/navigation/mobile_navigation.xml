@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/navigation_new_task"
-        android:name="ru.neyagodamalina.nevermind.ui.CreateTaskFragment"
+        android:name="ru.neyagodamalina.nevermind.ui.CreateEditTaskFragment"
         android:label="navigation_new_task" />
     <fragment
         android:id="@+id/navigation_list_tasks"

@@ -8,6 +8,9 @@ import androidx.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,7 +38,7 @@ import ru.neyagodamalina.nevermind.viewmodel.TaskViewModel;
  * Created by developer on 05.12.2017.
  */
 
-public class CreateTaskFragment extends CommonFragment {
+public class CreateEditTaskFragment extends CommonFragment {
     private Button  mCleanTaskTextButton;
     private Button  mCancelAlarmButton;
     private Button  mListButton;
@@ -43,6 +46,7 @@ public class CreateTaskFragment extends CommonFragment {
     private EditText mEditTaskText;
     private View mViewFragment;
     private TaskViewModel taskViewModel;
+    private Task mTask = null;
 
 
     @Nullable
@@ -52,17 +56,67 @@ public class CreateTaskFragment extends CommonFragment {
 
         mViewFragment =  inflater.inflate(R.layout.fragment_create_task, container, false);
 
-        MainActivity mainActivity = (MainActivity) mViewFragment.getContext();
-        mainActivity.setCurrentFragment(this);
-        mainActivity.setTitle(R.string.title_new_task);
-
+        CommonActivity activity = (CommonActivity) mViewFragment.getContext();
+        activity.setTitle(R.string.title_new_task);
 
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
 
-        // Покажем имя-время создания этого фрагмента
-        mEditTaskText = (EditText) mViewFragment.findViewById(R.id.etTask);
-        mEditTaskText.setText(this.getName());
+        mEditTaskText = mViewFragment.findViewById(R.id.etTask);
         mEditTaskText.requestFocus();
+        mEditTaskText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+                if (mTask == null){
+                    addTask();
+                }
+                else if (!mEditTaskText.getText().toString().equals(mTask.getText())) {
+                    editTask(mTask);
+                }
+            }
+        });
+
+
+        Bundle args = getArguments();
+        if (args != null) {
+            long taskId = args.getLong("taskId", 0);
+            if (taskId != 0) {// this is "Edit task" activity
+                activity.setTitle(R.string.title_edit_task);
+                LiveData<Task> liveDataTask = taskViewModel.getTask(taskId);
+                liveDataTask.observe(this, new Observer<Task>() {
+                    @Override
+                    public void onChanged(Task task) {
+                        Log.d(Constants.LOG_TAG, "onChange change text");
+                        mTask = task;
+                        if (!task.getText().equals(mEditTaskText.getText().toString())) {
+                            mEditTaskText.setText(task.getText());
+                        }
+                        else{
+                            Log.d(Constants.LOG_TAG, "onChange NO change text");
+                        }
+
+                    }
+                });
+            }
+            else {
+                // temp Покажем имя-время создания этого фрагмента
+                mEditTaskText = mViewFragment.findViewById(R.id.etTask);
+                mEditTaskText.setText(this.getName());
+                mEditTaskText.requestFocus();
+
+            }
+
+        }
+
+
+
+
 
         // region Button clean text
         mCleanTaskTextButton = (Button) mViewFragment.findViewById(R.id.btCleanTaskText);
@@ -70,7 +124,7 @@ public class CreateTaskFragment extends CommonFragment {
             @Override
             public void onClick(View view) {
                 try {
-                    Log.d(Constants.LOG_TAG, "Clean task text.");
+                    Log.i(Constants.LOG_TAG, "Clean task text.");
                     mEditTaskText = (EditText) mViewFragment.findViewById(R.id.etTask);
                     mEditTaskText.setText("");
                     mEditTaskText.requestFocus();
@@ -85,7 +139,7 @@ public class CreateTaskFragment extends CommonFragment {
         mCancelAlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(Constants.LOG_TAG, "Add task without alarm.");
+                Log.i(Constants.LOG_TAG, "Add task without alarm.");
                 addTask();
                 BottomNavigationView bottomNavigationView = getActivity().findViewById(R.id.bottom_navigation_view);
                 bottomNavigationView.setSelectedItemId(R.id.rv_navigation_list_tasks);
@@ -100,7 +154,7 @@ public class CreateTaskFragment extends CommonFragment {
 
             @Override
             public void onClick(View view) {
-                Log.d(Constants.LOG_TAG, "Delete all projects from database.");
+                Log.i(Constants.LOG_TAG, "Delete all projects from database.");
                 Executors.newSingleThreadExecutor().execute(new Runnable() {
                     @Override
                     public void run() {
@@ -154,7 +208,7 @@ public class CreateTaskFragment extends CommonFragment {
         button11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d(Constants.LOG_TAG, mViewFragment.getContext().toString());
+                Log.i(Constants.LOG_TAG, mViewFragment.getContext().toString());
 //                ((MainActivity) mViewFragment.getContext()).logBackStack();
             }
         });
@@ -197,9 +251,24 @@ public class CreateTaskFragment extends CommonFragment {
 
 
     private void addTask(){
-        Task task = new Task( mEditTaskText.getText().toString());
+        Task task = new Task(mEditTaskText.getText().toString());
         taskViewModel.addTask(task);
+        mTask = task;
     }
 
+    private void editTask(Task task){
+        task.setText(mEditTaskText.getText().toString());
+        taskViewModel.editTask(task);
+    }
+
+
+
+    public static CreateEditTaskFragment newInstance(long taskId) {
+        CreateEditTaskFragment createEditTaskFragment = new CreateEditTaskFragment();
+        Bundle args = new Bundle();
+        args.putLong("taskId", taskId);
+        createEditTaskFragment.setArguments(args);
+        return createEditTaskFragment;
+    }
 
 }

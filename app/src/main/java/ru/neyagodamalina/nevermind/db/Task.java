@@ -27,6 +27,7 @@ public class Task extends Duration {
     @PrimaryKey(autoGenerate = true)
     private final long id;
 
+
     String text;
 
     String title;
@@ -64,9 +65,16 @@ public class Task extends Duration {
     public long getProjectId() {
         return projectId;
     }
+
     public String getText() {
         return text;
     }
+
+    public void setText(String text) {
+        this.text = text;
+        this.title = StringCutter.cut(text);
+    }
+
 
     @Ignore
     public String getTitle() {

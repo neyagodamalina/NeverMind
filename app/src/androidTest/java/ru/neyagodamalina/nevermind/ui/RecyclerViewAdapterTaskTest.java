@@ -1,5 +1,6 @@
 package ru.neyagodamalina.nevermind.ui;
 
+import android.content.Context;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import org.junit.runner.RunWith;
 import java.util.Calendar;
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.test.core.app.ApplicationProvider;
 import androidx.test.espresso.NoMatchingViewException;
 import androidx.test.espresso.UiController;
 import androidx.test.espresso.ViewAction;
@@ -59,10 +61,13 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
     @Rule
     public ActivityTestRule<MainActivity> mActivityRule = new ActivityTestRule<>(MainActivity.class);
 
+//    @Rule
+//    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
+
 
     @Test
     public void frozenScrollListTasksWhenPressPlayStop() {
-        //Context appContext = ApplicationProvider.getApplicationContext();
+        Log.d(Constants.LOG_TAG, "Try insert in " + database);
         for (int i = 0; i < 10; i++) {
             Task task = new Task("Task" + i);
             mTaskDao.insert(task);
@@ -73,16 +78,16 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
         Task task = new Task(taskName);
         mTaskDao.insert(task);
 
-        for (int i = 10; i < 20; i++) {
+        for (int i = 10; i < 10; i++) {
             task = new Task("Task" + i);
             mTaskDao.insert(task);
         }
 
-//        taskName = "Task2";
         onView(withId(R.id.navigation_list_tasks)).perform(click());
+        Log.i(Constants.LOG_TAG, "Change fragment done!");
         onView(withText(taskName)).check(doesNotExist());
         onView((withId(R.id.rv_navigation_list_tasks))).perform(scrollTo(hasDescendant(withText(taskName))));
-        Log.d(Constants.LOG_TAG, "Scroll done!");
+        Log.i(Constants.LOG_TAG, "Scroll done!");
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
@@ -92,12 +97,12 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
 
         MyY myY = new MyY();
         onView(withText(taskName)).check(myY);
-        Log.d(Constants.LOG_TAG, "1>>>>>" + myY.y);
+        Log.i(Constants.LOG_TAG, "1>>>>>" + myY.y);
 
         // it works! onView(allOf(withChild(withText(taskName)), myMatcher())).perform(ChildViewAction.clickChildViewWithId(R.id.btn_play));
         onView(withText(taskName)).perform(ChildViewAction.clickButtonPlayNearTitleView());
 
-        Log.d(Constants.LOG_TAG, "Click done!");
+        Log.i(Constants.LOG_TAG, "Click done!");
 //        onView(withId(R.id.btn_play)).perform(click());
 
 
@@ -108,9 +113,9 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
         }
 
         //onView(withText(taskName)).check(matches(isDisplayed()));
-
+        onView(withText(taskName)).check(matches(isDisplayed()));
         onView(withText(taskName)).check(myY);
-        Log.d(Constants.LOG_TAG, "2>>>>>" + myY.y);
+        Log.i(Constants.LOG_TAG, "2>>>>>" + myY.y);
 
 //        onView(withId(R.id.navigation_list_tasks)).perform(click());
 //        onView(withId(R.id.rv_navigation_list_tasks)).perform(RecyclerViewActions.scrollToHolder(withText(taskName))).perform(ChildViewAction.clickChildViewWithId(R.id.btn_play));
@@ -127,7 +132,7 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
 
 //        int[] location = new int[2];
 //        v.getLocationOnScreen(location);
-//        Log.d(Constants.LOG_TAG, "location=" + location[0] + "\t" + location[1]);
+//        Log.i(Constants.LOG_TAG, "location=" + location[0] + "\t" + location[1]);
 
     }
 
@@ -146,7 +151,7 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
                 ViewParent viewParent = view.getParent();
                 if (viewParent instanceof View){
                     View v = ((View) viewParent).findViewById(R.id.btn_play);
-                    Log.d(Constants.LOG_TAG, "myMatcher>>>>>>>>>\t" + v.toString() + ((v instanceof TextView) ? ((TextView) v).getText() : ""));
+                    Log.i(Constants.LOG_TAG, "myMatcher>>>>>>>>>\t" + v.toString() + ((v instanceof TextView) ? ((TextView) v).getText() : ""));
                 }
 
                 return true;
@@ -159,7 +164,7 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
 
             @Override
             public void check(View view, NoMatchingViewException noViewFoundException) {
-                Log.d(Constants.LOG_TAG, (view == null) ? "null" : "myAssertion>>>>>>>>>\t" + view.toString() + ((view instanceof TextView) ? ((TextView) view).getText() : ""));
+                Log.i(Constants.LOG_TAG, (view == null) ? "null" : "myAssertion>>>>>>>>>\t" + view.toString() + ((view instanceof TextView) ? ((TextView) view).getText() : ""));
             }
         };
     }

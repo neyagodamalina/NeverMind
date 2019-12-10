@@ -39,7 +39,7 @@ public abstract class AppDatabase extends RoomDatabase {
                 if (sInstance == null) {
                     AppDatabase.context = context;
                     sInstance = Room.databaseBuilder(context, AppDatabase.class, DATABASE_NAME).addCallback(dbCallback).build();
-                    Log.d(Constants.LOG_TAG, "Database has builded.");
+                    Log.i(Constants.LOG_TAG, "Database has builded. " +  sInstance);
 
                 }
             }
@@ -54,7 +54,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     sInstance = Room.inMemoryDatabaseBuilder(AppDatabase.context, AppDatabase.class)
                             .addCallback(dbCallback)
                             .build();
-                    Log.d(Constants.LOG_TAG, "Database for test has builded.");
+                    Log.i(Constants.LOG_TAG, "Database for test has builded." + sInstance);
                 }
             }
         return sInstance;
@@ -66,6 +66,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static RoomDatabase.Callback dbCallback = new RoomDatabase.Callback() {
         public void onCreate(SupportSQLiteDatabase db) {
             super.onCreate(db);
+            Log.d(Constants.LOG_TAG, "Callback onCreate database. Database instance is " + db);
             Executors.newSingleThreadScheduledExecutor().execute(new Runnable() {
                 @Override
                 public void run() {
@@ -77,15 +78,19 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static void insertDefaultData(Context context) {
         Project defaultProject = new Project(1, context.getResources().getString(R.string.name_default_project), 0, 0);
-        long projectId = sInstance.getProjectDao().insertProject(defaultProject);
-        Log.d(Constants.LOG_TAG, "Populate database. Insert default data inserted Project with id = " + projectId);
+        Log.i(Constants.LOG_TAG, "Try populate database default data");
+        try {
+            long projectId = sInstance.getProjectDao().insertProject(defaultProject);
+            Log.i(Constants.LOG_TAG, "Populate database. Insert default data inserted Project with id = " + projectId);
+        }
+        catch (Exception e) {System.err.print(e);}
     }
 
 }
 
 //    public static NMDatabase getDatabase(Context context) {
 //        if ((database == null) || (!database.isOpen())) {
-//            Log.d(Constants.LOG_TAG, "Database for app has initiated - " + AppDatabase.class.getName());
+//            Log.i(Constants.LOG_TAG, "Database for app has initiated - " + AppDatabase.class.getName());
 //            database =
 //                    Room.databaseBuilder(context, NMDatabase.class, "never_mind_db")
 //                            //Room.inMemoryDatabaseBuilder(context.getApplicationContext(), AppDatabase.class)

@@ -10,20 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <!--TextView
             android:id="@+id/tvTitleNewTask"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:text="@string/new_task"
-            android:textAppearance="@android:style/TextAppearance.Material.Large" />
+            android:textAppearance="@android:style/TextAppearance.Material.Large" /-->
 
         <Spinner
             android:id="@+id/spChooseProject"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tvTitleNewTask" />
+             />
 
 
         <LinearLayout
@@ -35,32 +35,23 @@
 
             >
 
-            <TextView
-                android:id="@+id/tvRemindQuestion"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:alpha="0.5"
-                android:text="@string/remind_question"
-                android:textAppearance="@android:style/TextAppearance.Material.Small" />
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/btAddAlarm"
+                    android:id="@+id/btAddNotification"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_alignParentLeft="true"
-                    android:background="@drawable/ic_add_alarm" />
+                    android:layout_toStartOf="@id/btCancelAlarm"
+                    android:background="@drawable/ic_notification_add_black_24dp" />
 
                 <Button
                     android:id="@+id/btCancelAlarm"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:background="@drawable/ic_cancel_alarm" />
 
             </RelativeLayout>
@@ -83,10 +74,12 @@
             android:hint="@string/hint_create_task"
             android:inputType="textMultiLine"
             android:padding="10dp"
-            android:textAppearance="@android:style/TextAppearance.Material.Medium">
-
+            android:textAppearance="@android:style/TextAppearance.Material.Large">
             <requestFocus />
         </EditText>
+
+
+
 
 
         <LinearLayout
@@ -128,10 +121,10 @@
             android:id="@+id/buttonTest11"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/btCleanTaskText"
+
             android:layout_marginStart="24dp"
             android:layout_marginTop="100dp"
-            android:layout_toEndOf="@+id/btList"
+
             android:text="logBackStack" />
 
         <Button
