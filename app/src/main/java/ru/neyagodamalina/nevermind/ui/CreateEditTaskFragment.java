@@ -73,11 +73,16 @@ public class CreateEditTaskFragment extends CommonFragment {
             @Override
             public void afterTextChanged(Editable s) {
 
-                if (mTask == null){
-                    addTask();
+                if (mTask == null) {
+                    if (s.length() > 0) {
+                        addTask();
+                        Log.d(Constants.LOG_TAG, "text changed ADD task");
+                    }
+
                 }
-                else if (!mEditTaskText.getText().toString().equals(mTask.getText())) {
+                else if (!s.toString().equals(mTask.getText())) {
                     editTask(mTask);
+                    Log.d(Constants.LOG_TAG, "text changed EDIT task");
                 }
             }
         });
@@ -92,26 +97,14 @@ public class CreateEditTaskFragment extends CommonFragment {
                 liveDataTask.observe(this, new Observer<Task>() {
                     @Override
                     public void onChanged(Task task) {
-                        Log.d(Constants.LOG_TAG, "onChange change text");
                         mTask = task;
+                        Log.d(Constants.LOG_TAG, "task changed observer");
                         if (!task.getText().equals(mEditTaskText.getText().toString())) {
                             mEditTaskText.setText(task.getText());
                         }
-                        else{
-                            Log.d(Constants.LOG_TAG, "onChange NO change text");
-                        }
-
                     }
                 });
             }
-            else {
-                // temp Покажем имя-время создания этого фрагмента
-                mEditTaskText = mViewFragment.findViewById(R.id.etTask);
-                mEditTaskText.setText(this.getName());
-                mEditTaskText.requestFocus();
-
-            }
-
         }
 
 

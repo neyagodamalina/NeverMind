@@ -41,12 +41,12 @@ public class NMRepository {
 
     public void addTask(Task task){
         long id = taskDao.insert(task);
-        Log.i(Constants.LOG_TAG, "Insert new task id=" + id);
+        Log.i(Constants.LOG_TAG, "Insert new task id=" + id  + "\t" + task.getTitle());
     }
 
     public void editTask(Task task){
         taskDao.update(task);
-        Log.i(Constants.LOG_TAG, "Update new task id=" + task.getId());
+        Log.i(Constants.LOG_TAG, "Update new task id=" + task.getId() + "\t" + task.getTitle());
     }
 
 

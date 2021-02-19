@@ -100,7 +100,7 @@ public class RecyclerViewAdapterTaskTest extends InitDatabaseForTest {
         Log.i(Constants.LOG_TAG, "1>>>>>" + myY.y);
 
         // it works! onView(allOf(withChild(withText(taskName)), myMatcher())).perform(ChildViewAction.clickChildViewWithId(R.id.btn_play));
-        onView(withText(taskName)).perform(ChildViewAction.clickButtonPlayNearTitleView());
+        //onView(withText(taskName)).perform(ChildViewAction.clickButtonPlayNearTitleView());
 
         Log.i(Constants.LOG_TAG, "Click done!");
 //        onView(withId(R.id.btn_play)).perform(click());

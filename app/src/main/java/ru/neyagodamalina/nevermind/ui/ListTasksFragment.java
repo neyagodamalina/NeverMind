@@ -51,23 +51,23 @@ public class ListTasksFragment extends CommonFragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setHasOptionsMenu(true); // Add items menu for list of task
     }
 
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
+        Log.d(Constants.LOG_TAG, "+++++++ListTasksFragment onSaveInstanceState");
         super.onSaveInstanceState(outState);
         if (mActionMode != null)
             outState.putParcelable("selectedItems", adapter.getSelectedIds());
-
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              final Bundle savedInstanceState) {
 
-        Log.i(Constants.LOG_TAG, "------------------ ListTasksFragment onCreateView ------------------");
+        Log.d(Constants.LOG_TAG, "+++++++ListTasksFragment onCreateView");
         View mViewFragment = inflater.inflate(R.layout.fragment_list_tasks, container, false);
         ListTasksViewModel listTasksViewModel = ViewModelProviders.of(this).get(ListTasksViewModel.class);
         taskViewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
@@ -88,8 +88,11 @@ public class ListTasksFragment extends CommonFragment {
                         @Override
                         public void onChanged(@Nullable List<Task> tasks) {
                             Log.i(Constants.LOG_TAG, "------------------ Observer onChanged ------------------");
+                            if (adapter != null) // if it back to this fragment from CreateEditTaskFragment, restore selected task
+                                if (mSelectedTasks == null)  // if mSelectedTasks has not been restored in onViewStateRestored
+                                    mSelectedTasks = adapter.getSelectedIds();
                             adapter = new RecyclerViewAdapterTask(tasks, mListener);
-                            if (mSelectedTasks != null) {
+                            if ((mSelectedTasks != null) && (mSelectedTasks.size() > 0))  {
                                 adapter.setSelectedItemsIds(mSelectedTasks);
                                 mActionMode = ((AppCompatActivity) getActivity()).startSupportActionMode(new Toolbar_ActionMode_Callback(getActivity(), adapter, tasks));
                                 mActionMode.setTitle(adapter.getSelectedCount() + " " + getContext().getResources().getString(R.string.selected));
@@ -109,16 +112,18 @@ public class ListTasksFragment extends CommonFragment {
         }
 
         implementRecyclerViewClickListeners();
-        Log.i(Constants.LOG_TAG, "CreateView\t" + this.toString());
         return mViewFragment;
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
+        Log.d(Constants.LOG_TAG, "+++++++ListTasksFragment onViewStateRestored");
         super.onViewStateRestored(savedInstanceState);
         if (savedInstanceState != null)
             mSelectedTasks = savedInstanceState.getParcelable("selectedItems");
     }
+
+
 
     @Override
     public void onDestroyView() {
@@ -154,17 +159,12 @@ public class ListTasksFragment extends CommonFragment {
 
     public void editTask() {
 
+        adapter.saveScrollState((MainActivity) getActivity());
+
         SparseBooleanArray selected = adapter.getSelectedIds();//Get selected ids
         if (selected.size() != 1){
             Log.d(Constants.LOG_TAG, "editTask: count of selected tasks isn't 1!");
         }
-
-
-//        FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.nav_host_fragment, CreateEditTaskFragment.newInstance(tasks.get(selected.keyAt(0)).getId()));
-//        transaction.addToBackStack(null);
-//        transaction.commit();
-
 
 
         Intent intent = new Intent(getActivity(), BackActivity.class);
